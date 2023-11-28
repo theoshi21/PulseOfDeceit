@@ -1,0 +1,7 @@
+C:\Users\Kelvin\OneDrive\Desktop\Pulse of Deceit\PulseOfDeceit\PulseOfDeceit\bin\Debug\PulseOfDeceit.exe.config
+C:\Users\Kelvin\OneDrive\Desktop\Pulse of Deceit\PulseOfDeceit\PulseOfDeceit\bin\Debug\PulseOfDeceit.exe
+C:\Users\Kelvin\OneDrive\Desktop\Pulse of Deceit\PulseOfDeceit\PulseOfDeceit\bin\Debug\PulseOfDeceit.pdb
+C:\Users\Kelvin\OneDrive\Desktop\Pulse of Deceit\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.csproj.AssemblyReference.cache
+C:\Users\Kelvin\OneDrive\Desktop\Pulse of Deceit\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.csproj.CoreCompileInputs.cache
+C:\Users\Kelvin\OneDrive\Desktop\Pulse of Deceit\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.exe
+C:\Users\Kelvin\OneDrive\Desktop\Pulse of Deceit\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.pdb
