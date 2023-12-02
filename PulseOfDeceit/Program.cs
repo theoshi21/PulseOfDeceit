@@ -45,7 +45,6 @@ namespace PulseOfDeceit
             {
                 prompt(position, map, flags, player, items);
                 string ans = commands(map, position, flags, items);
-                //if (ans.StartsWith("take")) items[index(items)]= commands(map, position, flags, items);
                 if (ans.StartsWith("move")) position = move(position, ans, map);
 
             }
@@ -171,6 +170,7 @@ namespace PulseOfDeceit
         }
 
 
+        //Adds perk to the player when chosen.
         static string[] perk(string player, string[] items)
         {
             switch (player)
@@ -192,124 +192,120 @@ namespace PulseOfDeceit
             {
                 case "Tree Right":
                     {
-                        Console.Write("There's a tree here.\n");
-                        while (true)
-                        {
-                            string ans = commands(map, position, flags, items);
-                            if (ans == "move forward" || ans == "move up") Console.WriteLine("There's a building here. You can't go here.");
-                            else if (ans == "move back" || ans == "move down") Console.WriteLine("There's nothing here.");
-                            else
-                            {
-                                if (ans.StartsWith("move"))
-                                {
-                                    position = move(position, ans, map);
-                                    prompt(position, map, flags, player, items);
-                                    break;
-                                }
-                                else if (ans == "CS 103")
-                                {
-                                    Console.WriteLine("That is the section that made this game!"); 
-                                    break;
-                                }
-                                else Console.WriteLine("Invalid action, try again.");
-                            }
-                        }
+                        righttree(map, position, flags, items, player);
                         break;
                     }
-                case "Tree Back": Console.Write("You are surrounded by the forest. There seems to be nothing here.\n"); break;
+                case "Tree Back": 
+                    {
+                        backtree(map, position, flags, items, player);
+                        break;
+                    }
 
-                case "Outside": Console.Write("You are in front of the asylum. Cold wind blows -- around the asylum is a dark forest.\n"); break;
+                case "Outside":
+                    {
+                        outside(map, position, flags, items, player);
+                        break;
+                    }
 
                 case "Asylum":
                     {
-                        Console.Write("A long dark hallway welcomes you. There are room to your left and right.\n");
-                        string ans = commands(map, position, flags, items);
-         
-                        if (ans.StartsWith("move"))
-                        {
-                            if (ans == "move left" && isItem("Keycard", items))
-                            {
-                                position = move(position, ans, map);
-                                prompt(position, map, flags, player, items);
-                            }
-                            else if (ans == "move left" && !isItem("Keycard", items))
-                            {
-                                Console.WriteLine("The door seems locked. You need a key, try going back here once you find one.");
-                            }
-                            else
-                            {
-                                position = move(position, ans, map);
-                                prompt(position, map, flags, player, items);
-                            }
-                        }
-                        else if (ans.StartsWith("check")) Console.WriteLine("Nothing to check here.");
+                        asylum(map, position, flags, items, player);
                         break;
                     }
 
-                case "Basement1": Console.Write("You're in the basement\n"); break;
+                case "Basement1":
+                    {
+                        basement1(map, position, flags, items, player);
+                        break;
+                    }
 
-                case "Basement2": Console.Write("You went in the secret room!\n"); break;
+                case "Basement2":
+                    {
+                        basement2(map, position, flags, items, player);
+                        break;
+                    }
+
+                case "Basement3":
+                    {
+                        basement3(map, position, flags, items, player);
+                        break;
+                    }
 
                 case "Right Room":
                     {
-                        Console.WriteLine("You went into the room to your right. This is a jumbled mess. \nA fallen bookshelf, a broken window, and files and note are on the table.");
-                        while (true)
-                        {
-                            string ans = commands(map, position, flags, items);
-                            if (ans.StartsWith("move"))
-                            {
-                                if (ans == "move down" || ans == "move back" || ans == "move backward")
-                                {
-                                    Console.WriteLine("This is an enclosed room. You can't go here");
-                                }
-                                else
-                                {
-                                    position = move(position, ans, map);
-                                    prompt(position, map, flags, player, items);
-                                    break;
-                                }
-                            }
-                            if (ans.StartsWith("check"))
-                            {
-                                if (ans == "check note")
-                                {
-                                    Console.WriteLine("You took the note. It reads 'Please go, patients in this asylum are worse than you thought.'");
-                                }
-                                else if (ans == "check bookshelf" || ans == "check books" || ans == "check book")
-                                {
-                                    Console.WriteLine("There are books on the floor named ‘Psychology 101’, ‘Comprehensive Overview of Split Personality Disorder’, \nand a file labeled [CONFIDENTIAL]. There is nothing to do here.");
-                                }
-                                else if (ans == "check file" || ans == "check files")
-                                {
-
-                                    Console.WriteLine("You read the file, and you found out that these are the personal records of the patient. " +
-                                        "\nWhen reading, you noticed that there was a missing page in the file.");
-                                    if (isItem("Afterhint", items)) Console.WriteLine("Detective Skills: This missing page might lead us to who the killer is.");
-                                }
-                                else if (ans.ToLower() == "check window" || ans.ToLower() == "check broken window")
-                                {
-                                    if (!isItem("Keycard", items))
-                                    {
-                                        Console.WriteLine("You went near the broken window. While walking, you seem to have stepped on something—-a keycard. \nYou took the keycard and looked out the window. All you see outside is the darkness of the forest.");
-                                        items = item(items, index(items), "Keycard");
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("You went near the broken window. While walking, you seem to have stepped on something—-a keycard. \nBut you already possess a keycard. All you see outside is the darkness of the forest.");
-                                    }
-                                }
-                                else Console.WriteLine("Invalid check item, try again.");
-                            }
-                        }
+                        rightroom(map, position, flags, items, player);
                         break;
                     }
-                case "Left Room": Console.WriteLine("You are in the left room.");  break;
+                case "Left Room":
+                    {
+                        leftroom(map, position, flags, items, player); 
+                        break;
+                    }
+                case "Hallway1":
+                    {
+                        hallway1(map, position, flags, items, player);
+                        break;
+                    }
+
+                case "Hallway2":
+                    {
+                        hallway2(map, position, flags, items, player);
+                        break;
+                    }
+
+                case "Staircase":
+                    {
+                        staircase(map, position, flags, items, player);
+                        break;
+                    }
+
+                case "Second Floor":
+                    {
+                        secondfloor(map, position, flags, items, player);
+                        break;
+                    }
+
+                case "Room1":
+                    {
+                        room1(map, position, flags, items, player);
+                        break;
+                    }
+
+                case "Room2":
+                    {
+                        room2(map, position, flags, items, player);
+                        break;
+                    }
+
+                case "Room3":
+                    {
+                        room3(map, position, flags, items, player);
+                        break;
+                    }
+
+                case "Lobby":
+                    {
+                        lobby(map, position, flags, items, player);
+                        break;
+                    }
+
+                case "Therapy Room":
+                    {
+                        therapy(map, position, flags, items, player);
+                        break;
+                    }
+
+                case "Morgue":
+                    {
+                        morgue(map, position, flags, items, player);
+                        break;
+                    }
 
             }
 
         }
 
-
+        //Checker if an item is in the array.
         static bool isItem(string match, string[] items)
         {
             foreach (string x in items)
@@ -354,7 +350,8 @@ namespace PulseOfDeceit
             return currPosition;
         }
 
-    static void intro()
+        //Decorative Display / Header
+        static void intro()
         {
             Console.WriteLine("-------------------------------");
             Console.WriteLine("|         WELCOME TO          |");
@@ -362,6 +359,7 @@ namespace PulseOfDeceit
             Console.WriteLine("-------------------------------");
         }
 
+        // Pre-game prompt that will make you choose a character.
         static string choosePlayer()
         {
             string role = "";
@@ -407,6 +405,194 @@ Character Description: Rey P. Nyoco, a seasoned detective, was called to investi
                 }
             }
             return role;
+        }
+
+        static void rightroom(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+            Console.WriteLine("You went into the room to your right. This is a jumbled mess. \nA fallen bookshelf, a broken window, and files and note are on the table.");
+            while (true)
+            {
+                string ans = commands(map, position, flags, items);
+                if (ans.StartsWith("move"))
+                {
+                    if (ans == "move down" || ans == "move back" || ans == "move backward")
+                    {
+                        Console.WriteLine("This is an enclosed room. You can't go here");
+                    }
+                    else
+                    {
+                        position = move(position, ans, map);
+                        prompt(position, map, flags, player, items);
+                        break;
+                    }
+                }
+                if (ans.StartsWith("check"))
+                {
+                    if (ans == "check note")
+                    {
+                        Console.WriteLine("You took the note. It reads 'Please go, patients in this asylum are worse than you thought.'");
+                    }
+                    else if (ans == "check bookshelf" || ans == "check books" || ans == "check book")
+                    {
+                        Console.WriteLine("There are books on the floor named ‘Psychology 101’, ‘Comprehensive Overview of Split Personality Disorder’, \nand a file labeled [CONFIDENTIAL]. There is nothing to do here.");
+                    }
+                    else if (ans == "check file" || ans == "check files")
+                    {
+
+                        Console.WriteLine("You read the file, and you found out that these are the personal records of the patient. " +
+                            "\nWhen reading, you noticed that there was a missing page in the file.");
+                        if (isItem("Afterhint", items)) Console.WriteLine("Detective Skills: This missing page might lead us to who the killer is.");
+                    }
+                    else if (ans.ToLower() == "check window" || ans.ToLower() == "check broken window")
+                    {
+                        if (!isItem("Keycard", items))
+                        {
+                            Console.WriteLine("You went near the broken window. While walking, you seem to have stepped on something—-a keycard. \nYou took the keycard and looked out the window. All you see outside is the darkness of the forest.");
+                            items = item(items, index(items), "Keycard");
+                        }
+                        else
+                        {
+                            Console.WriteLine("You went near the broken window. While walking, you seem to have stepped on something—-a keycard. \nBut you already possess a keycard. All you see outside is the darkness of the forest.");
+                        }
+                    }
+                    else Console.WriteLine("Invalid check item, try again.");
+                }
+            }
+        }
+
+        static void asylum(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+            Console.Write("A long dark hallway welcomes you. There are room to your left and right.\n");
+            string ans = commands(map, position, flags, items);
+
+            if (ans.StartsWith("move"))
+            {
+                if (ans == "move left" && isItem("Keycard", items))
+                {
+                    Console.WriteLine("(You used your key to open the door.)");
+                    position = move(position, ans, map);
+                    prompt(position, map, flags, player, items);
+                }
+                else if (ans == "move left" && !isItem("Keycard", items))
+                {
+                    Console.WriteLine("The door seems locked. You need a key, try going back here once you find one.");
+                }
+                else if (ans.StartsWith("check")){
+                    Console.WriteLine("Nothing to check here.");
+                }
+                else
+                {
+                    position = move(position, ans, map);
+                    prompt(position, map, flags, player, items);
+                }
+            }
+            else if (ans.StartsWith("check")) Console.WriteLine("Nothing to check here.");
+        }
+
+        static void leftroom(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+            Console.WriteLine("You went inside the cold and dark room and found out that it was a storage room \nthat was almost fully covered with dust and cobwebs. " +
+                "It is cramped in here. \nIt was full of shelves containing medicines with a table that had medicines scattered on top of it.");
+        }
+
+        static void outside(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+            Console.Write("You are in front of the asylum. Cold wind blows -- around the asylum is a dark forest.\n");
+        }
+
+        static void righttree(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+            Console.Write("There's a tree here.\n");
+            while (true)
+            {
+                string ans = commands(map, position, flags, items);
+                if (ans == "move forward" || ans == "move up") Console.WriteLine("There's a building here. You can't go here.");
+                else if (ans == "move back" || ans == "move down") Console.WriteLine("There's nothing here.");
+                else
+                {
+                    if (ans.StartsWith("move"))
+                    {
+                        position = move(position, ans, map);
+                        prompt(position, map, flags, player, items);
+                        break;
+                    }
+                    else if (ans == "CS 103")
+                    {
+                        Console.WriteLine("That is the section that made this game!");
+                        break;
+                    }
+                    else Console.WriteLine("Invalid action, try again.");
+                }
+            }
+        }
+
+        static void backtree(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+            Console.Write("You are surrounded by the forest. There seems to be nothing here.\n");
+        }
+
+        static void basement1(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+
+        }
+
+        static void basement2(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+
+        }
+
+        static void basement3(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+
+        }
+
+        static void hallway1(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+
+        }
+
+        static void hallway2(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+
+        }
+
+        static void staircase(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+
+        }
+        static void secondfloor(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+
+        }
+
+        static void room1(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+
+        }
+
+        static void room2(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+
+        }
+
+        static void room3(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+
+        }
+
+        static void lobby(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+
+        }
+
+        static void therapy(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+
+        }
+
+        static void morgue(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+
         }
 
     }
