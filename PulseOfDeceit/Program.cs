@@ -12,7 +12,6 @@ namespace PulseOfDeceit
 {
     internal class Program
     {
-        static List<string> items = new List<string>();
         static void Main(string[] args)
         {
             playGame();
@@ -22,38 +21,62 @@ namespace PulseOfDeceit
         {
             int[] position = { 6, 3 };
             string[] flags = new string[10];
+            string[] items = {"holder","holder","holder","holder"};
             bool running = true;
             intro();
             string player = choosePlayer();
-            perk(player);
+            items = perk(player, items);
             string[,] map = {
             {"0","0","0","0","0","0","0","0"},
-            {"0","0" ,"0","morgue","0","0","0","0"},
-            {"0","0","therapy","lobby","0","room1","0","0"},
-            {"0","0","0","hallway2","staircase2f","secondf","room2","0"},
-            {"0","0","0","hallway1","0","room3","0","0"},
-            {"0","staircase","leftroom","asylum","rightroom","0","0","0"},
-            {"0","secret","basement","starting","righttree","0","0","0"},
-            {"0","0","0","backtree","0","0","0","0"},
+            {"0","0" ,"0","Morgue","0","0","0","0"},
+            {"0","0","Therapy Room","Lobby","0","Room1","0","0"},
+            {"0","0","0","Hallway2","Staircase","Second Floor","Room2","0"},
+            {"0","0","0","Hallway1","0","Room3","0","0"},
+            {"0","Basement3","Left Room","Asylum","Right Room","0","0","0"},
+            {"0","Basement2","Basement1","Outside","Tree Right","0","0","0"},
+            {"0","0","0","Tree Back","0","0","0","0"},
             {"0","0","0","0","0","0","0","0"},
             };
 
             Console.Clear();
             intro();
-            usedChar(player);
+            usedChar(player, items);
             while (running)
             {
-                prompt(position, map, flags, player);
-                string ans = commands(map, position, flags);
-                if(ans.StartsWith("move")) position = move(position, ans, map);
+                prompt(position, map, flags, player, items);
+                string ans = commands(map, position, flags, items);
+                //if (ans.StartsWith("take")) items[index(items)]= commands(map, position, flags, items);
+                if (ans.StartsWith("move")) position = move(position, ans, map);
 
             }
 
         }
 
+        //Index Determiner for Items
+        static int index(string[] items)
+        {
+            int index = 0;
+            for (int i = 0; i < items.Length; i++)
+            {
+                if (items[i] == "holder")
+                {
+                    index = i;
+                    i = items.Length;
+      }
+            }
+            return index;
+        }
+
+        //Holder Replacer
+        static string[] item(string[] items, int index, string replace)
+        {
+            string[] newItem = items;
+            newItem[index] = replace;
+            return newItem;
+}
 
         //A function for checking the input for various commands.
-        static string commands(string[,] map, int[] position, string[] flags)
+        static string commands(string[,] map, int[] position, string[] flags, string[] items)
         {
             while (true)
             {
@@ -64,14 +87,18 @@ namespace PulseOfDeceit
                     input.StartsWith("use") || 
                     input == "CS 103") 
                     return input;
-                else if (input == "loc" || input == "location")
+                else if (input == "loc" || input == "location" || input == "map")
                 {
-                    Console.WriteLine($"You're currently at ({map[position[0], position[1]]}).");
+                    mapping(map, position);
                 }
                 else if (input == "items")
                 {
                     Console.Write("Your items are: ");
-                    foreach (string x in items) Console.Write($"({x}) ");
+                    foreach (string x in items)
+                    {
+                        if (x != "holder") Console.Write($"({x}) ");
+                    }
+
                     Console.WriteLine();
                 }
                 else if (input == "commands" || input == "help")
@@ -84,8 +111,44 @@ namespace PulseOfDeceit
 
         }
 
+        //A function that displays 2d text map.
+        static void mapping(string[,] map, int[] position)
+        {
+            Console.WriteLine("__________        PULSE OF DECEIT'S MAP        __________");
+            for (int i = 1; i < 8; i++)
+            {
+                Console.Write("|");
+                for (int j = 0; j < 7; j++)
+                {
+                    string loc = map[i, j];
+                    if (position[0] == i && position[1] == j)
+                    {
+                        Console.Write($"\\O/\t");
+                    }
+                    else if (loc != "0")
+                    {
+                        Console.Write("[");
+                        foreach (char x in loc)
+                        {
+                            if (char.IsUpper(x) || x == '1' || x == '2' || x == '3')
+                            {
+                                Console.Write($"{x}");
+                            }
+                        }
+                        Console.Write("]\t");
+                    }
+                    else Console.Write($"\t");
+                }
+                Console.Write("|\n");
+            }
+            Console.WriteLine("---------------------------------------------------------");
+            Console.WriteLine("You are currently at " + map[position[0], position[1]] + ".");
+
+
+        }
+
         //A function for displaying their chosen character and its item.
-        static void usedChar(string player)
+        static void usedChar(string player, string[] items)
         {
             switch (player)
             {
@@ -108,31 +171,31 @@ namespace PulseOfDeceit
         }
 
 
-        static void perk(string player)
+        static string[] perk(string player, string[] items)
         {
             switch (player)
             {
-                case "sheriff": items.Add("Flashlight"); break;
-                case "nurse": items.Add("Keycard"); break;
-                case "journalist": items.Add("Prehint"); break;
-                case "detective": items.Add("Afterhint"); break;
+                case "sheriff": items = item(items,index(items),"Flashlight"); break;
+                case "nurse": items = item(items, index(items), "Keycard"); break;
+                case "journalist": items = item(items, index(items), "Prehint"); break;
+                case "detective": items = item(items, index(items), "Afterhint"); break;
             }
-
+            return items;
         }
 
 
         // A function that shows the prompt depending on where they are.
-        static void prompt(int[] position, string[,] map, string[] flags, string player)
+        static void prompt(int[] position, string[,] map, string[] flags, string player, string [] items)
         {
             int[] currPosition = position;
             switch (map[currPosition[0], currPosition[1]])
             {
-                case "righttree":
+                case "Tree Right":
                     {
                         Console.Write("There's a tree here.\n");
                         while (true)
                         {
-                            string ans = commands(map, position, flags);
+                            string ans = commands(map, position, flags, items);
                             if (ans == "move forward" || ans == "move up") Console.WriteLine("There's a building here. You can't go here.");
                             else if (ans == "move back" || ans == "move down") Console.WriteLine("There's nothing here.");
                             else
@@ -140,7 +203,7 @@ namespace PulseOfDeceit
                                 if (ans.StartsWith("move"))
                                 {
                                     position = move(position, ans, map);
-                                    prompt(position, map, flags, player);
+                                    prompt(position, map, flags, player, items);
                                     break;
                                 }
                                 else if (ans == "CS 103")
@@ -153,46 +216,46 @@ namespace PulseOfDeceit
                         }
                         break;
                     }
-                case "backtree": Console.Write("You are surrounded by the forest. There seems to be nothing here.\n"); break;
+                case "Tree Back": Console.Write("You are surrounded by the forest. There seems to be nothing here.\n"); break;
 
-                case "starting": Console.Write("You are in front of the asylum. Cold wind blows -- around the asylum is a dark forest.\n"); break;
+                case "Outside": Console.Write("You are in front of the asylum. Cold wind blows -- around the asylum is a dark forest.\n"); break;
 
-                case "asylum":
+                case "Asylum":
                     {
                         Console.Write("A long dark hallway welcomes you. There are room to your left and right.\n");
-                        string ans = commands(map, position, flags);
+                        string ans = commands(map, position, flags, items);
          
                         if (ans.StartsWith("move"))
                         {
-                            if (ans == "move left" && isItem("Keycard"))
+                            if (ans == "move left" && isItem("Keycard", items))
                             {
                                 position = move(position, ans, map);
-                                prompt(position, map, flags, player);
+                                prompt(position, map, flags, player, items);
                             }
-                            else if (ans == "move left" && !isItem("Keycard"))
+                            else if (ans == "move left" && !isItem("Keycard", items))
                             {
                                 Console.WriteLine("The door seems locked. You need a key, try going back here once you find one.");
                             }
                             else
                             {
                                 position = move(position, ans, map);
-                                prompt(position, map, flags, player);
+                                prompt(position, map, flags, player, items);
                             }
                         }
                         else if (ans.StartsWith("check")) Console.WriteLine("Nothing to check here.");
                         break;
                     }
 
-                case "basement": Console.Write("You're in the basement\n"); break;
+                case "Basement1": Console.Write("You're in the basement\n"); break;
 
-                case "secret": Console.Write("You went in the secret room!\n"); break;
+                case "Basement2": Console.Write("You went in the secret room!\n"); break;
 
-                case "rightroom":
+                case "Right Room":
                     {
                         Console.WriteLine("You went into the room to your right. This is a jumbled mess. \nA fallen bookshelf, a broken window, and files and note are on the table.");
                         while (true)
                         {
-                            string ans = commands(map, position, flags);
+                            string ans = commands(map, position, flags, items);
                             if (ans.StartsWith("move"))
                             {
                                 if (ans == "move down" || ans == "move back" || ans == "move backward")
@@ -202,7 +265,7 @@ namespace PulseOfDeceit
                                 else
                                 {
                                     position = move(position, ans, map);
-                                    prompt(position, map, flags, player);
+                                    prompt(position, map, flags, player, items);
                                     break;
                                 }
                             }
@@ -221,14 +284,14 @@ namespace PulseOfDeceit
 
                                     Console.WriteLine("You read the file, and you found out that these are the personal records of the patient. " +
                                         "\nWhen reading, you noticed that there was a missing page in the file.");
-                                    if (isItem("Afterhint")) Console.WriteLine("Detective Skills: This missing page might lead us to who the killer is.");
+                                    if (isItem("Afterhint", items)) Console.WriteLine("Detective Skills: This missing page might lead us to who the killer is.");
                                 }
                                 else if (ans.ToLower() == "check window" || ans.ToLower() == "check broken window")
                                 {
-                                    if (!isItem("Keycard"))
+                                    if (!isItem("Keycard", items))
                                     {
                                         Console.WriteLine("You went near the broken window. While walking, you seem to have stepped on something—-a keycard. \nYou took the keycard and looked out the window. All you see outside is the darkness of the forest.");
-                                        items.Add("Keycard");
+                                        items = item(items, index(items), "Keycard");
                                     }
                                     else
                                     {
@@ -240,14 +303,14 @@ namespace PulseOfDeceit
                         }
                         break;
                     }
-                case "leftroom": Console.WriteLine("You are in the left room.");  break;
+                case "Left Room": Console.WriteLine("You are in the left room.");  break;
 
             }
 
         }
 
 
-        static bool isItem(string match)
+        static bool isItem(string match, string[] items)
         {
             foreach (string x in items)
             {
@@ -290,7 +353,8 @@ namespace PulseOfDeceit
 
             return currPosition;
         }
-        static void intro()
+
+    static void intro()
         {
             Console.WriteLine("-------------------------------");
             Console.WriteLine("|         WELCOME TO          |");
