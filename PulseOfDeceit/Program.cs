@@ -79,6 +79,8 @@ namespace PulseOfDeceit
         {
             while (true)
             {
+                //availableDirection(position, map);
+                Console.WriteLine();
                 string input = action();
                 if (input.StartsWith("move") || 
                     input.StartsWith("check") || 
@@ -89,6 +91,11 @@ namespace PulseOfDeceit
                 else if (input == "loc" || input == "location" || input == "map")
                 {
                     mapping(map, position);
+                }
+                else if (input == "clear")
+                {
+                    Console.Clear();
+                    intro();
                 }
                 else if (input == "items")
                 {
@@ -102,7 +109,7 @@ namespace PulseOfDeceit
                 }
                 else if (input == "commands" || input == "help")
                 {
-                    Console.WriteLine("The available command are:\n[1] move [forward / back / left / right]\n[2] location\n[3] items\n[4] check");
+                    Console.WriteLine("The available command are:\n[1] move [forward / back / left / right]\n[2] location\n[3] items\n[4] check\n[5] clear");
                 }
                 else Console.WriteLine("Invalid action, try again.");
 
@@ -110,6 +117,26 @@ namespace PulseOfDeceit
 
         }
 
+        // Function for showing available directions.
+        /*
+        static void availableDirection(int[] position, string[,] map)
+        {
+            string forward = map[position[0] - 1, position[1]];
+            string right = map[position[0], position[1] + 1];
+            string back = map[position[0] + 1, position[1]];
+            string left = map[position[0], position[1] - 1];
+            
+            if (forward == "0") forward = "Blocked";
+            if (right == "0") right = "Blocked";
+            if (back == "0") back = "Blocked";
+            if (left == "0") left = "Blocked";
+
+            Console.WriteLine($"Forward: {forward}");
+            Console.WriteLine($"Right: {right}");
+            Console.WriteLine($"Back: {back}");
+            Console.WriteLine($"Left: {left}");
+        } */
+        
         //A function that displays 2d text map.
         static void mapping(string[,] map, int[] position)
         {
@@ -533,66 +560,67 @@ Character Description: Rey P. Nyoco, a seasoned detective, was called to investi
 
         static void basement1(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-
+            Console.Write("You are in basement 1.\n");
         }
 
         static void basement2(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-
+            Console.Write("You are in basement 2.\n");
         }
 
         static void basement3(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-
+            Console.Write("You are in basement 3.\n");
         }
 
         static void hallway1(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-
+            Console.Write("You are in hallway 1.\n");
         }
 
         static void hallway2(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-
+            Console.Write("You are in hallway 2.\n");
         }
 
         static void staircase(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-
+            Console.Write("There's a staircase leading to the 2nd floor to your right.\n");
         }
+
         static void secondfloor(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-
+            Console.Write("You're now in 2nd floor.\n");
         }
 
         static void room1(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-
+            Console.Write("You are in room 1.\n");
         }
 
         static void room2(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-
+            Console.Write("You are in room 2.\n");
         }
 
         static void room3(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-
+            Console.Write("You are in room 3.\n");
         }
 
         static void lobby(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-
+            Console.Write("You are in hospital lobby.\n");
         }
 
         static void therapy(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-
+            Console.Write("You went inside the therapy room.\n");
         }
 
         static void morgue(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-
+            Console.Write("It smells bad here, this seems to be the morgue.\n");
         }
 
     }
