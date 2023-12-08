@@ -1,10 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Net.Mime;
+using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,36 +23,61 @@ namespace PulseOfDeceit
         static void playGame()
         {
             int[] position = { 6, 3 };
-            string[] flags = new string[10];
-            string[] items = {"holder","holder","holder","holder"};
+            string[] flags = { "holder", "holder", "holder", "holder"};
+            string[] items = { "holder", "holder", "holder", "holder" };
             bool running = true;
-            intro();
-            string player = choosePlayer();
-            items = perk(player, items);
             string[,] map = {
             {"0","0","0","0","0","0","0","0"},
             {"0","0" ,"0","Morgue","0","0","0","0"},
-            {"0","0","Therapy Room","Lobby","0","Room1","0","0"},
-            {"0","0","0","Hallway2","Staircase","Second Floor","Room2","0"},
-            {"0","0","0","Hallway1","0","Room3","0","0"},
-            {"0","Basement3","Left Room","Asylum","Right Room","0","0","0"},
-            {"0","Basement2","Basement1","Outside","Tree Right","0","0","0"},
-            {"0","0","0","Tree Back","0","0","0","0"},
+            {"0","0","Security Room","Lobby","0","Patient Ward","0","0"},
+            {"0","0","0","Hallway2","Staircase","Second Floor","Director's Office","0"},
+            {"0","0","0","Hallway1","0","Private Ward","0","0"},
+            {"0","Ground Basement","Laboratory","Asylum","Storage Room","0","0","0"},
+            {"0","Upper Basement","Tree Left","Outside","Tree Right","0","0","0"},
+            {"0","Lower Basement","0","Gate","0","0","0","0"},
             {"0","0","0","0","0","0","0","0"},
             };
 
-            Console.Clear();
-            intro();
-            usedChar(player, items);
+            string player = playerName();
+            prologue();
+            instructions();
+            bgstory();
+
             while (running)
             {
                 prompt(position, map, flags, player, items);
-                string ans = commands(map, position, flags, items);
+                string ans = commands(map, position, flags, items, player);
                 if (ans.StartsWith("move")) position = move(position, ans, map);
 
             }
 
         }
+
+        //Player / Username
+        static string playerName()
+        {
+            intro();
+            Console.WriteLine("\nWelcome! Before we start, may we know what is your name?");
+
+            while (true)
+            {
+                Console.Write("Name: ");
+                string name = Console.ReadLine();
+
+                if (name != "")
+                {
+                    Console.Write($"\nThank you, {name}. To start the game, press any key to continue.");
+                    Console.ReadKey();
+                    Console.Clear();
+                    return name;
+                }
+                else
+                {
+                    Console.WriteLine("Please don't use a blank name!\n");
+                }
+            }
+        }
+
 
         //Index Determiner for Items
         static int index(string[] items)
@@ -61,7 +89,7 @@ namespace PulseOfDeceit
                 {
                     index = i;
                     i = items.Length;
-      }
+                }
             }
             return index;
         }
@@ -72,31 +100,65 @@ namespace PulseOfDeceit
             string[] newItem = items;
             newItem[index] = replace;
             return newItem;
-}
+        }
+
+        //Item Breaker
+        static string[] remove(string[] items, string remove)
+        {
+            string[] newItem = items;
+            for(int i = 0; i < newItem.Length; i++)
+            {
+                if (newItem[i] == remove)
+                {
+                    newItem[i] = "holder";
+                    break;
+                }
+            }
+            return newItem;
+        }
 
         //A function for checking the input for various commands.
-        static string commands(string[,] map, int[] position, string[] flags, string[] items)
+        static string commands(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
             while (true)
             {
                 //availableDirection(position, map);
                 Console.WriteLine();
                 string input = action();
-                if (input.StartsWith("move") || 
-                    input.StartsWith("check") || 
-                    input.StartsWith("take") || 
-                    input.StartsWith("use") || 
-                    input == "CS 103") 
+                if (input.StartsWith("move") ||
+                    input.StartsWith("check") ||
+                    input.StartsWith("take") ||
+                    input == "CS 103")
                     return input;
-                else if (input == "loc" || input == "location" || input == "map")
+                else if (input == "where")
                 {
-                    mapping(map, position);
+                    Console.WriteLine($"You are currently at {map[position[0], position[1]]}");
                 }
                 else if (input == "clear")
                 {
                     Console.Clear();
-                    intro();
+                    mapping(map, position);
+
                 }
+                else if (input.StartsWith("use"))
+                {
+                    if(input == "use map")
+                    {
+                        if (isItem("map", flags) && isItem("Map", items)) Console.WriteLine("Your map is already displayed!");
+                        else if (!isItem("map", flags) && !isItem("Map", items)) Console.WriteLine("You don't have a map to display.");
+                        else
+                        {
+                            Console.WriteLine("Map is now displayed.");
+                            flags = item(flags, index(flags), "map");
+                        }
+                    }
+                    else
+                    {
+                        return input;
+                    }
+
+
+            }
                 else if (input == "items")
                 {
                     Console.Write("Your items are: ");
@@ -109,7 +171,13 @@ namespace PulseOfDeceit
                 }
                 else if (input == "commands" || input == "help")
                 {
-                    Console.WriteLine("The available command are:\n[1] move [forward / back / left / right]\n[2] location\n[3] items\n[4] check\n[5] clear");
+                    Console.WriteLine("The available commands are:");
+                    Console.WriteLine(@"> help - display the list of commands.
+> move (up/left/down/right) - move in the direction of your choice.
+> check (object) - check the items. [Objects] enclosed in brackets can be typed in.
+> take (object) - take the item.
+> items - list the items you currently have.
+");
                 }
                 else Console.WriteLine("Invalid action, try again.");
 
@@ -117,30 +185,10 @@ namespace PulseOfDeceit
 
         }
 
-        // Function for showing available directions.
-        /*
-        static void availableDirection(int[] position, string[,] map)
-        {
-            string forward = map[position[0] - 1, position[1]];
-            string right = map[position[0], position[1] + 1];
-            string back = map[position[0] + 1, position[1]];
-            string left = map[position[0], position[1] - 1];
-            
-            if (forward == "0") forward = "Blocked";
-            if (right == "0") right = "Blocked";
-            if (back == "0") back = "Blocked";
-            if (left == "0") left = "Blocked";
-
-            Console.WriteLine($"Forward: {forward}");
-            Console.WriteLine($"Right: {right}");
-            Console.WriteLine($"Back: {back}");
-            Console.WriteLine($"Left: {left}");
-        } */
-        
         //A function that displays 2d text map.
         static void mapping(string[,] map, int[] position)
         {
-            Console.WriteLine("__________        PULSE OF DECEIT'S MAP        __________");
+            Console.WriteLine("----------        PULSE OF DECEIT'S MAP        ----------");
             for (int i = 1; i < 8; i++)
             {
                 Console.Write("|");
@@ -149,7 +197,7 @@ namespace PulseOfDeceit
                     string loc = map[i, j];
                     if (position[0] == i && position[1] == j)
                     {
-                        Console.Write($"\\O/\t");
+                        Console.Write($"(XX)\t");
                     }
                     else if (loc != "0")
                     {
@@ -167,47 +215,18 @@ namespace PulseOfDeceit
                 }
                 Console.Write("|\n");
             }
-            Console.WriteLine("---------------------------------------------------------");
-            Console.WriteLine("You are currently at " + map[position[0], position[1]] + ".");
+            Console.WriteLine("---------------------------------------------------------\n");
 
-
-        }
-
-        //A function for displaying their chosen character and its item.
-        static void usedChar(string player, string[] items)
-        {
-            switch (player)
-            {
-                case "sheriff": Console.WriteLine("You are now playing as the Marshall Batumbakal (Sheriff)"); break;
-                case "nurse": Console.WriteLine("You are now playing as Anastasia Propaganda Maria Dela Cruz (Nurse)"); break;
-                case "journalist": Console.WriteLine("You are now playing as Kim Magtanggol (Journalist)"); break;
-                case "detective": Console.WriteLine("You are now playing as Rey P. Nyoco (Detective)"); break;
-            }
-            Console.WriteLine($"Item: {items[0]}\n");
         }
 
 
         //A function for taking in input or action.
         static string action()
         {
-            Console.Write("ACTION: ");
+            Console.Write("> ");
             string ans = Console.ReadLine().ToLower();
             Console.WriteLine();
             return ans;
-        }
-
-
-        //Adds perk to the player when chosen.
-        static string[] perk(string player, string[] items)
-        {
-            switch (player)
-            {
-                case "sheriff": items = item(items,index(items),"Flashlight"); break;
-                case "nurse": items = item(items, index(items), "Keycard"); break;
-                case "journalist": items = item(items, index(items), "Prehint"); break;
-                case "detective": items = item(items, index(items), "Afterhint"); break;
-            }
-            return items;
         }
 
 
@@ -215,16 +234,30 @@ namespace PulseOfDeceit
         static void prompt(int[] position, string[,] map, string[] flags, string player, string [] items)
         {
             int[] currPosition = position;
+            Console.Clear();
+
+            if (isItem("map", flags)){
+                mapping(map, position);
+            }
+            else
+            {
+                pod();
+            }
+
             switch (map[currPosition[0], currPosition[1]])
             {
+                case "Gate":
+                    {
+                        break;
+                    }
                 case "Tree Right":
                     {
                         righttree(map, position, flags, items, player);
                         break;
                     }
-                case "Tree Back": 
+                case "Tree Left": 
                     {
-                        backtree(map, position, flags, items, player);
+                        lefttree(map, position, flags, items, player);
                         break;
                     }
 
@@ -240,32 +273,32 @@ namespace PulseOfDeceit
                         break;
                     }
 
-                case "Basement1":
+                case "Ground Basement":
                     {
                         basement1(map, position, flags, items, player);
                         break;
                     }
 
-                case "Basement2":
+                case "Upper Basement":
                     {
                         basement2(map, position, flags, items, player);
                         break;
                     }
 
-                case "Basement3":
+                case "Lower Basement":
                     {
                         basement3(map, position, flags, items, player);
                         break;
                     }
 
-                case "Right Room":
+                case "Storage Room":
                     {
-                        rightroom(map, position, flags, items, player);
+                        storageroom(map, position, flags, items, player);
                         break;
                     }
-                case "Left Room":
+                case "Laboratory":
                     {
-                        leftroom(map, position, flags, items, player); 
+                        laboratory(map, position, flags, items, player); 
                         break;
                     }
                 case "Hallway1":
@@ -288,25 +321,26 @@ namespace PulseOfDeceit
 
                 case "Second Floor":
                     {
+ 
                         secondfloor(map, position, flags, items, player);
                         break;
                     }
 
-                case "Room1":
+                case "Patient Ward":
                     {
-                        room1(map, position, flags, items, player);
+                        patientward(map, position, flags, items, player);
                         break;
                     }
 
-                case "Room2":
+                case "Director's Office":
                     {
-                        room2(map, position, flags, items, player);
+                        director(map, position, flags, items, player);
                         break;
                     }
 
-                case "Room3":
+                case "Private Ward":
                     {
-                        room3(map, position, flags, items, player);
+                        privateward(map, position, flags, items, player);
                         break;
                     }
 
@@ -316,7 +350,7 @@ namespace PulseOfDeceit
                         break;
                     }
 
-                case "Therapy Room":
+                case "Security Room":
                     {
                         therapy(map, position, flags, items, player);
                         break;
@@ -330,6 +364,13 @@ namespace PulseOfDeceit
 
             }
 
+        }
+
+        //Clearing + Mapping Function
+        static void header(string[,] map, int[] position)
+        {
+            Console.Clear();
+            mapping(map, position);
         }
 
         //Checker if an item is in the array.
@@ -366,157 +407,310 @@ namespace PulseOfDeceit
             {
                 currPosition[1] += 1;
             }
-            else if (
-                map[position[0]+1, position[1]] == "0" ||
-                map[position[0]-1, position[1]] == "0" ||
-                map[position[0], position[1]+1] == "0" ||
-                map[position[0], position[1]-1] == "0"
-                ) Console.Write("You can't go here!\nAgain. ");
-            else Console.WriteLine("Invalid move!");
 
             return currPosition;
+        }
+
+
+        static void prologue()
+        {
+            Console.WriteLine(@"______          _                        
+| ___ \        | |                       
+| |_/ / __ ___ | | ___   __ _ _   _  ___ 
+|  __/ '__/ _ \| |/ _ \ / _` | | | |/ _ \
+| |  | | | (_) | | (_) | (_| | |_| |  __/
+\_|  |_|  \___/|_|\___/ \__, |\__,_|\___|
+                         __/ |           
+                        |___/         ");
+            Console.Write("Press any key to continue...");
+            Console.ReadKey();
+            Console.Clear();
         }
 
         //Decorative Display / Header
         static void intro()
         {
-            Console.WriteLine("-------------------------------");
-            Console.WriteLine("|         WELCOME TO          |");
-            Console.WriteLine("|       PULSE OF DECEIT!      |");
-            Console.WriteLine("-------------------------------");
+            Console.WriteLine(@"  ____   _   _  _      ____   _____     ___   _____  
+ |  _ \ | | | || |    / ___| | ____|   / _ \ |  ___| 
+ | |_) || | | || |    \___ \ |  _|    | | | || |_    
+ |  __/ | |_| || |___  ___) || |___   | |_| ||  _|   
+ |_|     \___/ |_____||____/ |_____|   \___/ |_|     
+                                                     
+  ____   _____  ____  _____  ___  _____              
+ |  _ \ | ____|/ ___|| ____||_ _||_   _|             
+ | | | ||  _| | |    |  _|   | |   | |               
+ | |_| || |___| |___ | |___  | |   | |               
+ |____/ |_____|\____||_____||___|  |_|");
         }
 
-        // Pre-game prompt that will make you choose a character.
-        static string choosePlayer()
+        static void bgstory()
         {
-            string role = "";
-            Console.WriteLine("WHO WOULD YOU LIKE TO PLAY AS?");
-            Console.WriteLine("");
-            Console.WriteLine(@"[1] Marshall Batumbakal (Sheriff)
-Perks: Flashlight
-Character Description: Marshall Batumbakal is the local sheriff of their town, known for his strong sense of justice.
 
-[2] Anastasia Propaganda Maria Dela Cruz (Nurse)
-Perks: Keycard
-Character Description: Anastasia Propaganda Maria Dela Cruz is a former nurse in the asylum, concealing a dark secret from her past that haunted her, driving her actions and decisions.
+            Console.WriteLine(@"______            _                                   _   _____ _                   
+| ___ \          | |                                 | | /  ___| |                  
+| |_/ / __ _  ___| | ____ _ _ __ ___  _   _ _ __   __| | \ `--.| |_ ___  _ __ _   _ 
+| ___ \/ _` |/ __| |/ / _` | '__/ _ \| | | | '_ \ / _` |  `--. \ __/ _ \| '__| | | |
+| |_/ / (_| | (__|   < (_| | | | (_) | |_| | | | | (_| | /\__/ / || (_) | |  | |_| |
+\____/ \__,_|\___|_|\_\__, |_|  \___/ \__,_|_| |_|\__,_| \____/ \__\___/|_|   \__, |
+                       __/ |                                                   __/ |
+                      |___/                                                   |___/ 
+        __   _   _            _   _                                                 
+       / _| | | | |          | \ | |                                                
+  ___ | |_  | |_| |__   ___  |  \| |_   _ _ __ ___  ___                             
+ / _ \|  _| | __| '_ \ / _ \ | . ` | | | | '__/ __|/ _ \                            
+| (_) | |   | |_| | | |  __/ | |\  | |_| | |  \__ \  __/                            
+ \___/|_|    \__|_| |_|\___| \_| \_/\__,_|_|  |___/\___|    
 
-[3] Kim Magtanggol (Journalist)
-Perks: Hint ( at the start )
-Character Description: Kim Magtanggol, is a fearless journalist, who wants to know the truth behind the chilling murders that surrounded the asylum. 
+Anastacia Propaganda Maria Dela Cruz, a nurse driven by compassion and a desire to make a difference, dedicated her 
+life to nursing. Her journey into mental health care led her to an abandoned asylum, where she hoped to offer 
+solace to the forgotten. Without her knowledge, she received an anonymous letter hinting at mysterious 
+deaths within the asylum, setting her on a path of investigation. Little did she know, the 
+shadows she sought that the dark secrets in the asylum were connected to her. 
 
-[4] Rey P. Nyoco (Detective)
-Perks: Hint ( along the way )
-Character Description: Rey P. Nyoco, a seasoned detective, was called to investigate the series of perplexing murders haunting the asylum. 
+The story is about her journey to uncover this truth, 
+facing darkness and the scary reality of the asylum.");
+            Console.Write("\nPress any key to continue...");
+            Console.ReadKey();
+            Console.Clear();
+        }
+        
+
+        static void pod()
+        {
+                Console.WriteLine("-------------------------------");
+                Console.WriteLine("|       PULSE OF DECEIT       |");
+                Console.WriteLine("-------------------------------");
+        }
+
+        static void instructions()
+        {
+            Console.WriteLine(@"
+ _____          _                   _   _                 
+|_   _|        | |                 | | (_)                
+  | | _ __  ___| |_ _ __ _   _  ___| |_ _  ___  _ __  ___ 
+  | || '_ \/ __| __| '__| | | |/ __| __| |/ _ \| '_ \/ __|
+ _| || | | \__ \ |_| |  | |_| | (__| |_| | (_) | | | \__ \
+ \___/_| |_|___/\__|_|   \__,_|\___|\__|_|\___/|_| |_|___/
+
+In this game, you have the following commands at your perusal. These commands will be helpful for you to interact with your surroundings and finish the game. 
+
+> help - display the list of commands.
+> move (up/left/down/right) - move in the direction of your choice.
+> check (item) - check the items. [Items] enclosed in brackets can be typed in.
+> take (item) - take the item
+> items - list the items you currently have.
 ");
 
-            while (true)
-            {
-                string ans = action();
-
-                if (ans == "1" || ans == "2" || ans == "3" || ans == "4")
-                {
-                    switch (ans)
-                    {
-                        case "1": role = "sheriff"; break;
-                        case "2": role = "nurse"; break;
-                        case "3": role = "journalist"; break;
-                        case "4": role = "detective"; break;
-                    }
-                    break;
-
-                }
-                else
-                {
-                    Console.WriteLine("Invalid action, try again.");
-                    continue;
-                }
-            }
-            return role;
+            Console.Write("Press any key continue...");
+            Console.ReadKey();
+            Console.Clear();
         }
 
-        static void rightroom(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void storageroom(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-            Console.WriteLine("You went into the room to your right. This is a jumbled mess. \nA fallen bookshelf, a broken window, and files and note are on the table.");
+            if (!isItem("storage", flags))
+            {
+                Console.WriteLine("\"Oh, this room is open. What can I find here?\" Anastacia said curiously.\n");
+                flags = item(flags, index(flags), "storage");
+
+                Console.ReadKey();
+                Console.WriteLine("HTE STRAOGE OROM, TRPAPED NI YACDE, FETAURDE BRKONE SWWINDO, A YTMUS LLMSE, DAN FROGTTEN SERLIC. \n" +
+                   "A BOOLD-TENWRTI MSSEAEG, \"RUN IF YOU WANT TO LIVE.\" DAORDNE ETH LLAW. HTE ERIEE CILENSE THINED TA NUSTTLEING \n" +
+                   "CESRETS, WTHI LOCASSIONA RSUTELS DAN TANTDIS ECHOSE, RINGFFERO A CHILNGIL WRNAING OT THESO HOW REDAD OT ETNER.");
+
+                Console.ReadKey();
+                items = item(items, index(items), "Flashlight");
+                Console.WriteLine("\n\"Despite the unflattering confines of this room, at least they have a [Flashlight] as my only hope, \n" +
+                    "lighting up my surroundings sufficiently to let me see comple– who is that!?\"");
+                Console.WriteLine("\nYou got a [Flashlight].\n");
+
+                Console.ReadKey();
+                Console.WriteLine("The wind intensified crawling through the hallway, and amplifying the unsettling atmosphere. \n" +
+                    "Doors were abruptly and violently shut by an unknown power, revealing after the faint echo of receding footsteps \n" +
+                    "resounding the hallway, inciting a halt in Anastacia’s spoken expression.\r\n");
+
+                Console.ReadKey();
+                Console.WriteLine("You can't leave the room, what would you like to do?\n" +
+                    "[1] Kick the door open or\n" +
+                    "[2] Use the crowbar to break the doorknob.");
+                while (true) { 
+                string ans = action();
+                    if (ans == "1")
+                    {
+                        Console.WriteLine("\"Frick! That hurt and still it won't budge?\"\n");
+                        Console.WriteLine("Anastacia gruntly shouted as she hurt herself trying to break the door. \n" +
+                            "Now resorting to her next option.\n");
+                        Console.ReadKey();
+                        break;
+                    }
+                    else if (ans == "2")
+                    {
+                        break;
+                    }
+                    else Console.WriteLine("Invalid action, try again.");
+                }
+                Console.WriteLine("\"May this thing bear fruit\"");
+                Console.ReadKey();
+                Console.WriteLine("With a hint of optimism, Anastacia uttered. Her tone was covered with tension as she \n" +
+                    "skillfully handled the crowbar in an attempt to remove the doorknob—a tool that she used to break in, \n" +
+                    "which caused it to smash to smithereens. Fortunately, the doorknob falls to bits.\r\n");
+                Console.WriteLine("Your [Crowbar] broked.\n");
+                remove(items, "Crowbar");
+
+                Console.ReadKey();
+                Console.WriteLine("“Who was that? Was that just the wind? Didn’t I hear footsteps?”\r\n");
+
+                Console.WriteLine("Anastacia said with a voice mixed with uncertainty. Ignoring the thing, \n" +
+                    "she continued and was committed to solving the mystery that was clinging to the air.");
+            }
+            else
+            {
+                if (isItem("Flashlight", items))
+                {
+                    Console.WriteLine("The storage room, trapped in decay, featured broken windows, a musty smell, and forgotten relics. \n" +
+                        "A blood-written message, \"RUN IF YOU WANT TO LIVE,\" adorned the wall. The eerie silence hinted at unsettling \n" +
+                        "secrets, with occasional rustles and distant echoes, offering a chilling warning to those who dared to enter.");
+                }
+
+            }
+
             while (true)
             {
-                string ans = commands(map, position, flags, items);
+                string ans = commands(map, position, flags, items, player);
                 if (ans.StartsWith("move"))
                 {
-                    if (ans == "move down" || ans == "move back" || ans == "move backward")
+                    if ((ans == "move down" || ans == "move backward") || (ans == "move up" || ans == "move forward") || ans == "move right")
                     {
-                        Console.WriteLine("This is an enclosed room. You can't go here");
+                        Console.WriteLine("You can't go here. This is just a wall.");
                     }
-                    else
+                    else if (ans == "move left")
                     {
                         position = move(position, ans, map);
                         prompt(position, map, flags, player, items);
                         break;
                     }
+                    else
+                    {
+                        Console.WriteLine("Invalid move, try again.");
+                    }
                 }
-                if (ans.StartsWith("check"))
+                else if (ans.StartsWith("check"))
                 {
-                    if (ans == "check note")
-                    {
-                        Console.WriteLine("You took the note. It reads 'Please go, patients in this asylum are worse than you thought.'");
-                    }
-                    else if (ans == "check bookshelf" || ans == "check books" || ans == "check book")
-                    {
-                        Console.WriteLine("There are books on the floor named ‘Psychology 101’, ‘Comprehensive Overview of Split Personality Disorder’, \nand a file labeled [CONFIDENTIAL]. There is nothing to do here.");
-                    }
-                    else if (ans == "check file" || ans == "check files")
-                    {
-
-                        Console.WriteLine("You read the file, and you found out that these are the personal records of the patient. " +
-                            "\nWhen reading, you noticed that there was a missing page in the file.");
-                        if (isItem("Afterhint", items)) Console.WriteLine("Detective Skills: This missing page might lead us to who the killer is.");
-                    }
-                    else if (ans.ToLower() == "check window" || ans.ToLower() == "check broken window")
-                    {
-                        if (!isItem("Keycard", items))
-                        {
-                            Console.WriteLine("You went near the broken window. While walking, you seem to have stepped on something—-a keycard. \nYou took the keycard and looked out the window. All you see outside is the darkness of the forest.");
-                            items = item(items, index(items), "Keycard");
-                        }
-                        else
-                        {
-                            Console.WriteLine("You went near the broken window. While walking, you seem to have stepped on something—-a keycard. \nBut you already possess a keycard. All you see outside is the darkness of the forest.");
-                        }
-                    }
-                    else Console.WriteLine("Invalid check item, try again.");
+                    Console.WriteLine("Nothing to check here.");
                 }
+                else if (ans.StartsWith("take"))
+                {
+                    Console.WriteLine("Nothing to take here.");
+                }
+                else Console.WriteLine("Invalid action, try again.");
             }
         }
 
         static void asylum(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-            Console.Write("A long dark hallway welcomes you. There are room to your left and right.\n");
-            string ans = commands(map, position, flags, items);
-
-            if (ans.StartsWith("move"))
+            if (!isItem("asylum", flags))
             {
-                if (ans == "move left" && isItem("Keycard", items))
+                Console.WriteLine("You used your crowbar to break the chains and is now inside the asylum.\n");
+                flags = item(flags, index(flags), "asylum");
+                Console.WriteLine($"READ CAREFULLY, {player}.\n");
+                Console.Write("Press any key to continue...");
+                Console.ReadKey();
+
+                Console.WriteLine("\"This place is truly disordered, I can't even see a thing.\"");
+                Console.WriteLine("\nAnastacia said, breaking the terrifying silence as her voice trailed\n" +
+                    "reflecting the unease that lingered over the room.\n");
+            }
+
+            if (!isItem("Flashlight", items))
+            {
+                Console.WriteLine("LKOSO LIEK SI TI YVER DRAK IN HREE. UYO MTIHG WNTA TO FNDI A FLSHALGHIT TISRF.");
+
+                while (true)
                 {
-                    Console.WriteLine("(You used your key to open the door.)");
-                    position = move(position, ans, map);
-                    prompt(position, map, flags, player, items);
-                }
-                else if (ans == "move left" && !isItem("Keycard", items))
-                {
-                    Console.WriteLine("The door seems locked. You need a key, try going back here once you find one.");
-                }
-                else if (ans.StartsWith("check")){
-                    Console.WriteLine("Nothing to check here.");
-                }
-                else
-                {
-                    position = move(position, ans, map);
-                    prompt(position, map, flags, player, items);
+                    string ans = commands(map, position, flags, items, player);
+                    if (ans.StartsWith("move"))
+                    {
+                        if ((ans == "move up" || ans == "move forward"))
+                        {
+                            Console.WriteLine("The hallway is very dark, it's best to find something that can luminate these halls.");
+                        }
+
+                        else if (ans == "move down" || ans == "move backward")
+                        {
+                            Console.WriteLine("That's outside, there's nothing to do there. You should start inspecting the inside.");
+                        }
+                        else if (ans == "move left")
+                        {
+                            Console.WriteLine("OYU CNA TON TERNE HET LBAROTRYAO OROM TYE UNLTI UOY DNFI YROUESLF A KYACDRE.");
+                        }
+                        else if (ans == "move right")
+                        {
+                            position = move(position, ans, map);
+                            Console.Clear();
+                            prompt(position, map, flags, player, items);
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid move, try again.");
+                        }
+                    }
+                    else if (ans.StartsWith("check"))
+                    {
+                        Console.WriteLine("Nothing to check here.");
+                    }
+                    else Console.WriteLine("Invalid action, try again.");
                 }
             }
-            else if (ans.StartsWith("check")) Console.WriteLine("Nothing to check here.");
+            else
+            {
+                Console.WriteLine("You are back at the main entrance of the asylum.");
+                while (true)
+                {
+                    string ans = commands(map, position, flags, items, player);
+                    if (ans.StartsWith("move"))
+                    {
+
+                        if (ans == "move down" || ans == "move backward")
+                        {
+                            Console.WriteLine("That's outside, there's nothing to do there. You should start inspecting the inside.");
+                        }
+                        else if (ans == "move left")
+                        {
+                            if (!isItem("Keycard", items)) Console.WriteLine("You can not enter the laboratoroy room yet until you find yourself a keycard.");
+                            else
+                            {
+                                position = move(position, ans, map);
+                                Console.Clear();
+                                prompt(position, map, flags, player, items);
+                                break;
+                            }
+                        }
+                        else if (ans == "move right" || ans == "move up" || ans == "move forward")
+                        {
+                            position = move(position, ans, map);
+                            Console.Clear();
+                            prompt(position, map, flags, player, items);
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid move, try again.");
+                        }
+                    }
+                    else if (ans.StartsWith("check"))
+                    {
+                        Console.WriteLine("Nothing to check here.");
+                    }
+                    else Console.WriteLine("Invalid action, try again.");
+                }
+            }
+               
+          
+             
         }
 
-        static void leftroom(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void laboratory(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
             Console.WriteLine("You went inside the cold and dark room and found out that it was a storage room \nthat was almost fully covered with dust and cobwebs. " +
                 "It is cramped in here. \nIt was full of shelves containing medicines with a table that had medicines scattered on top of it.");
@@ -524,38 +718,269 @@ Character Description: Rey P. Nyoco, a seasoned detective, was called to investi
 
         static void outside(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-            Console.Write("You are in front of the asylum. Cold wind blows -- around the asylum is a dark forest.\n");
-        }
+            if (!isItem("outside",flags))
+            {
+                Console.WriteLine("You entered the gate, a huge building welcomes you.\n" +
+                    "As you are standing outside the asylum, feeling the chilling wind whisper through the overgrown vines \n" +
+                    "and dilapidated windows, carrying a sense of foreboding, you feel the weight of the impending truth \n" +
+                    "pressing down on your shoulders.\n");
 
-        static void righttree(string[,] map, int[] position, string[] flags, string[] items, string player)
-        {
-            Console.Write("There's a tree here.\n");
+                Console.WriteLine("Would you like to inspect your surroundings? [Yes] or [No] ?\n");
+                while (true)
+                {
+                    string answer = action();
+                    if (answer.ToLower() == "yes")
+                    {
+                        Console.Clear();
+                        pod();
+                        Console.WriteLine("You are outside the asylum with a door blocking your path; as it is surrounded by chains, rejecting the curiosity. " +
+                            "\nYou will need a crowbar to break the chains to conceal the mysterious secrets. " +
+                            "\nAs you inspect your surroundings, you notice that you are surrounded by trees. " +
+                            "\nThe tree on your left stands like a sentinel, its gnarled branches reaching out for secrets buried in the soil. " +
+                            "\nTo your right, another tree glows mysteriously, its leaves whispering a way in a haunting melody.\n");
+                        Console.ReadKey();
+                        Console.WriteLine("\"Why am I entangled in this labyrinth of mysteries?  It was a naive move to go " +
+                            "\nthrough these gloomy depths in the first place.\"\r\n");
+                        Console.ReadKey();
+                        Console.WriteLine("Anastacia said and let out a deep sigh, wondering why she was pursuing the unknown so eagerly.\n");
+                        Console.ReadKey();
+                        Console.WriteLine("Could these trees be something? Take a push to discover, the floor is yours, {player}, to unravel behind" +
+                            $"\nthe creaking leaves and shady branches.");
+                        break;
+                    }
+                    else if (answer.ToLower() == "no")
+                    {
+                        Console.Clear();
+                        pod();
+                        Console.WriteLine("You are outside the asylum with a door blocking your path; as it is surrounded by \n" +
+                            "chains, rejecting the curiosity. You will need a crowbar to break the chains to conceal the mysterious secrets.");
+                        break;
+                    }
+                    else Console.WriteLine("Invalid answer, try again.");
+                }
+                item(flags, index(flags), "outside");
+            }
+            else
+            {
+                Console.WriteLine("You are outside the asylum with a door blocking your path; as it is surrounded by \n" +
+                            "chains, rejecting the curiosity. You will need a crowbar to break the chains to conceal the mysterious secrets.");
+            }
+
             while (true)
             {
-                string ans = commands(map, position, flags, items);
-                if (ans == "move forward" || ans == "move up") Console.WriteLine("There's a building here. You can't go here.");
-                else if (ans == "move back" || ans == "move down") Console.WriteLine("There's nothing here.");
-                else
+            string ans = commands(map, position, flags, items, player);
+                if (ans.StartsWith("move"))
                 {
-                    if (ans.StartsWith("move"))
+                    if ((ans == "move up" || ans == "move forward"))
+                    {
+                        if (!isItem("Crowbar", items) && !isItem("Map", items))
+                        {
+                            Console.WriteLine("The door in front of you chained prohibiting you from entering. You still need to explore your surroundings before entering.");
+                        }
+                        else if (isItem("Crowbar", items) && !isItem("Map", items))
+                        {
+                            Console.WriteLine("You have a crowbar but it may be hard navigating through the asylum. You still need to explore further.");
+                        }
+                        else
+                        {
+                            position = move(position, ans, map);
+                            prompt(position, map, flags, player, items);
+                            break;
+                        }
+                    }
+
+                    else if (ans == "move down" || ans == "move backward")
+                    {
+                        Console.WriteLine("That's the gate you went into, you cannot go there.");
+                    }
+                    else if ((ans == "move up" || ans == "move forward") && isItem("Map", items) && isItem("Crowbar", items)) {
+                        position = move(position, ans, map);
+                        prompt(position, map, flags, player, items);
+                        break;
+                    }
+                    else if (ans == "move left" || ans == "move right")
                     {
                         position = move(position, ans, map);
                         prompt(position, map, flags, player, items);
                         break;
                     }
-                    else if (ans == "CS 103")
+                    else
                     {
-                        Console.WriteLine("That is the section that made this game!");
-                        break;
+                        Console.WriteLine("Invalid move, try again.");
                     }
-                    else Console.WriteLine("Invalid action, try again.");
                 }
+                else if (ans.StartsWith("check"))
+                {
+                    Console.WriteLine("Nothing to check here.");
+                }
+                else Console.WriteLine("Invalid action, try again.");
             }
         }
 
-        static void backtree(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void righttree(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-            Console.Write("You are surrounded by the forest. There seems to be nothing here.\n");
+            if (!isItem("Crowbar", items) && !isItem("Map", items))
+            {
+                Console.WriteLine("As you approach the dark, oak tree, you notice a rusted metal object lying flat \n" +
+                "at the base of the trunk. You approach and pick up the metal object. A [crowbar]?\n");
+                Console.ReadKey();
+                Console.WriteLine("You got a [Crowbar]!\n");
+                Console.ReadKey();
+                Console.WriteLine("Right, the key will be a crowbar—to release the chains that are blocking the main doors' entry.\n");
+                Console.ReadKey();
+                Console.WriteLine("\"Well, I guess, this could be a weapon, just in case.\" Anastacia said.\n");
+                Console.ReadKey();
+                Console.WriteLine("Amidst the huge void, how could you know your location without the indispensable help of a map?");
+                items = item(items, index(items), "Crowbar");
+            }
+            else if (!isItem("Crowbar", items) && isItem("Map", items))
+            {
+                Console.WriteLine("As you approach the dark, oak tree, you notice a rusted metal object lying flat \n" +
+                "at the base of the trunk. You approach and pick up the metal object. A [crowbar]?\n");
+                Console.ReadKey();
+                Console.WriteLine("You got a [Crowbar]!\n");
+                Console.ReadKey();
+                Console.WriteLine("Right, the key will be a crowbar—to release the chains that are blocking the main doors' entry.");
+                items = item(items, index(items), "Crowbar");
+            }
+            else if (isItem("Crowbar", items) && isItem("Map", items))
+            {
+                Console.WriteLine("A long dark, oak tree welcomes you. There's nothing to do here now.");
+            }
+            else if (isItem("Crowbar", items) && !isItem("Map", items))
+            {
+                Console.WriteLine("A long dark, oak tree welcomes you. There's nothing to do here now.\n" +
+                    "You might want to find the map now.");
+            }
+
+            while (true)
+            {
+                string ans = commands(map, position, flags, items, player);
+                if (ans.StartsWith("move"))
+                {
+                    if (ans == "move up")
+                    {
+                        Console.WriteLine("You can't go here. These are walls of the asylum.");
+                    }
+                    else if (ans == "move down" || ans == "move right")
+                    {
+                        Console.WriteLine("There's nothing to do out there, it is best not to go there.");
+                    }
+                    else if(ans == "move left")
+                    {
+                        position = move(position, ans, map);
+                        prompt(position, map, flags, player, items);
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid move, try again.");
+                    }
+                }
+                else if (ans.StartsWith("check"))
+                {
+                    Console.WriteLine("Nothing to check here.");
+                }
+                else Console.WriteLine("Invalid action, try again.");
+            }
+        }
+
+        static void lefttree(string[,] map, int[] position, string[] flags, string[] items, string player)
+        {
+            if (!isItem("Map", items) && !isItem("Crowbar", items))
+            {
+                Console.WriteLine("An old, eerie tree with dead leaves, welcomes you with a cozy atmosphere, " +
+               "\nthe leaves dancing in the breeze, as you find a piece of paper tucked in between the trunk and a branch. \n" +
+               "\nGreat start, you found a [map].");
+                items = item(items, index(items), "Map");
+
+                while (true)
+                {
+                    Console.Write("\nWould you like to display your map? [Yes] or [No]: ");
+                    string displayMap = Console.ReadLine().ToLower();
+                    if (displayMap == "yes")
+                    {
+                        flags = item(flags, index(flags), "map");
+                        Console.WriteLine("\n\"A map, huh?\" Anastacia said.");
+                        Console.ReadKey();
+                        Console.Clear();
+                        prompt(position, map, flags, player, items);
+                        break;
+                    }
+                    else if (displayMap == "no")
+                    {
+                        Console.WriteLine("\nThe map won't be displayed, this might make your game harder. If your mind changes,\n" +
+                            "just type \"use map\"");
+                        break;
+                    }
+                    else Console.WriteLine("Invalid answer, try again.");
+                }
+            }
+            else if (!isItem("Map", items) && isItem("Crowbar", items))
+            {
+                Console.WriteLine("An old, eerie tree with dead leaves, welcomes you with a cozy atmosphere, " +
+               "\nthe leaves dancing in the breeze, as you find a piece of paper tucked in between the trunk and a branch. \n" +
+               "\nGreat, you found the [map].");
+                items = item(items, index(items), "Map");
+
+                while (true) {
+                Console.Write("\nThis map can help you track of where you are.\nWould you like to display your map? [Yes] or [No]: ");
+                string displayMap = Console.ReadLine().ToLower();
+                if (displayMap == "yes")
+                {
+                        flags = item(flags, index(flags), "map");
+                        Console.WriteLine("\n\"A map, huh?\" Anastacia said.");
+                        Console.ReadKey();
+                        Console.Clear();
+                        prompt(position, map, flags, player, items);
+                        break;
+                }
+                else if (displayMap == "no")
+                {
+                        Console.WriteLine("\nThe map won't be displayed, this might make your game harder. If your mind changes,\n" +
+                            "just type \"use map\"");
+                        break;
+                }
+                else Console.WriteLine("Invalid answer, try again.");
+                }
+
+            }
+            else if(isItem("Map", items)) Console.WriteLine("An old, eerie tree with dead leves, welcomes you with a cozy atmosphere, " +
+                "\nand the leaves dancing in the breeze.");
+
+            while (true)
+            {
+                string ans = commands(map, position, flags, items, player);
+                if (ans.StartsWith("move"))
+                {
+                    if (ans == "move up" || ans == "move left")
+                    {
+                        Console.WriteLine("You can't go here. These are walls of the asylum.");
+                    }
+                    else if (ans == "move down")
+                    {
+                        Console.WriteLine("There's nothing to do out there, it is best not to go there.");
+                    }
+                    else if (ans == "move right")
+                    {
+                        position = move(position, ans, map);
+                        prompt(position, map, flags, player, items);
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid move, try again.");
+                    }
+                }
+                else if (ans.StartsWith("check"))
+                {
+                    Console.WriteLine("Nothing to check here.");
+                }
+                else Console.WriteLine("Invalid action, try again.");
+            }
+
+
+
         }
 
         static void basement1(string[,] map, int[] position, string[] flags, string[] items, string player)
@@ -575,17 +1000,49 @@ Character Description: Rey P. Nyoco, a seasoned detective, was called to investi
 
         static void hallway1(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-            Console.Write("You are in hallway 1.\n");
-        }
+            Console.WriteLine("You walked through the long hallway. It seems like you need to continue moving forward.");
+            while (true)
+            {
+                string ans = commands(map, position, flags, items, player);
+                if (ans.StartsWith("move"))
+                {
+                    if (ans == "move right" || ans == "move left")
+                    {
+                        Console.WriteLine("You can't go here. These are walls of the asylum.");
+                    }
+                    else if (ans == "move up")
+                    {
+                        position = move(position, ans, map);
+                        prompt(position, map, flags, player, items);
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid move, try again.");
+                    }
+                }
+                else if (ans.StartsWith("check"))
+                {
+                    Console.WriteLine("Nothing to check here.");
+                }
 
+                else if (ans.StartsWith("take"))
+                {
+                    Console.WriteLine("Nothing to take here.");
+                }
+                else Console.WriteLine("Invalid action, try again.");
+            }
+        }
         static void hallway2(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-            Console.Write("You are in hallway 2.\n");
+            Console.WriteLine("You finished the end of the walkway. There is a lobby in front of you, and a staircase on your right");
+            Console.WriteLine("\nWhere would you like to go?");
         }
 
         static void staircase(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-            Console.Write("There's a staircase leading to the 2nd floor to your right.\n");
+            position[1] += 1;
+            prompt(position, map, flags, player, items);
         }
 
         static void secondfloor(string[,] map, int[] position, string[] flags, string[] items, string player)
@@ -593,19 +1050,19 @@ Character Description: Rey P. Nyoco, a seasoned detective, was called to investi
             Console.Write("You're now in 2nd floor.\n");
         }
 
-        static void room1(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void patientward(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-            Console.Write("You are in room 1.\n");
+            Console.Write("You are in Patient Ward.\n");
         }
 
-        static void room2(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void director(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-            Console.Write("You are in room 2.\n");
+            Console.Write("You are in Director's Office.\n");
         }
 
-        static void room3(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void privateward(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-            Console.Write("You are in room 3.\n");
+            Console.Write("You are in Private Ward.\n");
         }
 
         static void lobby(string[,] map, int[] position, string[] flags, string[] items, string player)
