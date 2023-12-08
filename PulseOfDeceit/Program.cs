@@ -23,8 +23,8 @@ namespace PulseOfDeceit
         static void playGame()
         {
             int[] position = { 6, 3 };
-            string[] flags = { "holder", "holder", "holder", "holder"};
-            string[] items = { "holder", "holder", "holder", "holder" };
+            string[] flags = { "holder", "holder", "holder", "holder", "holder", "holder", "holder" , "holder" , "holder" , "holder" };
+            string[] items = { "holder", "holder", "holder", "holder", "holder" , "holder" , "holder" , "holder" , "holder" , "holder" };
             bool running = true;
             string[,] map = {
             {"0","0","0","0","0","0","0","0"},
@@ -236,13 +236,7 @@ namespace PulseOfDeceit
             int[] currPosition = position;
             Console.Clear();
 
-            if (isItem("map", flags)){
-                mapping(map, position);
-            }
-            else
-            {
-                pod();
-            }
+            header(flags, position, map);
 
             switch (map[currPosition[0], currPosition[1]])
             {
@@ -364,13 +358,6 @@ namespace PulseOfDeceit
 
             }
 
-        }
-
-        //Clearing + Mapping Function
-        static void header(string[,] map, int[] position)
-        {
-            Console.Clear();
-            mapping(map, position);
         }
 
         //Checker if an item is in the array.
@@ -506,6 +493,17 @@ In this game, you have the following commands at your perusal. These commands wi
             Console.Clear();
         }
 
+        static void header(string[] flags, int[] position, string[,] map)
+        {
+            if(isItem("map", flags)){
+                mapping(map, position);
+            }
+            else
+            {
+                pod();
+            }
+        }
+
         static void storageroom(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
             if (!isItem("storage", flags))
@@ -537,6 +535,8 @@ In this game, you have the following commands at your perusal. These commands wi
                 string ans = action();
                     if (ans == "1")
                     {
+                        Console.Clear();
+                        header(flags, position, map);
                         Console.WriteLine("\"Frick! That hurt and still it won't budge?\"\n");
                         Console.WriteLine("Anastacia gruntly shouted as she hurt herself trying to break the door. \n" +
                             "Now resorting to her next option.\n");
@@ -545,10 +545,13 @@ In this game, you have the following commands at your perusal. These commands wi
                     }
                     else if (ans == "2")
                     {
+                        Console.Clear();
+                        header(flags, position, map);
                         break;
                     }
                     else Console.WriteLine("Invalid action, try again.");
                 }
+
                 Console.WriteLine("\"May this thing bear fruit\"");
                 Console.ReadKey();
                 Console.WriteLine("With a hint of optimism, Anastacia uttered. Her tone was covered with tension as she \n" +
@@ -677,7 +680,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         }
                         else if (ans == "move left")
                         {
-                            if (!isItem("Keycard", items)) Console.WriteLine("You can not enter the laboratoroy room yet until you find yourself a keycard.");
+                            if (!isItem("Keycard", items)) Console.WriteLine("You can not enter the laboratory room yet until you find yourself a keycard.");
                             else
                             {
                                 position = move(position, ans, map);
@@ -780,6 +783,10 @@ In this game, you have the following commands at your perusal. These commands wi
                         else if (isItem("Crowbar", items) && !isItem("Map", items))
                         {
                             Console.WriteLine("You have a crowbar but it may be hard navigating through the asylum. You still need to explore further.");
+                        }
+                        else if (!isItem("Crowbar", items) && isItem("Map", items))
+                        {
+                            Console.WriteLine("You have your navigation tool but you still can't break the chains. You still need to explore further.");
                         }
                         else
                         {
@@ -924,7 +931,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 items = item(items, index(items), "Map");
 
                 while (true) {
-                Console.Write("\nThis map can help you track of where you are.\nWould you like to display your map? [Yes] or [No]: ");
+                Console.Write("\nThis map can help you keep track of where you are.\nWould you like to display your map? [Yes] or [No]: ");
                 string displayMap = Console.ReadLine().ToLower();
                 if (displayMap == "yes")
                 {
@@ -1037,6 +1044,40 @@ In this game, you have the following commands at your perusal. These commands wi
         {
             Console.WriteLine("You finished the end of the walkway. There is a lobby in front of you, and a staircase on your right");
             Console.WriteLine("\nWhere would you like to go?");
+            while (true)
+            {
+                string ans = commands(map, position, flags, items, player);
+                if (ans.StartsWith("move"))
+                {
+                    if (ans == "move left")
+                    {
+                        Console.WriteLine("You can't go here. These are walls of the asylum.");
+                    }
+                    else if (ans == "move up" || ans == "move right" || ans == "move down")
+                    {
+                        position = move(position, ans, map);
+                        prompt(position, map, flags, player, items);
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid move, try again.");
+                    }
+                }
+                else if (ans.StartsWith("check"))
+                {
+                    Console.WriteLine("Nothing to check here.");
+                }
+                else if (ans.StartsWith("take"))
+                {
+                    Console.WriteLine("Nothing to take here.");
+                }
+                else if (ans.StartsWith("check"))
+                {
+                    Console.WriteLine("Nothing to check here.");
+                }
+                else Console.WriteLine("Invalid action, try again.");
+            }
         }
 
         static void staircase(string[,] map, int[] position, string[] flags, string[] items, string player)
@@ -1067,7 +1108,122 @@ In this game, you have the following commands at your perusal. These commands wi
 
         static void lobby(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-            Console.Write("You are in hospital lobby.\n");
+            if (!isItem("lobby", flags)){
+                flags = item(flags, index(flags), "lobby");
+                Console.WriteLine("As you entered the lobby, the faint mumble of someone having a conversation down on the second floor \n" +
+                    "reached your ears. An ensemble of voices that spoke to stories hidden and yearning to be discovered.");
+
+                Console.WriteLine("Could they be the reason behind the unsolved mystery cases?\n" +
+                    "[1] Definitely, yes.\n" +
+                    "[2] Definitely, no.\n" +
+                    "[3] Too early to make decisions.");
+                while (true)
+                {
+                    string decision = action();
+                    if (decision == "1" || decision == "2" || decision == "3")
+                    {
+                        Console.Clear();
+                        header(flags, position, map);
+                        Console.WriteLine("“Goddamn Nyoco! I swear if someone caught us here, we’re both dead. Just like \n" +
+                            "those people in the Morgue, dead. Dead Nyoco, dead.”\r\n");
+                        Console.ReadKey();
+                        Console.WriteLine("Nyoco's friend nervously whispered, their words strained and anxious. Panic set in as they feared \n" +
+                            "being caught, each cautious syllable amplifying the tension of the moment. The air crackled with apprehension, \n" +
+                            "enveloping the duo in a web of uncertainty.\n");
+                        Console.ReadKey();
+                        Console.WriteLine("“Calm down! Go check the security room and outside while I’ll check the Laboratory Room and the Storage Room.”\r\n");
+                        Console.ReadKey();
+                        Console.WriteLine("Nyoco's voice pierced the tense air, her words laden with an intensity that reverberated through the silence.\r\n");
+                        Console.ReadKey();
+                        Console.WriteLine("THEY ARE GOING DOWNSTAIRS, YOU MIGHT GET CAUGHT!\n" +
+                            "[1] HIDE IN THE MORGUE\n" +
+                            "[2] LEAVE THE BUILDING, NOW!");
+                        while (true)
+                        {
+                            string decide = action();
+                            if (decide == "1")
+                            {
+                                Console.Clear();
+
+                                header(flags, position, map);
+                                while (true) { 
+                                    for(int i=0; i < 8; i++)
+                                    {
+                                        for(int j=0; j<15; j++)
+                                        {
+                                            Console.Write("HIDE  \t");
+                                        }
+                                        Console.WriteLine("\n");
+                                    }
+
+                                    Console.WriteLine($"{player.ToUpper()}, YOU NEED TO HIDE NOW! MOVE UP TO THE MORGUE!");
+                                    Console.Write("> ");
+                                    string hide = Console.ReadLine();
+                                    if (hide == "move up" || hide == "move forward")
+                                    {
+                                        position[0] -= 1;
+                                        prompt(position, map, flags, player, items);
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        Console.Clear();
+                                        header(flags, position, map);
+                                    }
+                                }
+                                break;
+                            }
+                            else if (decide == "2")
+                            {
+                                Console.WriteLine("You escaped through the windows of the lobby. You chickened out and was unsuccessful in finding out the truth.");
+                                break;
+                            }
+                            else Console.WriteLine("Invalid answer, AGAIN.");
+                        }
+                        break;
+                    }
+                    else Console.WriteLine("Invalid answer, try again.");
+                }
+                while (true)
+                {
+                    string ans = commands(map, position, flags, items, player);
+                    if (ans.StartsWith("move"))
+                    {
+                        if (ans == "move left")
+                        {
+                            Console.WriteLine("You can't go here. These are walls of the asylum.");
+                        }
+                        else if (ans == "move up" || ans == "move right" || ans == "move down")
+                        {
+                            position = move(position, ans, map);
+                            prompt(position, map, flags, player, items);
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid move, try again.");
+                        }
+                    }
+                    else if (ans.StartsWith("check"))
+                    {
+                        Console.WriteLine("Nothing to check here.");
+                    }
+                    else if (ans.StartsWith("take"))
+                    {
+                        Console.WriteLine("Nothing to take here.");
+                    }
+                    else if (ans.StartsWith("check"))
+                    {
+                        Console.WriteLine("Nothing to check here.");
+                    }
+                    else Console.WriteLine("Invalid action, try again.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("It seems the lobby is clear.");
+            }
+
         }
 
         static void therapy(string[,] map, int[] position, string[] flags, string[] items, string player)
@@ -1079,6 +1235,7 @@ In this game, you have the following commands at your perusal. These commands wi
         {
             Console.Write("It smells bad here, this seems to be the morgue.\n");
         }
+
 
     }
 }
