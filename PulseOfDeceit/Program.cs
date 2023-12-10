@@ -829,7 +829,7 @@ In this game, you have the following commands at your perusal. These commands wi
             if (!isItem("Crowbar", items) && !isItem("Map", items))
             {
                 Console.WriteLine("As you approach the dark, oak tree, you notice a rusted metal object lying flat \n" +
-                "at the base of the trunk. You approach and pick up the metal object. A [crowbar]?\n");
+                "at the base of the trunk. You approach and pick up the metal object. A [Crowbar]?\n");
                 Console.ReadKey();
                 Console.WriteLine("You got a [Crowbar]!\n");
                 Console.ReadKey();
@@ -843,7 +843,7 @@ In this game, you have the following commands at your perusal. These commands wi
             else if (!isItem("Crowbar", items) && isItem("Map", items))
             {
                 Console.WriteLine("As you approach the dark, oak tree, you notice a rusted metal object lying flat \n" +
-                "at the base of the trunk. You approach and pick up the metal object. A [crowbar]?\n");
+                "at the base of the trunk. You approach and pick up the metal object. A [Crowbar]?\n");
                 Console.ReadKey();
                 Console.WriteLine("You got a [Crowbar]!\n");
                 Console.ReadKey();
@@ -897,10 +897,12 @@ In this game, you have the following commands at your perusal. These commands wi
             if (!isItem("Map", items) && !isItem("Crowbar", items))
             {
                 Console.WriteLine("An old, eerie tree with dead leaves, welcomes you with a cozy atmosphere, " +
-               "\nthe leaves dancing in the breeze, as you find a piece of paper tucked in between the trunk and a branch. \n" +
-               "\nGreat start, you found a [map].");
+               "\nthe leaves dancing in the breeze, as you find a piece of paper tucked in between the trunk and a branch. \n");
+                Console.ReadKey();
+                Console.WriteLine("Great start, you found a [Map].");
                 items = item(items, index(items), "Map");
 
+                Console.ReadKey();
                 while (true)
                 {
                     Console.Write("\nWould you like to display your map? [Yes] or [No]: ");
@@ -926,10 +928,12 @@ In this game, you have the following commands at your perusal. These commands wi
             else if (!isItem("Map", items) && isItem("Crowbar", items))
             {
                 Console.WriteLine("An old, eerie tree with dead leaves, welcomes you with a cozy atmosphere, " +
-               "\nthe leaves dancing in the breeze, as you find a piece of paper tucked in between the trunk and a branch. \n" +
-               "\nGreat, you found the [map].");
+               "\nthe leaves dancing in the breeze, as you find a piece of paper tucked in between the trunk and a branch. \n");
+                Console.ReadKey();
+                Console.WriteLine("Great, you found the [Map].");
                 items = item(items, index(items), "Map");
 
+                Console.ReadKey();
                 while (true) {
                 Console.Write("\nThis map can help you keep track of where you are.\nWould you like to display your map? [Yes] or [No]: ");
                 string displayMap = Console.ReadLine().ToLower();
@@ -1042,53 +1046,141 @@ In this game, you have the following commands at your perusal. These commands wi
         }
         static void hallway2(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-            Console.WriteLine("You finished the end of the walkway. There is a lobby in front of you, and a staircase on your right");
-            Console.WriteLine("\nWhere would you like to go?");
-            while (true)
+            if (!isItem("hide", flags))
             {
-                string ans = commands(map, position, flags, items, player);
-                if (ans.StartsWith("move"))
+                Console.WriteLine("You finished the end of the walkway. There is a lobby in front of you, and a staircase on your right");
+                Console.WriteLine("\nWhere would you like to go?");
+                while (true)
                 {
-                    if (ans == "move left")
+                    string ans = commands(map, position, flags, items, player);
+                    if (ans.StartsWith("move"))
                     {
-                        Console.WriteLine("You can't go here. These are walls of the asylum.");
+                        if (ans == "move left")
+                        {
+                            Console.WriteLine("You can't go here. These are walls of the asylum.");
+                        }
+                        else if (ans == "move down")
+                        {
+                            Console.WriteLine("That is where you were, it's probably a waste of time to go back there for now.");
+                        }
+                        else if (ans == "move up" || ans == "move right")
+                        {
+                            position = move(position, ans, map);
+                            prompt(position, map, flags, player, items);
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid move, try again.");
+                        }
                     }
-                    else if (ans == "move up" || ans == "move right" || ans == "move down")
+                    else if (ans.StartsWith("check"))
                     {
-                        position = move(position, ans, map);
-                        prompt(position, map, flags, player, items);
-                        break;
+                        Console.WriteLine("Nothing to check here.");
                     }
-                    else
+                    else if (ans.StartsWith("take"))
                     {
-                        Console.WriteLine("Invalid move, try again.");
+                        Console.WriteLine("Nothing to take here.");
                     }
+                    else if (ans.StartsWith("check"))
+                    {
+                        Console.WriteLine("Nothing to check here.");
+                    }
+                    else Console.WriteLine("Invalid action, try again.");
                 }
-                else if (ans.StartsWith("check"))
-                {
-                    Console.WriteLine("Nothing to check here.");
-                }
-                else if (ans.StartsWith("take"))
-                {
-                    Console.WriteLine("Nothing to take here.");
-                }
-                else if (ans.StartsWith("check"))
-                {
-                    Console.WriteLine("Nothing to check here.");
-                }
-                else Console.WriteLine("Invalid action, try again.");
             }
+            else Console.WriteLine("You're in the end of the hallway.");
         }
 
         static void staircase(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-            position[1] += 1;
-            prompt(position, map, flags, player, items);
+            if (!isItem("hide", flags))
+            {
+                items = item(flags, index(flags), "stairFirst");
+                Console.WriteLine("As you walked to the staircase, the faint mumble of someone having a conversation \n" +
+                    "on the second floor reached your ears. An ensemble of voices that spoke to stories hidden and yearning to be discovered.");
+                Console.ReadKey();
+                Console.WriteLine("\nIt's probably best not to go up for now.");
+                while (true)
+                {
+                    string ans = commands(map, position, flags, items, player);
+                    if (ans.StartsWith("move"))
+                    {
+                        if (ans == "move up" || ans == "move forward")
+                        {
+                            Console.WriteLine("It's probably best not to go upstairs...");
+                        }
+                        else if (ans == "move down" || ans == "move backward")
+                        {
+                            position[1] -= 1;
+                            prompt(position, map, flags, player, items);
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("You can only either move up or move down in the staircase!");
+                        }
+                    }
+                    else if (ans.StartsWith("check"))
+                    {
+                        Console.WriteLine("Nothing to check here.");
+                    }
+                    else if (ans.StartsWith("take"))
+                    {
+                        Console.WriteLine("Nothing to take here.");
+                    }
+                    else if (ans.StartsWith("check"))
+                    {
+                        Console.WriteLine("Nothing to check here.");
+                    }
+                    else Console.WriteLine("Invalid action, try again.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("This is the staircase to the 2nd floor. Proceed to go up or stay at the hallway? [move up / move down]");
+                while (true)
+                {
+                    string ans = commands(map, position, flags, items, player);
+                    if (ans.StartsWith("move"))
+                    {
+                        if (ans == "move up" || ans == "move forward")
+                        {
+                            position[1] += 1;
+                            prompt(position, map, flags, player, items);
+                            break;
+                        }
+                        else if (ans == "move down" || ans == "move backward")
+                        {
+                            position[1] -= 1;
+                            prompt(position, map, flags, player, items);
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("You can only either move up or move down in the staircase!");
+                        }
+                    }
+                    else if (ans.StartsWith("check"))
+                    {
+                        Console.WriteLine("Nothing to check here.");
+                    }
+                    else if (ans.StartsWith("take"))
+                    {
+                        Console.WriteLine("Nothing to take here.");
+                    }
+                    else if (ans.StartsWith("check"))
+                    {
+                        Console.WriteLine("Nothing to check here.");
+                    }
+                    else Console.WriteLine("Invalid action, try again.");
+                }
+            }
         }
 
         static void secondfloor(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-            Console.Write("You're now in 2nd floor.\n");
+                Console.WriteLine("You're now in 2nd floor.");
         }
 
         static void patientward(string[,] map, int[] position, string[] flags, string[] items, string player)
@@ -1108,15 +1200,23 @@ In this game, you have the following commands at your perusal. These commands wi
 
         static void lobby(string[,] map, int[] position, string[] flags, string[] items, string player)
         {
-            if (!isItem("lobby", flags)){
-                flags = item(flags, index(flags), "lobby");
-                Console.WriteLine("As you entered the lobby, the faint mumble of someone having a conversation down on the second floor \n" +
-                    "reached your ears. An ensemble of voices that spoke to stories hidden and yearning to be discovered.");
+            if (!isItem("hide", flags)){
+                flags = item(flags, index(flags), "hide");
 
-                Console.WriteLine("Could they be the reason behind the unsolved mystery cases?\n" +
+                if (!isItem("stairFirst", flags))
+                {
+                    Console.WriteLine("As you entered the lobby, the faint mumble of someone having a conversation down on the second floor \n" +
+                   "reached your ears. An ensemble of voices that spoke to stories hidden and yearning to be discovered.");
+                }
+                else
+                {
+                    Console.Write("Those people upstairs... ");
+                }
+               
+                Console.Write("Could they be the reason behind the unsolved mystery cases?\n" +
                     "[1] Definitely, yes.\n" +
                     "[2] Definitely, no.\n" +
-                    "[3] Too early to make decisions.");
+                    "[3] Too early to make decisions.\n");
                 while (true)
                 {
                     string decision = action();
