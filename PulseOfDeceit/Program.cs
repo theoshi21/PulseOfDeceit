@@ -29,8 +29,8 @@ namespace PulseOfDeceit
         static void playGame()
         {
             int[] position = { 6, 3 };
-            string[] flags = { "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder" };
-            string[] items = { "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder" };
+            string[] flags = { "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", };
+            string[] items = { "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", };
             string[,] map = {
             {"0","0","0","0","0","0","0","0"},
             {"0","0" ,"0","Morgue","0","0","0","0"},
