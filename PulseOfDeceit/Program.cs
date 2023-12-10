@@ -1105,7 +1105,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         {
                             Console.WriteLine("You can't go here. These are walls of the asylum.");
                         }
-                        else if (moveValidator(ans, "up"))
+                        else if (moveValidator(ans, "up") || moveValidator(ans, "down"))
                         {
                             position = move(position, ans, map);
                             prompt(position, map, flags, player, items);
@@ -1598,7 +1598,7 @@ In this game, you have the following commands at your perusal. These commands wi
                                                 }
                                                 else Console.WriteLine("Invalid action, try again.");
                                             }
-                                            Console.WriteLine("Anastacia's journey into the asylum became more perilous, but her determination \n" +
+                                            Console.WriteLine("\nAnastacia's journey into the asylum became more perilous, but her determination \n" +
                                                 "to uncover the truth burned brighter. Little did she know that the pulse of deceit within those \n" +
                                                 "walls was intertwined with her destiny, and the answers she sought would reveal \n" +
                                                 "a chilling reality she never anticipated.");
@@ -1918,7 +1918,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         Console.ReadKey();
                         Console.WriteLine("The feeble beam of her flashlight flickers over discarded documents, offering glimpses into a history long forgotten.\n");
                         Console.ReadKey();
-                        Console.WriteLine("Amidst the relics, Anastacia's hand brushes against a forgotten laboratory keycard, \nits worn edges hinting at locked mysteries.\r\n");
+                        Console.WriteLine("Amidst the relics, Anastacia's hand brushes against a forgotten laboratory keycard, \nits worn edges hinting at locked mysteries.");
                         break;
                     }
                     else if (act == "no" || act == "n")
@@ -2043,10 +2043,10 @@ In this game, you have the following commands at your perusal. These commands wi
                 Console.ReadKey();
                 Console.WriteLine("She questioned, the words leaving her lips with a tremor of disbelief.\n");
                 Console.ReadKey();
-                Console.WriteLine("Would you like a hint?: [Yes] or [No]: ");
+                Console.Write("Would you like a hint? [Yes] or [No]: ");
                 while (true)
                 {
-                    string ans = action();
+                    string ans = Console.ReadLine();
                     if (ans.ToLower() == "yes" || ans.ToLower() == "y")
                     {
                         Console.WriteLine("You might want to inspect the Morgue Room.");
