@@ -1140,7 +1140,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         {
                             Console.WriteLine("You can't go here. These are walls of the asylum.");
                         }
-                        else if (moveValidator(ans, "up"))
+                        else if (moveValidator(ans, "up") || moveValidator(ans, "down"))
                         {
                             position = move(position, ans, map);
                             prompt(position, map, flags, player, items);
@@ -1923,6 +1923,8 @@ In this game, you have the following commands at your perusal. These commands wi
                     }
                     else if (act == "no" || act == "n")
                     {
+                        Console.Clear();
+                        header(flags, position, map);
                         Console.WriteLine("As Anastacia navigates the room's secrets in near darkness, the weight of untold stories envelops her, urging her \n" +
                             "to unveil the mysteries concealed within the forsaken security room. The logbook, with its cryptic entries, remains a puzzle \n" +
                             "yet to be solved, its secrets lingering in the shadows, waiting to be discovered another day.\n");
@@ -2043,9 +2045,9 @@ In this game, you have the following commands at your perusal. These commands wi
                 Console.ReadKey();
                 Console.WriteLine("She questioned, the words leaving her lips with a tremor of disbelief.\n");
                 Console.ReadKey();
-                Console.Write("Would you like a hint? [Yes] or [No]: ");
                 while (true)
                 {
+                    Console.Write("Would you like a hint? [Yes] or [No]: ");
                     string ans = Console.ReadLine();
                     if (ans.ToLower() == "yes" || ans.ToLower() == "y")
                     {
