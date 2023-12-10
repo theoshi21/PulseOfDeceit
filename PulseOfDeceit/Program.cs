@@ -24,13 +24,11 @@ namespace PulseOfDeceit
             playGame();
         }
 
-
-        static bool running = true;
+        static string[] flags = { "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder" };
+        static string[] items = { "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder" };
         static void playGame()
         {
             int[] position = { 6, 3 };
-            string[] flags = { "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", };
-            string[] items = { "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", "holder", };
             string[,] map = {
             {"0","0","0","0","0","0","0","0"},
             {"0","0" ,"0","Morgue","0","0","0","0"},
@@ -47,16 +45,13 @@ namespace PulseOfDeceit
             prologue();
             instructions();
             bgstory();
-            while (running)
+            while (true)
             {
                 prompt(position, map, flags, player, items);
                 string ans = commands(map, position, flags, items, player);
                 if (ans.StartsWith("move")) position = move(position, ans, map);
 
             }
-
-            Console.WriteLine("That's the end of your Pulse of Deceit Journey - did you enjoy it?");
-
         }
 
         //Player / Username
@@ -1776,7 +1771,7 @@ In this game, you have the following commands at your perusal. These commands wi
                             }
                             else if (decide == "2")
                             {
-                                while (running)
+                                while (true)
                                 {
                                     Console.WriteLine("You escaped through the windows of the lobby. You chickened out and was unsuccessful in finding out the truth.");
                                     Console.Write("Thank you for playing Pulse of Deceit! Would you like to play again? [Yes] or [No]: ");
@@ -1926,8 +1921,8 @@ In this game, you have the following commands at your perusal. These commands wi
                         Console.Clear();
                         header(flags, position, map);
                         Console.WriteLine("As Anastacia navigates the room's secrets in near darkness, the weight of untold stories envelops her, urging her \n" +
-                            "to unveil the mysteries concealed within the forsaken security room. The logbook, with its cryptic entries, remains a puzzle \n" +
-                            "yet to be solved, its secrets lingering in the shadows, waiting to be discovered another day.\n");
+                            "to unveil the mysteries concealed within the forsaken security room. The logbook, with its cryptic entries, \n" +
+                            "remains a puzzle yet to be solved, its secrets lingering in the shadows, waiting to be discovered another day.\n");
 
                         Console.WriteLine("Anastacia continued exploring 'till she felt a laboratory keycard, its worn edges hinting at locked mysteries.");
                         break;
@@ -2072,7 +2067,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         Console.WriteLine("Nyoco said in a hurry.");
                         Console.ReadKey();
                         Console.WriteLine("\nLooks like now is the best time to explore.");
-                        items = item(flags, index(flags), "inspectMorgue");
+                        flags = item(flags, index(flags), "inspectMorgue");
                     }
                     string ans = commands(map, position, flags, items, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
