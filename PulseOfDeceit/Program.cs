@@ -160,12 +160,12 @@ namespace PulseOfDeceit
                     }
                     else
                     {
-                        return input;
+                        Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                     }
 
 
                 }
-                else if (input == "items")
+                else if (input == "items" || input == "item")
                 {
                     Console.Write("Your items are: ");
                     foreach (string x in items)
@@ -186,7 +186,7 @@ namespace PulseOfDeceit
 > inspect - inspect the room you are in.
 ");
                 }
-                else Console.WriteLine("Invalid action, try again.");
+                else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
 
             }
 
@@ -636,7 +636,11 @@ In this game, you have the following commands at your perusal. These commands wi
                 {
                     Console.WriteLine("Nothing to take here.");
                 }
-                else Console.WriteLine("Invalid action, try again.");
+                else if (ans.StartsWith("inspect"))
+                {
+                    Console.WriteLine("Nothing to inspect here.");
+                }
+                else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
             }
         }
 
@@ -664,9 +668,8 @@ In this game, you have the following commands at your perusal. These commands wi
                     {
                         if ((moveValidator(ans, "up")))
                         {
-                            Console.WriteLine("The hallway is very dark, it's best to find something that can luminate these halls.");
+                            Console.WriteLine("HTE HLALWYA SI ERYV DKAR. TI SI TESB OT NDIF MSHINGTEO HATT ANC ANUMLITE HESTE LLAWS.");
                         }
-
                         else if (moveValidator(ans, "down"))
                         {
                             Console.WriteLine("That's outside, there's nothing to do there. You should start inspecting the inside.");
@@ -691,7 +694,15 @@ In this game, you have the following commands at your perusal. These commands wi
                     {
                         Console.WriteLine("Nothing to check here.");
                     }
-                    else Console.WriteLine("Invalid action, try again.");
+                    else if (ans.StartsWith("inspect"))
+                    {
+                        Console.WriteLine("Nothing to inspect here.");
+                    }
+                    else if (ans.StartsWith("take"))
+                    {
+                        Console.WriteLine("That can't be taken.");
+                    }
+                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                 }
             }
             else
@@ -734,7 +745,15 @@ In this game, you have the following commands at your perusal. These commands wi
                     {
                         Console.WriteLine("Nothing to check here.");
                     }
-                    else Console.WriteLine("Invalid action, try again.");
+                    else if (ans.StartsWith("inspect"))
+                    {
+                        Console.WriteLine("Nothing to inspect here.");
+                    }
+                    else if (ans.StartsWith("take"))
+                    {
+                        Console.WriteLine("That can't be taken.");
+                    }
+                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                 }
             }
 
@@ -808,11 +827,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 {
                     Console.WriteLine("That can't be taken.");
                 }
-                else if (ans.StartsWith("use"))
-                {
-                    Console.WriteLine("Nothing to use here.");
-                }
-                else Console.WriteLine("Invalid action, try again.");
+                else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
             }
         }
 
@@ -829,7 +844,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 while (true)
                 {
                     string answer = action();
-                    if (answer.ToLower() == "yes")
+                    if (answer.ToLower() == "yes" || answer.ToLower() == "y")
                     {
                         Console.Clear();
                         pod();
@@ -848,7 +863,7 @@ In this game, you have the following commands at your perusal. These commands wi
                             $"\nthe creaking leaves and shady branches.");
                         break;
                     }
-                    else if (answer.ToLower() == "no")
+                    else if (answer.ToLower() == "no" || answer.ToLower() == "n")
                     {
                         Console.Clear();
                         pod();
@@ -918,7 +933,15 @@ In this game, you have the following commands at your perusal. These commands wi
                 {
                     Console.WriteLine("Nothing to check here.");
                 }
-                else Console.WriteLine("Invalid action, try again.");
+                else if (ans.StartsWith("take"))
+                {
+                    Console.WriteLine("That can't be taken.");
+                }
+                else if (ans.StartsWith("inspect"))
+                {
+                    Console.WriteLine("Nothing to inspect here.");
+                }
+                else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
             }
         }
 
@@ -986,7 +1009,15 @@ In this game, you have the following commands at your perusal. These commands wi
                 {
                     Console.WriteLine("Nothing to check here.");
                 }
-                else Console.WriteLine("Invalid action, try again.");
+                else if (ans.StartsWith("take"))
+                {
+                    Console.WriteLine("That can't be taken.");
+                }
+                else if (ans.StartsWith("inspect"))
+                {
+                    Console.WriteLine("Nothing to inspect here.");
+                }
+                else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
             }
         }
 
@@ -1086,7 +1117,15 @@ In this game, you have the following commands at your perusal. These commands wi
                 {
                     Console.WriteLine("Nothing to check here.");
                 }
-                else Console.WriteLine("Invalid action, try again.");
+                else if (ans.StartsWith("take"))
+                {
+                    Console.WriteLine("That can't be taken.");
+                }
+                else if (ans.StartsWith("inspect"))
+                {
+                    Console.WriteLine("Nothing to inspect here.");
+                }
+                else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
             }
 
 
@@ -1305,12 +1344,15 @@ In this game, you have the following commands at your perusal. These commands wi
                     {
                         Console.WriteLine("Nothing to check here.");
                     }
-
                     else if (ans.StartsWith("take"))
                     {
-                        Console.WriteLine("Nothing to take here.");
+                        Console.WriteLine("That can't be taken.");
                     }
-                    else Console.WriteLine("Invalid action, try again.");
+                    else if (ans.StartsWith("inspect"))
+                    {
+                        Console.WriteLine("Nothing to inspect here.");
+                    }
+                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                 }
             }
             else
@@ -1340,12 +1382,15 @@ In this game, you have the following commands at your perusal. These commands wi
                     {
                         Console.WriteLine("Nothing to check here.");
                     }
-
                     else if (ans.StartsWith("take"))
                     {
-                        Console.WriteLine("Nothing to take here.");
+                        Console.WriteLine("That can't be taken.");
                     }
-                    else Console.WriteLine("Invalid action, try again.");
+                    else if (ans.StartsWith("inspect"))
+                    {
+                        Console.WriteLine("Nothing to inspect here.");
+                    }
+                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                 }
             }
         }
@@ -1385,13 +1430,13 @@ In this game, you have the following commands at your perusal. These commands wi
                     }
                     else if (ans.StartsWith("take"))
                     {
-                        Console.WriteLine("Nothing to take here.");
+                        Console.WriteLine("That can't be taken.");
                     }
-                    else if (ans.StartsWith("check"))
+                    else if (ans.StartsWith("inspect"))
                     {
-                        Console.WriteLine("Nothing to check here.");
+                        Console.WriteLine("Nothing to inspect here.");
                     }
-                    else Console.WriteLine("Invalid action, try again.");
+                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                 }
             }
             else if (!isItem("Keycard", items))
@@ -1433,11 +1478,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     {
                         Console.WriteLine("That can't be taken.");
                     }
-                    else if (ans.StartsWith("use"))
-                    {
-                        Console.WriteLine("Nothing to use here.");
-                    }
-                    else Console.WriteLine("Invalid action, try again.");
+                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                 }
             }
             else
@@ -1475,16 +1516,12 @@ In this game, you have the following commands at your perusal. These commands wi
                     {
                         Console.WriteLine("That can't be taken.");
                     }
-                    else if (ans.StartsWith("use"))
-                    {
-                        Console.WriteLine("Nothing to use here.");
-                    }
-                    else Console.WriteLine("Invalid action, try again.");
-                }
-
+                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
             }
 
         }
+
+       }
 
         static void staircase(string[,] map, int[] position, string player)
         {
@@ -1565,9 +1602,9 @@ In this game, you have the following commands at your perusal. These commands wi
                     }
                     else if (ans.StartsWith("check"))
                     {
-                        Console.WriteLine("Nothing to check here.");
+                        Console.WriteLine("Nothing to inspect here.");
                     }
-                    else Console.WriteLine("Invalid action, try again.");
+                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                 }
             }
         }
@@ -1625,11 +1662,11 @@ In this game, you have the following commands at your perusal. These commands wi
                 {
                     Console.WriteLine("Nothing to take here.");
                 }
-                else if (ans.StartsWith("check"))
+                else if (ans.StartsWith("inspect"))
                 {
-                    Console.WriteLine("Nothing to check here.");
+                    Console.WriteLine("Nothing to inspect here.");
                 }
-                else Console.WriteLine("Invalid action, try again.");
+                else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
             }
 
 
@@ -1682,11 +1719,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         }
                         else Console.WriteLine("That can't be taken.");
                     }
-                    else if (ans.StartsWith("use"))
-                    {
-                        Console.WriteLine("Nothing to use here.");
-                    }
-                    else Console.WriteLine("Invalid action, try again.");
+                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                 }
 
             }
@@ -1806,11 +1839,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         }
                         else Console.WriteLine("That can't be taken.");
                     }
-                    else if (ans.StartsWith("use"))
-                    {
-                        Console.WriteLine("Nothing to use here.");
-                    }
-                    else Console.WriteLine("Invalid action, try again.");
+                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                 }
             }
             else
@@ -1912,11 +1941,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     {
                        Console.WriteLine("That can't be taken.");
                     }
-                    else if (ans.StartsWith("use"))
-                    {
-                        Console.WriteLine("Nothing to use here.");
-                    }
-                    else Console.WriteLine("Invalid action, try again.");
+                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                 }
             }
             
@@ -1929,8 +1954,13 @@ In this game, you have the following commands at your perusal. These commands wi
             {
                 Console.WriteLine("The Patient Ward door opened with a rusty squeak. The room was vast, with rows of empty \n" +
                     "beds and faded curtains. As Anastacia walked deeper into the room, she noticed a [Note] on the floor.");
-
-                while (true)
+            }
+            else
+            {
+                Console.WriteLine("The Patient Ward door opened with a rusty squeak. The room was vast, with rows of empty \n" +
+                    "beds and faded curtains.");
+            }
+            while (true)
                 {
                     string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
@@ -1970,20 +2000,15 @@ In this game, you have the following commands at your perusal. These commands wi
                     }
                     else if (ans.StartsWith("take"))
                     {
-                        Console.WriteLine("That can't be taken.");
+                        if(ans == "take note")
+                         {
+                        Console.WriteLine("You took the [Note].");
+                        item(index(items), "Note");
+                        }
+                        else Console.WriteLine("That can't be taken.");
                     }
-                    else if (ans.StartsWith("use"))
-                    {
-                        Console.WriteLine("Nothing to use here.");
-                    }
-                    else Console.WriteLine("Invalid action, try again.");
+                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                 }
-            }
-            else
-            {
-                Console.WriteLine("The Patient Ward door opened with a rusty squeak. The room was vast, with rows of empty \n" +
-                    "beds and faded curtains.");
-            }
         }
 
         static void lobby(string[,] map, int[] position, string player)
@@ -2129,15 +2154,11 @@ In this game, you have the following commands at your perusal. These commands wi
                     {
                         Console.WriteLine("Nothing to take here.");
                     }
-                    else if (ans.StartsWith("use"))
-                    {
-                        Console.WriteLine("Nothing to use here.");
-                    }
                     else if (ans.StartsWith("inspect"))
                     {
                         Console.WriteLine("Nothing to inspect here.");
                     }
-                    else Console.WriteLine("Invalid action, try again.");
+                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                 }
             }
             else
@@ -2178,15 +2199,11 @@ In this game, you have the following commands at your perusal. These commands wi
                     {
                         Console.WriteLine("Nothing to take here.");
                     }
-                    else if (ans.StartsWith("use"))
-                    {
-                        Console.WriteLine("Nothing to use here.");
-                    }
                     else if (ans.StartsWith("inspect"))
                     {
                         Console.WriteLine("Nothing to inspect here.");
                     }
-                    else Console.WriteLine("Invalid action, try again.");
+                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                 }
             }
         }
@@ -2271,15 +2288,11 @@ In this game, you have the following commands at your perusal. These commands wi
                     {
                         Console.WriteLine("Nothing to take here.");
                     }
-                    else if (ans.StartsWith("use"))
-                    {
-                        Console.WriteLine("Nothing to use here.");
-                    }
                     else if (ans.StartsWith("inspect"))
                     {
                         Console.WriteLine("Nothing to inspect here.");
                     }
-                    else Console.WriteLine("Invalid action, try again.");
+                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                 }
 
             }
@@ -2314,15 +2327,11 @@ In this game, you have the following commands at your perusal. These commands wi
                     {
                         Console.WriteLine("Nothing to take here.");
                     }
-                    else if (ans.StartsWith("use"))
-                    {
-                        Console.WriteLine("Nothing to use here.");
-                    }
                     else if (ans.StartsWith("inspect"))
                     {
                         Console.WriteLine("Nothing to inspect here.");
                     }
-                    else Console.WriteLine("Invalid action, try again.");
+                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                 }
             }
 
@@ -2433,11 +2442,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         }
                         else Console.WriteLine("That can't be taken.");
                     }
-                    else if (ans.StartsWith("use"))
-                    {
-                        Console.WriteLine("Nothing to use here.");
-                    }
-                    else Console.WriteLine("Invalid action, try again.");
+                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                 }
 
 
@@ -2481,11 +2486,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     {
                         Console.WriteLine("That can't be taken.");
                     }
-                    else if (ans.StartsWith("use"))
-                    {
-                        Console.WriteLine("Nothing to use here.");
-                    }
-                    else Console.WriteLine("Invalid action, try again.");
+                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                 }
             }
         }
