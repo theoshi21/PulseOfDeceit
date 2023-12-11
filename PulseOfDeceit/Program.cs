@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -96,26 +96,28 @@ namespace PulseOfDeceit
         }
 
         //Holder Replacer
-        static string[] item(string[] items, int index, string replace)
+        static void item(int index, string replace)
         {
-            string[] newItem = items;
-            newItem[index] = replace;
-            return newItem;
+            items[index] = replace;
+        }
+        
+        static void flag(int index, string replace)
+        {
+            flags[index] = replace;
         }
 
+
         //Item Breaker
-        static string[] remove(string[] items, string remove)
+        static void remove(string remove)
         {
-            string[] newItem = items;
-            for (int i = 0; i < newItem.Length; i++)
+            for (int i = 0; i < items.Length; i++)
             {
-                if (newItem[i] == remove)
+                if (items[i] == remove)
                 {
-                    newItem[i] = "holder";
+                    items[i] = "holder";
                     break;
                 }
             }
-            return newItem;
         }
 
         //A function for checking the input for various commands.
@@ -148,12 +150,12 @@ namespace PulseOfDeceit
                 {
                     if (input == "use map")
                     {
-                        if (isItem("map", flags) && isItem("Map", items)) Console.WriteLine("Your map is already displayed!");
-                        else if (!isItem("map", flags) && !isItem("Map", items)) Console.WriteLine("You don't have a map to display.");
+                        if (isItem("displayMap", flags) && isItem("Map", items)) Console.WriteLine("Your map is already displayed!");
+                        else if (!isItem("displayMap", flags) && !isItem("Map", items)) Console.WriteLine("You don't have a map to display.");
                         else
                         {
                             Console.WriteLine("Map is now displayed.");
-                            flags = item(flags, index(flags), "map");
+                            flag(index(flags), "displayMap");
                         }
                     }
                     else
@@ -367,9 +369,9 @@ namespace PulseOfDeceit
         }
 
         //Checker if an item is in the array.
-        static bool isItem(string match, string[] items)
+        static bool isItem(string match, string[] array)
         {
-            foreach (string x in items)
+            foreach (string x in array)
             {
                 if (x == match)
                 {
@@ -512,9 +514,9 @@ In this game, you have the following commands at your perusal. These commands wi
             Console.Clear();
         }
 
-        static void header(string[] flags, int[] position, string[,] map)
+        static void header(string[] array, int[] position, string[,] map)
         {
-            if (isItem("map", flags))
+            if (isItem("map", array))
             {
                 mapping(map, position);
             }
@@ -529,7 +531,7 @@ In this game, you have the following commands at your perusal. These commands wi
             if (!isItem("storage", flags))
             {
                 Console.WriteLine("\"Oh, this room is open. What can I find here?\" Anastacia said curiously.\n");
-                flags = item(flags, index(flags), "storage");
+                flag(index(flags), "storage");
 
                 Console.ReadKey(true);
                 Console.WriteLine("HTE STRAOGE OROM, TRPAPED NI YACDE, FETAURDE BRKONE SWWINDO, A YTMUS LLMSE, DAN FROGTTEN SERLIC. \n" +
@@ -537,7 +539,7 @@ In this game, you have the following commands at your perusal. These commands wi
                    "CESRETS, WTHI LOCASSIONA RSUTELS DAN TANTDIS ECHOSE, RINGFFERO A CHILNGIL WRNAING OT THESO HOW REDAD OT ETNER.");
 
                 Console.ReadKey(true);
-                items = item(items, index(items), "Flashlight");
+                item(index(items), "Flashlight");
                 Console.WriteLine("\n\"Despite the unflattering confines of this room, at least they have a [Flashlight] as my only hope, \n" +
                     "lighting up my surroundings sufficiently to let me see comple– who is that!?\"");
                 Console.WriteLine("\nYou got a [Flashlight].\n");
@@ -579,7 +581,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     "skillfully handled the crowbar in an attempt to remove the doorknob—a tool that she used to break in, \n" +
                     "which caused it to smash to smithereens. Fortunately, the doorknob falls to bits.\r\n");
                 Console.WriteLine("Your [Crowbar] broked.\n");
-                remove(items, "Crowbar");
+                remove("Crowbar");
 
                 Console.ReadKey(true);
                 Console.WriteLine("“Who was that? Was that just the wind? Didn’t I hear footsteps?”\r\n");
@@ -595,6 +597,14 @@ In this game, you have the following commands at your perusal. These commands wi
                         "A blood-written message, \"RUN IF YOU WANT TO LIVE,\" adorned the wall. The eerie silence hinted at unsettling \n" +
                         "secrets, with occasional rustles and distant echoes, offering a chilling warning to those who dared to enter.");
                 }
+                else
+                {
+                    Console.WriteLine("HTE STRAOGE OROM, TRPAPED NI YACDE, FETAURDE BRKONE SWWINDO, A YTMUS LLMSE, DAN FROGTTEN SERLIC. \n" +
+                   "A BOOLD-TENWRTI MSSEAEG, \"RUN IF YOU WANT TO LIVE.\" DAORDNE ETH LLAW. HTE ERIEE CILENSE THINED TA NUSTTLEING \n" +
+                   "CESRETS, WTHI LOCASSIONA RSUTELS DAN TANTDIS ECHOSE, RINGFFERO A CHILNGIL WRNAING OT THESO HOW REDAD OT ETNER.");
+                }
+
+
 
             }
 
@@ -635,11 +645,10 @@ In this game, you have the following commands at your perusal. These commands wi
             if (!isItem("asylum", flags))
             {
                 Console.WriteLine("You used your crowbar to break the chains and is now inside the asylum.\n");
-                flags = item(flags, index(flags), "asylum");
-                Console.WriteLine($"READ CAREFULLY, {player}.\n");
+                flag(index(flags), "asylum");
+                Console.WriteLine($"READ CAREFULLY, {player}.");
                 Console.ReadKey(true);
-
-                Console.WriteLine("\n\n\"This place is truly disordered, I can't even see a thing.\"");
+                Console.WriteLine("\n\"This place is truly disordered, I can't even see a thing.\"");
                 Console.WriteLine("\nAnastacia said, breaking the terrifying silence as her voice trailed\n" +
                     "reflecting the unease that lingered over the room.\n");
             }
@@ -849,7 +858,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     }
                     else Console.WriteLine("Invalid answer, try again.");
                 }
-                item(flags, index(flags), "outside");
+                flag(index(flags), "outside");
             }
             else
             {
@@ -927,7 +936,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 Console.WriteLine("\"Well, I guess, this could be a weapon, just in case.\" Anastacia said.\n");
                 Console.ReadKey(true);
                 Console.WriteLine("Amidst the huge void, how could you know your location without the indispensable help of a map?");
-                items = item(items, index(items), "Crowbar");
+                item(index(items), "Crowbar");
             }
             else if (!isItem("Crowbar", items) && isItem("Map", items))
             {
@@ -937,7 +946,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 Console.WriteLine("You got a [Crowbar]!\n");
                 Console.ReadKey(true);
                 Console.WriteLine("Right, the key will be a crowbar—to release the chains that are blocking the main doors' entry.");
-                items = item(items, index(items), "Crowbar");
+                item(index(items), "Crowbar");
             }
             else if (isItem("Crowbar", items) && isItem("Map", items))
             {
@@ -989,7 +998,7 @@ In this game, you have the following commands at your perusal. These commands wi
                "\nthe leaves dancing in the breeze, as you find a piece of paper tucked in between the trunk and a branch. \n");
                 Console.ReadKey(true);
                 Console.WriteLine("Great start, you found a [Map].");
-                items = item(items, index(items), "Map");
+               item(index(items), "Map");
 
                 Console.ReadKey(true);
                 while (true)
@@ -998,7 +1007,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     string displayMap = Console.ReadLine().ToLower();
                     if (displayMap == "yes" || displayMap == "y")
                     {
-                        flags = item(flags, index(flags), "map");
+                        flag(index(flags), "map");
                         Console.WriteLine("\n\"A map, huh?\" Anastacia said.");
                         Console.ReadKey(true);
                         Console.Clear();
@@ -1020,7 +1029,7 @@ In this game, you have the following commands at your perusal. These commands wi
                "\nthe leaves dancing in the breeze, as you find a piece of paper tucked in between the trunk and a branch. \n");
                 Console.ReadKey(true);
                 Console.WriteLine("Great, you found the [Map].");
-                items = item(items, index(items), "Map");
+                item(index(items), "Map");
 
                 Console.ReadKey(true);
                 while (true)
@@ -1029,7 +1038,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     string displayMap = Console.ReadLine().ToLower();
                     if (displayMap == "yes")
                     {
-                        flags = item(flags, index(flags), "map");
+                        flag(index(flags), "displayMap");
                         Console.WriteLine("\n\"A map, huh?\" Anastacia said.");
                         Console.ReadKey(true);
                         Console.Clear();
@@ -1481,7 +1490,7 @@ In this game, you have the following commands at your perusal. These commands wi
         {
             if (!isItem("hide", flags))
             {
-                items = item(flags, index(flags), "stairFirst");
+                flag(index(flags), "stairFirst");
                 Console.WriteLine("As you walked to the staircase, the faint mumble of someone having a conversation \n" +
                     "on the second floor reached your ears. An ensemble of voices that spoke to stories hidden and yearning to be discovered.");
                 Console.ReadKey(true);
@@ -1669,7 +1678,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         {
                             Console.WriteLine("You took the [Office Key]");
                             Console.WriteLine("Anastacia thought, \"This might be the key to the Director's Room. I should continue searching for clues.\"");
-                            items = item(items, index(items), "Office Key");
+                           item(index(items), "Office Key");
                         }
                         else Console.WriteLine("That can't be taken.");
                     }
@@ -1737,57 +1746,54 @@ In this game, you have the following commands at your perusal. These commands wi
                             while (true)
                             {
                                 string look = Console.ReadLine().ToLower();
-                                switch (look)
+                                if (look == "1")
                                 {
-                                    case "1":
+                                    Console.Clear();
+                                    header(flags, position, map);
+                                    Console.WriteLine("Behind the framed photo, Anastacia found a hidden compartment. Inside, there was a \n" +
+                                        "[Diary] that seemed to belong to a nurse who worked in the asylum during the Cold War era. ");
+                                    Console.ReadKey(true);
+                                    Console.WriteLine("\nAnastacia thought, \"This could contain valuable information about the experiments and the mysterious \n" +
+                                        "deaths. I need to read it carefully.\"");
+                                    Console.ReadKey(true);
+                                    Console.WriteLine("\nAs Anastacia delved into the diary, she uncovered a tale of unethical experiments, mysterious deaths, \n" +
+                                        "and the mental toll it took on the nurses who once worked there. The pages spoke of a nurse who resisted the project's \n" +
+                                        "dark path, leaving behind a trail of clues for those who dared to uncover the truth.\n");
+                                    Console.ReadKey(true);
+                                    while (true)
+                                    {
+                                        Console.Write("Would you like to continue reading the Diary's entries? [Yes] or [No]: ");
+                                        string diary = Console.ReadLine().ToLower();
+                                        if (diary == "yes" || diary == "y")
                                         {
-                                            Console.Clear();
-                                            header(flags, position, map);
-                                            Console.WriteLine("Behind the framed photo, Anastacia found a hidden compartment. Inside, there was a \n" +
-                                                "[Diary] that seemed to belong to a nurse who worked in the asylum during the Cold War era. ");
+                                            Console.WriteLine("\nAs Anastacia read the entries, a chilling realization dawned upon her – the shadows \n" +
+                                                "she sought in the asylum were not only connected to the experiments but also to \n" +
+                                                "her past. The diary hinted at a nurse named Maria Dela Cruz, who, driven by \n" +
+                                                "compassion, sought to expose the horrors within the asylum.\n");
                                             Console.ReadKey(true);
-                                            Console.WriteLine("\nAnastacia thought, \"This could contain valuable information about the experiments and the mysterious \n" +
-                                                "deaths. I need to read it carefully.\"");
-                                            Console.ReadKey(true);
-                                            Console.WriteLine("\nAs Anastacia delved into the diary, she uncovered a tale of unethical experiments, mysterious deaths, \n" +
-                                                "and the mental toll it took on the nurses who once worked there. The pages spoke of a nurse who resisted the project's \n" +
-                                                "dark path, leaving behind a trail of clues for those who dared to uncover the truth.\n");
-                                            Console.ReadKey(true);
-                                            while (true)
-                                            {
-                                                Console.Write("Would you like to continue reading the Diary's entries? [Yes] or [No]: ");
-                                                string diary = Console.ReadLine().ToLower();
-                                                if (diary == "yes" || diary == "y")
-                                                {
-                                                    Console.WriteLine("\nAs Anastacia read the entries, a chilling realization dawned upon her – the shadows \n" +
-                                                        "she sought in the asylum were not only connected to the experiments but also to \n" +
-                                                        "her past. The diary hinted at a nurse named Maria Dela Cruz, who, driven by \n" +
-                                                        "compassion, sought to expose the horrors within the asylum.\n");
-                                                    Console.ReadKey(true);
-                                                    Console.WriteLine("Anastacia whispered to herself, \"Maria Dela Cruz – was she the one who left " +
-                                                        "\nthese clues for me? I need to follow her path and bring these dark secrets to light.\"");
-                                                    break;
-                                                }
-                                                else if (diary == "no" || diary == "n")
-                                                {
-                                                    break;
-                                                }
-                                                else Console.WriteLine("Invalid action, try again.");
-                                            }
-                                            Console.WriteLine("\nAnastacia's journey into the asylum became more perilous, but her determination \n" +
-                                                "to uncover the truth burned brighter. Little did she know that the pulse of deceit within those \n" +
-                                                "walls was intertwined with her destiny, and the answers she sought would reveal \n" +
-                                                "a chilling reality she never anticipated.");
+                                            Console.WriteLine("Anastacia whispered to herself, \"Maria Dela Cruz – was she the one who left " +
+                                                "\nthese clues for me? I need to follow her path and bring these dark secrets to light.\"");
+                                            break;
                                         }
-                                        break;
-                                    case "2":
-                                        break;
-                                    default: Console.WriteLine("Invalid action, try again."); break;
+                                        else if (diary == "no" || diary == "n")
+                                        {
+                                            break;
+                                        }
+                                        else Console.WriteLine("Invalid action, try again.");
+                                    }
+                                    Console.WriteLine("\nAnastacia's journey into the asylum became more perilous, but her determination \n" +
+                                        "to uncover the truth burned brighter. Little did she know that the pulse of deceit within those \n" +
+                                        "walls was intertwined with her destiny, and the answers she sought would reveal \n" +
+                                        "a chilling reality she never anticipated.");
+                                    break;
                                 }
-                                break;
-                            }
-
-
+                                else if (look == "2")
+                                {
+                                    break;
+                                }
+                                else Console.WriteLine("Invalid action, try again.");
+                                }
+                                            
                         }
                         else Console.WriteLine("That can't be checked.");
                     }
@@ -1796,7 +1802,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         if (ans == "take key" || ans == "take security key")
                         {
                             Console.WriteLine("You got a [Security Key]. This will be useful for the room near the lobby.");
-                            items = item(items, index(items), "Security Key");
+                            item(index(items), "Security Key");
                         }
                         else Console.WriteLine("That can't be taken.");
                     }
@@ -1984,7 +1990,7 @@ In this game, you have the following commands at your perusal. These commands wi
         {
             if (!isItem("hide", flags))
             {
-                flags = item(flags, index(flags), "hide");
+                flag(index(flags), "hide");
 
                 if (!isItem("stairFirst", flags))
                 {
@@ -2219,7 +2225,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 }
                 Console.ReadLine();
                 Console.WriteLine("You got a [Keycard]. A pass to the unknown, perhaps?");
-                items = item(items, index(items), "Keycard");
+                item(index(items), "Keycard");
 
                 Console.ReadLine();
                 Console.WriteLine("As she ventures further, the keycard becomes a symbol of both access and intrigue. It hints at locked doors \n" +
@@ -2355,7 +2361,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         Console.WriteLine("Nyoco said in a hurry.");
                         Console.ReadKey(true);
                         Console.WriteLine("\nLooks like now is the best time to explore.");
-                        flags = item(flags, index(flags), "inspectMorgue");
+                        flag(index(flags), "inspectMorgue");
                     }
                     string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
@@ -2406,13 +2412,13 @@ In this game, you have the following commands at your perusal. These commands wi
                         if (ans == "take key" || ans == "take ward key")
                         {
                             Console.WriteLine("You got an [Ward Key].");
-                            items = item(items, index(items), "Ward Key");
-                            flags = item(flags, index(flags), "morgue");
+                            item(index(items), "Ward Key");
+                            flag(index(flags), "morgue");
                         }
                         else if (ans == "take photo")
                         {
                             Console.WriteLine("You got a [Photo]");
-                            items = item(items, index(items), "Photo");
+                            item(index(items), "Photo");
                         }
                         else Console.WriteLine("That can't be taken.");
                     }
