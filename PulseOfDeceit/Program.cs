@@ -798,18 +798,26 @@ In this game, you have the following commands at your perusal. These commands wi
                     }
                     else if (ans == "check secret door" || ans == "check door")
                     {
+                        Console.WriteLine("Intrigued, she opened it, revealing a descending staircase leading to the basement.\n");
+                        int count = 0;
                         while (true)
                         {
-                            Console.WriteLine("Intrigued, she opened it, revealing a descending staircase leading to the basement.\n");
                             Console.WriteLine("[1] Continue exploring the Laboratory Room or\n" +
                                 "[2] Descend in the basement");
                             string decide = action();
-                            if (decide == "1")
+                            if (decide == "1" & count == 0)
                             {
                                 Console.Clear();
                                 header(flags, position, map);
                                 Console.WriteLine("You spot an old surgical table with intact leather straps, faded jars holding mysterious \n" +
                             "substances, and a metal tray bearing neatly arranged, rust-covered surgical tools.\n");
+                                count++;
+                            }
+                            else if (decide == "1" & count > 0)
+                            {
+                                Console.Clear();
+                                header(flags, position, map);
+                                Console.WriteLine("You should probably go down. There's nothing here anymore.\n");
                             }
                             else if (decide == "2")
                             {
@@ -1141,18 +1149,25 @@ In this game, you have the following commands at your perusal. These commands wi
             Console.WriteLine("You choose to descend into the Ground basement. Upon entering, you discover that it is a room for medical equipment.\n");
             Console.ReadKey(true);
 
+            int count = 0;
             while (true)
             {
                 Console.WriteLine("How will you proceed?\n" +
                 "[1] Search the storage room\n" +
                 "[2] Move to the Upper Basement\r\n");
                 string decide = action();
-                if (decide == "1")
+                if (decide == "1" && count == 0)
                 {
                     Console.Clear();
                     header(flags, position, map);
-                    Console.WriteLine("Shelves are stocked with ominous tools—used syringes with blood, oxygen tanks, and other macabre remnants.\n" +
-                        "There seems to be nothing here, you should probably move down.\n");
+                    Console.WriteLine("Shelves are stocked with ominous tools—used syringes with blood, oxygen tanks, and other macabre remnants.\n");
+                    count++;
+                }
+                else if (decide == "1" && count > 0)
+                {
+                    Console.Clear();
+                    header(flags, position, map);
+                    Console.WriteLine("There seems to be nothing here, you should probably move down.\n");
                 }
                 else if (decide == "2")
                 {
@@ -2354,22 +2369,8 @@ In this game, you have the following commands at your perusal. These commands wi
                 Console.ReadKey(true);
                 Console.WriteLine("She questioned, the words leaving her lips with a tremor of disbelief.\n");
                 Console.ReadKey(true);
-                while (true)
-                {
-                    Console.Write("Would you like a hint? [Yes] or [No]: ");
-                    string ans = Console.ReadLine();
-                    if (ans.ToLower() == "yes" || ans.ToLower() == "y")
-                    {
-                        Console.WriteLine("You might want to [inspect] the Morgue Room.");
-                        break;
-                    }
-                    else if (ans.ToLower() == "no" || ans.ToLower() == "no")
-                    {
-                        break;
-                    }
-                    else Console.WriteLine("Invalid action, try again.");
-                }
-
+                Console.WriteLine("You might want to [inspect] the Morgue Room.");
+           
                 while (true)
                 {
                     if (isItem("Photo", items) && isItem("Ward Key", items) && !isItem("inspectMorgue", flags))
@@ -2392,7 +2393,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         }
                         else if (moveValidator(ans, "down") && !isItem("morgue", flags))
                         {
-                            Console.WriteLine("YOU CAN NOT LEAVE YET, THEY ARE STILL OUTSIDE.");
+                            Console.WriteLine("YOU CAN NOT LEAVE YET, THEY ARE STILL OUTSIDE!");
                         }
                         else if (moveValidator(ans, "down") && isItem("morgue", flags))
                         {
@@ -2407,7 +2408,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     }
                     else if (ans.StartsWith("inspect"))
                     {
-                        Console.WriteLine("While inspecting the morgue, you found some items. An [Ward Key], and [Photo].");
+                        Console.WriteLine("While inspecting the morgue, you found some items. A [Ward Key], and a [Photo].");
                     }
                     else if (ans.StartsWith("check"))
                     {
@@ -2415,7 +2416,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         {
                             Console.Clear();
                             header(flags, position, map);
-                            Console.WriteLine("This might be a key to one of the locked rooms.");
+                            Console.WriteLine("This might be a key to one of the locked rooms. You should [take] this.");
                         }
                         else if (ans == "check photo")
                         {
@@ -2424,6 +2425,8 @@ In this game, you have the following commands at your perusal. These commands wi
                             Console.WriteLine("Wh- why is there a ripped photo of every nurse from this asylum here inside the morgue excluding me?”\n");
                             Console.ReadKey(true);
                             Console.WriteLine("Anastacia uttered her words with a hint of confusion, her expression reflecting the puzzlement that danced in her eyes.");
+                            Console.ReadKey(true);
+                            Console.WriteLine("You might need to [take] this.");
                         }
                         else Console.WriteLine("That can't be checked.");
                     }
