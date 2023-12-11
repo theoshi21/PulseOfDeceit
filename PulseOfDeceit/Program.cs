@@ -68,7 +68,7 @@ namespace PulseOfDeceit
                 if (name != "")
                 {
                     Console.Write($"\nThank you, {name}. To start the game, press any key to continue.");
-                    Console.ReadKey();
+                    Console.ReadKey(true);
                     Console.Clear();
                     return name;
                 }
@@ -416,7 +416,7 @@ namespace PulseOfDeceit
                          __/ |           
                         |___/         ");
             Console.Write("Press any key to continue...");
-            Console.ReadKey();
+            Console.ReadKey(true);
             Console.Clear();
         }
 
@@ -463,7 +463,7 @@ shadows she sought that the dark secrets in the asylum were connected to her.
 The story is about her journey to uncover this truth, 
 facing darkness and the scary reality of the asylum.");
             Console.Write("\nPress any key to continue...");
-            Console.ReadKey();
+            Console.ReadKey(true);
             Console.Clear();
         }
 
@@ -496,7 +496,7 @@ In this game, you have the following commands at your perusal. These commands wi
 ");
 
             Console.Write("Press any key continue...");
-            Console.ReadKey();
+            Console.ReadKey(true);
             Console.Clear();
         }
 
@@ -519,23 +519,23 @@ In this game, you have the following commands at your perusal. These commands wi
                 Console.WriteLine("\"Oh, this room is open. What can I find here?\" Anastacia said curiously.\n");
                 flags = item(flags, index(flags), "storage");
 
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("HTE STRAOGE OROM, TRPAPED NI YACDE, FETAURDE BRKONE SWWINDO, A YTMUS LLMSE, DAN FROGTTEN SERLIC. \n" +
                    "A BOOLD-TENWRTI MSSEAEG, \"RUN IF YOU WANT TO LIVE.\" DAORDNE ETH LLAW. HTE ERIEE CILENSE THINED TA NUSTTLEING \n" +
                    "CESRETS, WTHI LOCASSIONA RSUTELS DAN TANTDIS ECHOSE, RINGFFERO A CHILNGIL WRNAING OT THESO HOW REDAD OT ETNER.");
 
-                Console.ReadKey();
+                Console.ReadKey(true);
                 items = item(items, index(items), "Flashlight");
                 Console.WriteLine("\n\"Despite the unflattering confines of this room, at least they have a [Flashlight] as my only hope, \n" +
                     "lighting up my surroundings sufficiently to let me see comple– who is that!?\"");
                 Console.WriteLine("\nYou got a [Flashlight].\n");
 
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("The wind intensified crawling through the hallway, and amplifying the unsettling atmosphere. \n" +
                     "Doors were abruptly and violently shut by an unknown power, revealing after the faint echo of receding footsteps \n" +
                     "resounding the hallway, inciting a halt in Anastacia’s spoken expression.\r\n");
 
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("You can't leave the room, what would you like to do?\n" +
                     "[1] Kick the door open or\n" +
                     "[2] Use the crowbar to break the doorknob.");
@@ -549,7 +549,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         Console.WriteLine("\"Frick! That hurt and still it won't budge?\"\n");
                         Console.WriteLine("Anastacia gruntly shouted as she hurt herself trying to break the door. \n" +
                             "Now resorting to her next option.\n");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         break;
                     }
                     else if (ans == "2")
@@ -562,14 +562,14 @@ In this game, you have the following commands at your perusal. These commands wi
                 }
 
                 Console.WriteLine("\"May this thing bear fruit\"");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("With a hint of optimism, Anastacia uttered. Her tone was covered with tension as she \n" +
                     "skillfully handled the crowbar in an attempt to remove the doorknob—a tool that she used to break in, \n" +
                     "which caused it to smash to smithereens. Fortunately, the doorknob falls to bits.\r\n");
                 Console.WriteLine("Your [Crowbar] broked.\n");
                 remove(items, "Crowbar");
 
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("“Who was that? Was that just the wind? Didn’t I hear footsteps?”\r\n");
 
                 Console.WriteLine("Anastacia said with a voice mixed with uncertainty. Ignoring the thing, \n" +
@@ -626,7 +626,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 flags = item(flags, index(flags), "asylum");
                 Console.WriteLine($"READ CAREFULLY, {player}.\n");
                 Console.Write("Press any key to continue...");
-                Console.ReadKey();
+                Console.ReadKey(true);
 
                 Console.WriteLine("\"This place is truly disordered, I can't even see a thing.\"");
                 Console.WriteLine("\nAnastacia said, breaking the terrifying silence as her voice trailed\n" +
@@ -814,12 +814,12 @@ In this game, you have the following commands at your perusal. These commands wi
                             "\nAs you inspect your surroundings, you notice that you are surrounded by trees. " +
                             "\nThe tree on your left stands like a sentinel, its gnarled branches reaching out for secrets buried in the soil. " +
                             "\nTo your right, another tree glows mysteriously, its leaves whispering a way in a haunting melody.\n");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         Console.WriteLine("\"Why am I entangled in this labyrinth of mysteries?  It was a naive move to go " +
                             "\nthrough these gloomy depths in the first place.\"\r\n");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         Console.WriteLine("Anastacia said and let out a deep sigh, wondering why she was pursuing the unknown so eagerly.\n");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         Console.WriteLine("Could these trees be something? Take a push to discover, the floor is yours, {player}, to unravel behind" +
                             $"\nthe creaking leaves and shady branches.");
                         break;
@@ -904,13 +904,13 @@ In this game, you have the following commands at your perusal. These commands wi
             {
                 Console.WriteLine("As you approach the dark, oak tree, you notice a rusted metal object lying flat \n" +
                 "at the base of the trunk. You approach and pick up the metal object. A [Crowbar]?\n");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("You got a [Crowbar]!\n");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("Right, the key will be a crowbar—to release the chains that are blocking the main doors' entry.\n");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("\"Well, I guess, this could be a weapon, just in case.\" Anastacia said.\n");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("Amidst the huge void, how could you know your location without the indispensable help of a map?");
                 items = item(items, index(items), "Crowbar");
             }
@@ -918,9 +918,9 @@ In this game, you have the following commands at your perusal. These commands wi
             {
                 Console.WriteLine("As you approach the dark, oak tree, you notice a rusted metal object lying flat \n" +
                 "at the base of the trunk. You approach and pick up the metal object. A [Crowbar]?\n");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("You got a [Crowbar]!\n");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("Right, the key will be a crowbar—to release the chains that are blocking the main doors' entry.");
                 items = item(items, index(items), "Crowbar");
             }
@@ -972,11 +972,11 @@ In this game, you have the following commands at your perusal. These commands wi
             {
                 Console.WriteLine("An old, eerie tree with dead leaves, welcomes you with a cozy atmosphere, " +
                "\nthe leaves dancing in the breeze, as you find a piece of paper tucked in between the trunk and a branch. \n");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("Great start, you found a [Map].");
                 items = item(items, index(items), "Map");
 
-                Console.ReadKey();
+                Console.ReadKey(true);
                 while (true)
                 {
                     Console.Write("\nWould you like to display your map? [Yes] or [No]: ");
@@ -985,7 +985,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     {
                         flags = item(flags, index(flags), "map");
                         Console.WriteLine("\n\"A map, huh?\" Anastacia said.");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         Console.Clear();
                         prompt(position, map, flags, player, items);
                         break;
@@ -1003,11 +1003,11 @@ In this game, you have the following commands at your perusal. These commands wi
             {
                 Console.WriteLine("An old, eerie tree with dead leaves, welcomes you with a cozy atmosphere, " +
                "\nthe leaves dancing in the breeze, as you find a piece of paper tucked in between the trunk and a branch. \n");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("Great, you found the [Map].");
                 items = item(items, index(items), "Map");
 
-                Console.ReadKey();
+                Console.ReadKey(true);
                 while (true)
                 {
                     Console.Write("\nThis map can help you keep track of where you are.\nWould you like to display your map? [Yes] or [No]: ");
@@ -1016,7 +1016,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     {
                         flags = item(flags, index(flags), "map");
                         Console.WriteLine("\n\"A map, huh?\" Anastacia said.");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         Console.Clear();
                         prompt(position, map, flags, player, items);
                         break;
@@ -1303,7 +1303,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 items = item(flags, index(flags), "stairFirst");
                 Console.WriteLine("As you walked to the staircase, the faint mumble of someone having a conversation \n" +
                     "on the second floor reached your ears. An ensemble of voices that spoke to stories hidden and yearning to be discovered.");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("\nIt's probably best not to go up for now.");
                 while (true)
                 {
@@ -1513,7 +1513,7 @@ In this game, you have the following commands at your perusal. These commands wi
             {
                 Console.WriteLine("The Director's Room door stood imposingly at the end of the hallway. As Anastacia approached, she found it locked.\n" +
                     "She glanced at the key she found in the Private Ward and decided to use it.\n");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("The key turned smoothly in the lock, and the door creaked open. Anastacia entered the room, \n" +
                     "the air heavy with anticipation. The room was adorned with old furniture, dusty books, \n" +
                     "and a [Framed Photo] on the wall. There is also a [Security Key] on the table.");
@@ -1548,7 +1548,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         if (ans == "check framed photo" || ans == "check photo")
                         {
                             Console.WriteLine("You went and observed photo. You noticed that there is something behind where it was placed.");
-                            Console.ReadKey();
+                            Console.ReadKey(true);
                             Console.Write("\nLook behind the framed photo?\n" +
                                 "[1] Yes\n" +
                                 "[2] No\n" +
@@ -1564,14 +1564,14 @@ In this game, you have the following commands at your perusal. These commands wi
                                             header(flags, position, map);
                                             Console.WriteLine("Behind the framed photo, Anastacia found a hidden compartment. Inside, there was a \n" +
                                                 "[Diary] that seemed to belong to a nurse who worked in the asylum during the Cold War era. ");
-                                            Console.ReadKey();
+                                            Console.ReadKey(true);
                                             Console.WriteLine("\nAnastacia thought, \"This could contain valuable information about the experiments and the mysterious \n" +
                                                 "deaths. I need to read it carefully.\"");
-                                            Console.ReadKey();
+                                            Console.ReadKey(true);
                                             Console.WriteLine("\nAs Anastacia delved into the diary, she uncovered a tale of unethical experiments, mysterious deaths, \n" +
                                                 "and the mental toll it took on the nurses who once worked there. The pages spoke of a nurse who resisted the project's \n" +
                                                 "dark path, leaving behind a trail of clues for those who dared to uncover the truth.\n");
-                                            Console.ReadKey();
+                                            Console.ReadKey(true);
                                             while (true)
                                             {
                                                 Console.Write("Would you like to continue reading the Diary's entries? [Yes] or [No]: ");
@@ -1582,7 +1582,7 @@ In this game, you have the following commands at your perusal. These commands wi
                                                         "she sought in the asylum were not only connected to the experiments but also to \n" +
                                                         "her past. The diary hinted at a nurse named Maria Dela Cruz, who, driven by \n" +
                                                         "compassion, sought to expose the horrors within the asylum.\n");
-                                                    Console.ReadKey();
+                                                    Console.ReadKey(true);
                                                     Console.WriteLine("Anastacia whispered to herself, \"Maria Dela Cruz – was she the one who left " +
                                                         "\nthese clues for me? I need to follow her path and bring these dark secrets to light.\"\n");
                                                     break;
@@ -1668,7 +1668,7 @@ In this game, you have the following commands at your perusal. These commands wi
                             Console.Clear();
                             header(flags, position, map);
                             Console.WriteLine("The note reads, \"In the Director's room, the truth lies. Look behind the framed photo for the next clue.\"");
-                            Console.ReadKey();
+                            Console.ReadKey(true);
                             Console.WriteLine("\nAnastacia pondered the mysterious message, realizing that the Director's Room held more \n" +
                                 "secrets than she initially thought.");
                         }
@@ -1721,15 +1721,15 @@ In this game, you have the following commands at your perusal. These commands wi
                         header(flags, position, map);
                         Console.WriteLine("“Goddamn Nyoco! I swear if someone caught us here, we’re both dead. Just like \n" +
                             "those people in the Morgue, dead. Dead Nyoco, dead.”\r\n");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         Console.WriteLine("Nyoco's friend nervously whispered, their words strained and anxious. Panic set in as they feared \n" +
                             "being caught, each cautious syllable amplifying the tension of the moment. The air crackled with apprehension, \n" +
                             "enveloping the duo in a web of uncertainty.\n");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         Console.WriteLine("“Calm down! Go check the security room and outside while I’ll check the Laboratory Room and the Storage Room.”\r\n");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         Console.WriteLine("Nyoco's voice pierced the tense air, her words laden with an intensity that reverberated through the silence.\r\n");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         Console.WriteLine("THEY ARE GOING DOWNSTAIRS, YOU MIGHT GET CAUGHT!\n" +
                             "[1] HIDE IN THE MORGUE\n" +
                             "[2] LEAVE THE BUILDING, NOW!");
@@ -1783,7 +1783,7 @@ In this game, you have the following commands at your perusal. These commands wi
                                     else if (answer == "no" || answer == "n")
                                     {
                                         Console.WriteLine("Thank you for playing Pulse of Deceit!");
-                                        Console.ReadKey();
+                                        Console.ReadKey(true);
                                         Environment.Exit(0);
                                         break;
                                     }
@@ -1896,11 +1896,11 @@ In this game, you have the following commands at your perusal. These commands wi
                     "of surveillance equipment but also a series of mysterious artifacts— strange medical records, faded photographs, \n" +
                     "and an enigmatic key that seems to unlock more questions than answers. The security room becomes a silent witness, \n" +
                     "inviting those daring enough to unravel the untold tales hidden within its dilapidated walls.\n");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("\"What secrets do you hide in the shadows, old room?\" Anastacia whispered to herself.");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("\nHer fingers trace over dusty surfaces, stumbling upon a worn logbook that creaks open, revealing cryptic entries.\r\n");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("Would you like to examine the [Logbook]? [Yes] or [No].");
                 while (true)
                 {
@@ -1910,9 +1910,9 @@ In this game, you have the following commands at your perusal. These commands wi
                         Console.Clear();
                         header(flags, position, map);
                         Console.WriteLine("Anastacia: (examining the logbook) Medical records, mysterious events... this place holds more \nthan just whispers of the past.\n");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         Console.WriteLine("The feeble beam of her flashlight flickers over discarded documents, offering glimpses into a history long forgotten.\n");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         Console.WriteLine("Amidst the relics, Anastacia's hand brushes against a forgotten laboratory keycard, \nits worn edges hinting at locked mysteries.");
                         break;
                     }
@@ -2031,15 +2031,15 @@ In this game, you have the following commands at your perusal. These commands wi
                 "\nLifeless bodies lay in chilling positions—some sprawled on cold metal tables, others hanging ominously, and a few " +
                 "\nconfined to the isolation room. The air was thick with the silent screams of those whose final moments were frozen in " +
                 "\nagony, making the morgue a nightmarish tableau of horror.\r\n");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("“Jesus Christ.”\n");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("Anastacia whispered, her voice catching a breath as she surveyed the gruesome scene before her.\r\n");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("“They put all the bodies here?”\n");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.WriteLine("She questioned, the words leaving her lips with a tremor of disbelief.\n");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 while (true)
                 {
                     Console.Write("Would you like a hint? [Yes] or [No]: ");
@@ -2063,9 +2063,9 @@ In this game, you have the following commands at your perusal. These commands wi
                         Console.Clear();
                         header(flags, position, map);
                         Console.WriteLine("\"Let's go back tomorrow.\"\n");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         Console.WriteLine("Nyoco said in a hurry.");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         Console.WriteLine("\nLooks like now is the best time to explore.");
                         flags = item(flags, index(flags), "inspectMorgue");
                     }
@@ -2108,7 +2108,7 @@ In this game, you have the following commands at your perusal. These commands wi
                             Console.Clear();
                             header(flags, position, map);
                             Console.WriteLine("Wh- why is there a ripped photo of every nurse from this asylum here inside the morgue excluding me?”\n");
-                            Console.ReadKey();
+                            Console.ReadKey(true);
                             Console.WriteLine("Anastacia uttered her words with a hint of confusion, her expression reflecting the puzzlement that danced in her eyes.");
                         }
                         else Console.WriteLine("That can't be checked.");
