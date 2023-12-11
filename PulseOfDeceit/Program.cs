@@ -2067,21 +2067,32 @@ In this game, you have the following commands at your perusal. These commands wi
                             {
                                 while (true)
                                 {
-                                    Console.WriteLine("You escaped through the windows of the lobby. You chickened out and was unsuccessful in finding out the truth.");
-                                    Console.Write("Thank you for playing Pulse of Deceit! Would you like to play again? [Yes] or [No]: ");
-                                    string answer = Console.ReadLine().ToLower();
-                                    if (answer == "yes" || answer == "y")
-                                    {
-                                        Restart();
-                                    }
-                                    else if (answer == "no" || answer == "n")
-                                    {
-                                        Console.WriteLine("Thank you for playing Pulse of Deceit!");
-                                        Console.ReadKey(true);
-                                        Environment.Exit(0);
-                                        break;
-                                    }
-
+                                    while (true) { 
+                                    Console.Write("Are you sure? This will end the game. [Yes] or [No]: ");
+                                    string confirm = Console.ReadLine().ToLower();
+                                        if (confirm == "y" || confirm == "yes")
+                                        {
+                                            Console.WriteLine("You escaped through the windows of the lobby. You chickened out and was unsuccessful in finding out the truth.");
+                                            Console.Write("Thank you for playing Pulse of Deceit! Would you like to play again? [Yes] or [No]: ");
+                                            string answer = Console.ReadLine().ToLower();
+                                            if (answer == "yes" || answer == "y")
+                                            {
+                                                Restart();
+                                            }
+                                            else if (answer == "no" || answer == "n")
+                                            {
+                                                Console.WriteLine("Thank you for playing Pulse of Deceit!");
+                                                Console.ReadKey(true);
+                                                Environment.Exit(0);
+                                                break;
+                                            }
+                                        }
+                                        else if (confirm == "n" || confirm == "no")
+                                        {
+                                            break;
+                                        }
+                                        else Console.WriteLine("Invalid action, try again.");
+                                    }break;
                                 }
                             }
                             else Console.WriteLine("Invalid answer, AGAIN.");
