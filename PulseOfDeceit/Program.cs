@@ -628,7 +628,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 Console.Write("Press any key to continue...");
                 Console.ReadKey(true);
 
-                Console.WriteLine("\"This place is truly disordered, I can't even see a thing.\"");
+                Console.WriteLine("\n\n\"This place is truly disordered, I can't even see a thing.\"");
                 Console.WriteLine("\nAnastacia said, breaking the terrifying silence as her voice trailed\n" +
                     "reflecting the unease that lingered over the room.\n");
             }
