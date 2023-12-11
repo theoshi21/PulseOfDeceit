@@ -5,3 +5,24 @@ C:\Users\Kelvin\OneDrive\Desktop\Pulse of Deceit\PulseOfDeceit\PulseOfDeceit\obj
 C:\Users\Kelvin\OneDrive\Desktop\Pulse of Deceit\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.csproj.CoreCompileInputs.cache
 C:\Users\Kelvin\OneDrive\Desktop\Pulse of Deceit\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.exe
 C:\Users\Kelvin\OneDrive\Desktop\Pulse of Deceit\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.pdb
+E:\Reprogrammed\PulseOfDeceit\PulseOfDeceit\bin\Debug\PulseOfDeceit.exe.config
+E:\Reprogrammed\PulseOfDeceit\PulseOfDeceit\bin\Debug\PulseOfDeceit.exe
+E:\Reprogrammed\PulseOfDeceit\PulseOfDeceit\bin\Debug\PulseOfDeceit.pdb
+E:\Reprogrammed\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.csprojAssemblyReference.cache
+E:\Reprogrammed\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.csproj.CoreCompileInputs.cache
+E:\Reprogrammed\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.exe
+E:\Reprogrammed\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.pdb
+D:\Reprogrammed\PulseOfDeceit\PulseOfDeceit\bin\Debug\PulseOfDeceit.exe.config
+D:\Reprogrammed\PulseOfDeceit\PulseOfDeceit\bin\Debug\PulseOfDeceit.exe
+D:\Reprogrammed\PulseOfDeceit\PulseOfDeceit\bin\Debug\PulseOfDeceit.pdb
+D:\Reprogrammed\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.csproj.AssemblyReference.cache
+D:\Reprogrammed\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.csproj.CoreCompileInputs.cache
+D:\Reprogrammed\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.exe
+D:\Reprogrammed\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.pdb
+C:\Users\Kelvin\OneDrive\Desktop\College\TTH\Comp Prog\Pulse of Deceit\Reprogrammed\PulseOfDeceit\PulseOfDeceit\bin\Debug\PulseOfDeceit.exe.config
+C:\Users\Kelvin\OneDrive\Desktop\College\TTH\Comp Prog\Pulse of Deceit\Reprogrammed\PulseOfDeceit\PulseOfDeceit\bin\Debug\PulseOfDeceit.exe
+C:\Users\Kelvin\OneDrive\Desktop\College\TTH\Comp Prog\Pulse of Deceit\Reprogrammed\PulseOfDeceit\PulseOfDeceit\bin\Debug\PulseOfDeceit.pdb
+C:\Users\Kelvin\OneDrive\Desktop\College\TTH\Comp Prog\Pulse of Deceit\Reprogrammed\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.csproj.AssemblyReference.cache
+C:\Users\Kelvin\OneDrive\Desktop\College\TTH\Comp Prog\Pulse of Deceit\Reprogrammed\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.csproj.CoreCompileInputs.cache
+C:\Users\Kelvin\OneDrive\Desktop\College\TTH\Comp Prog\Pulse of Deceit\Reprogrammed\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.exe
+C:\Users\Kelvin\OneDrive\Desktop\College\TTH\Comp Prog\Pulse of Deceit\Reprogrammed\PulseOfDeceit\PulseOfDeceit\obj\Debug\PulseOfDeceit.pdb

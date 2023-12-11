@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -47,8 +47,8 @@ namespace PulseOfDeceit
             bgstory();
             while (true)
             {
-                prompt(position, map, flags, player, items);
-                string ans = commands(map, position, flags, items, player);
+                prompt(position, map, player);
+                string ans = commands(map, position, player);
                 if (ans.StartsWith("move")) position = move(position, ans, map);
 
             }
@@ -119,7 +119,7 @@ namespace PulseOfDeceit
         }
 
         //A function for checking the input for various commands.
-        static string commands(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static string commands(string[,] map, int[] position, string player)
         {
             while (true)
             {
@@ -141,7 +141,7 @@ namespace PulseOfDeceit
                 {
                     Console.Clear();
                     header(flags, position, map);
-                    prompt(position, map, flags, player, items);
+                    prompt(position, map, player);
 
                 }
                 else if (input.StartsWith("use"))
@@ -236,7 +236,7 @@ namespace PulseOfDeceit
 
 
         // A function that shows the prompt depending on where they are.
-        static void prompt(int[] position, string[,] map, string[] flags, string player, string[] items)
+        static void prompt(int[] position, string[,] map, string player)
         {
             int[] currPosition = position;
             Console.Clear();
@@ -251,113 +251,113 @@ namespace PulseOfDeceit
                     }
                 case "Tree Right":
                     {
-                        righttree(map, position, flags, items, player);
+                        righttree(map, position, player);
                         break;
                     }
                 case "Tree Left":
                     {
-                        lefttree(map, position, flags, items, player);
+                        lefttree(map, position, player);
                         break;
                     }
 
                 case "Outside":
                     {
-                        outside(map, position, flags, items, player);
+                        outside(map, position, player);
                         break;
                     }
 
                 case "Asylum":
                     {
-                        asylum(map, position, flags, items, player);
+                        asylum(map, position, player);
                         break;
                     }
 
                 case "Ground Basement":
                     {
-                        basement1(map, position, flags, items, player);
+                        basement1(map, position, player);
                         break;
                     }
 
                 case "Upper Basement":
                     {
-                        basement2(map, position, flags, items, player);
+                        basement2(map, position, player);
                         break;
                     }
 
                 case "Lower Basement":
                     {
-                        basement3(map, position, flags, items, player);
+                        basement3(map, position, player);
                         break;
                     }
 
                 case "Storage Room":
                     {
-                        storageroom(map, position, flags, items, player);
+                        storageroom(map, position, player);
                         break;
                     }
                 case "Laboratory":
                     {
-                        laboratory(map, position, flags, items, player);
+                        laboratory(map, position, player);
                         break;
                     }
                 case "Hallway1":
                     {
-                        hallway1(map, position, flags, items, player);
+                        hallway1(map, position, player);
                         break;
                     }
 
                 case "Hallway2":
                     {
-                        hallway2(map, position, flags, items, player);
+                        hallway2(map, position, player);
                         break;
                     }
 
                 case "Staircase":
                     {
-                        staircase(map, position, flags, items, player);
+                        staircase(map, position, player);
                         break;
                     }
 
                 case "Second Floor":
                     {
 
-                        secondfloor(map, position, flags, items, player);
+                        secondfloor(map, position, player);
                         break;
                     }
 
                 case "Patient Ward":
                     {
-                        patientward(map, position, flags, items, player);
+                        patientward(map, position, player);
                         break;
                     }
 
                 case "Director's Office":
                     {
-                        director(map, position, flags, items, player);
+                        director(map, position, player);
                         break;
                     }
 
                 case "Private Ward":
                     {
-                        privateward(map, position, flags, items, player);
+                        privateward(map, position, player);
                         break;
                     }
 
                 case "Lobby":
                     {
-                        lobby(map, position, flags, items, player);
+                        lobby(map, position, player);
                         break;
                     }
 
                 case "Security Room":
                     {
-                        security(map, position, flags, items, player);
+                        security(map, position, player);
                         break;
                     }
 
                 case "Morgue":
                     {
-                        morgue(map, position, flags, items, player);
+                        morgue(map, position, player);
                         break;
                     }
 
@@ -415,6 +415,18 @@ namespace PulseOfDeceit
 \_|  |_|  \___/|_|\___/ \__, |\__,_|\___|
                          __/ |           
                         |___/         ");
+            Console.WriteLine("Amidst the Cold War paranoia, the U.S. government initiated Project Cerebicus in 1953 to counteract the spread \n" +
+                "of communism. This covert project delved into mental health, hypnosis, and brain function. Test subjects, often drawn \n" +
+                "from marginalized groups, were subjected to disturbing experiments involving drugs and invasive procedures. \n" +
+                "The ethical boundaries blurred, as the project aimed to understand and manipulate the human mind. \r\n");
+            Console.ReadKey(true);
+            Console.WriteLine("Once thriving with Soviet-era scientific fervor, the research facility now sits abandoned, its halls silent \n" +
+                "since the Union's fall. With no rivals, it stands as a forgotten relic of bygone innovation.\n");
+            Console.ReadKey(true);
+            Console.WriteLine("This is where the horror starts, terrible things happening there, series of disappearance and murder are rumored \n" +
+                "to be lingering in that place. People are getting hurt yet the government is sitting on their throne making money.\n");
+            Console.ReadKey(true);
+            Console.WriteLine("It needs to be exposed.\n");
             Console.Write("Press any key to continue...");
             Console.ReadKey(true);
             Console.Clear();
@@ -512,7 +524,7 @@ In this game, you have the following commands at your perusal. These commands wi
             }
         }
 
-        static void storageroom(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void storageroom(string[,] map, int[] position, string player)
         {
             if (!isItem("storage", flags))
             {
@@ -588,7 +600,7 @@ In this game, you have the following commands at your perusal. These commands wi
 
             while (true)
             {
-                string ans = commands(map, position, flags, items, player);
+                string ans = commands(map, position, player);
                 if (ans.StartsWith("move") || ans.StartsWith("go"))
                 {
                     if ((moveValidator(ans, "down")) || moveValidator(ans, "up") || moveValidator(ans, "right"))
@@ -598,7 +610,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     else if (moveValidator(ans, "left"))
                     {
                         position = move(position, ans, map);
-                        prompt(position, map, flags, player, items);
+                        prompt(position, map, player);
                         break;
                     }
                     else
@@ -618,14 +630,13 @@ In this game, you have the following commands at your perusal. These commands wi
             }
         }
 
-        static void asylum(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void asylum(string[,] map, int[] position, string player)
         {
             if (!isItem("asylum", flags))
             {
                 Console.WriteLine("You used your crowbar to break the chains and is now inside the asylum.\n");
                 flags = item(flags, index(flags), "asylum");
                 Console.WriteLine($"READ CAREFULLY, {player}.\n");
-                Console.Write("Press any key to continue...");
                 Console.ReadKey(true);
 
                 Console.WriteLine("\n\n\"This place is truly disordered, I can't even see a thing.\"");
@@ -639,7 +650,7 @@ In this game, you have the following commands at your perusal. These commands wi
 
                 while (true)
                 {
-                    string ans = commands(map, position, flags, items, player);
+                    string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
                     {
                         if ((moveValidator(ans, "up")))
@@ -659,7 +670,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         {
                             position = move(position, ans, map);
                             Console.Clear();
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else
@@ -679,7 +690,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 Console.WriteLine("You are back at the main entrance of the asylum.");
                 while (true)
                 {
-                    string ans = commands(map, position, flags, items, player);
+                    string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
                     {
 
@@ -694,7 +705,7 @@ In this game, you have the following commands at your perusal. These commands wi
                             {
                                 position = move(position, ans, map);
                                 Console.Clear();
-                                prompt(position, map, flags, player, items);
+                                prompt(position, map, player);
                                 break;
                             }
                         }
@@ -702,7 +713,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         {
                             position = move(position, ans, map);
                             Console.Clear();
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else
@@ -722,13 +733,14 @@ In this game, you have the following commands at your perusal. These commands wi
 
         }
 
-        static void laboratory(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void laboratory(string[,] map, int[] position, string player)
         {
             Console.WriteLine("You find yourself in the Laboratory Room, the air thick with the unsettling ambiance of its hospital past. \n" +
-                "Eerie remnants of laboratory equipments surround you.");
+                "Eerie remnants of laboratory equipments surround you.\n" +
+                "\nTry inspecting the area.");
             while (true)
             {
-                string ans = commands(map, position, flags, items, player);
+                string ans = commands(map, position, player);
                 if (ans.StartsWith("move") || ans.StartsWith("go"))
                 {
                     if (moveValidator(ans, "right"))
@@ -758,20 +770,23 @@ In this game, you have the following commands at your perusal. These commands wi
                     }
                     else if (ans == "check secret door" || ans == "check door")
                     {
-                        Console.WriteLine("Intrigued, she opened it, revealing a descending staircase leading to the basement.\n");
-                        Console.WriteLine("[1] Descened in the basement or\n" +
-                            "[2] Continue exploring the Laboratory Room");
-                        while (true) 
-                        { 
-                        string decide = action();
+                        while (true)
+                        {
+                            Console.WriteLine("Intrigued, she opened it, revealing a descending staircase leading to the basement.\n");
+                            Console.WriteLine("[1] Continue exploring the Laboratory Room or\n" +
+                                "[2] Descend in the basement");
+                            string decide = action();
                             if (decide == "1")
                             {
-                                position[1] -= 1;
-                                prompt(position, map, flags, player, items);
-                                break;
+                                Console.Clear();
+                                header(flags, position, map);
+                                Console.WriteLine("You spot an old surgical table with intact leather straps, faded jars holding mysterious \n" +
+                            "substances, and a metal tray bearing neatly arranged, rust-covered surgical tools.\n");
                             }
                             else if (decide == "2")
                             {
+                                position[1] -= 1;
+                                prompt(position, map, player);
                                 break;
                             }
                             else Console.WriteLine("Invalid action, try again.");
@@ -792,7 +807,7 @@ In this game, you have the following commands at your perusal. These commands wi
             }
         }
 
-        static void outside(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void outside(string[,] map, int[] position, string player)
         {
             if (!isItem("outside", flags))
             {
@@ -820,7 +835,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         Console.ReadKey(true);
                         Console.WriteLine("Anastacia said and let out a deep sigh, wondering why she was pursuing the unknown so eagerly.\n");
                         Console.ReadKey(true);
-                        Console.WriteLine("Could these trees be something? Take a push to discover, the floor is yours, {player}, to unravel behind" +
+                        Console.WriteLine($"Could these trees be something? Take a push to discover, the floor is yours, {player}, to unravel behind" +
                             $"\nthe creaking leaves and shady branches.");
                         break;
                     }
@@ -844,7 +859,7 @@ In this game, you have the following commands at your perusal. These commands wi
 
             while (true)
             {
-                string ans = commands(map, position, flags, items, player);
+                string ans = commands(map, position, player);
                 if (ans.StartsWith("move") || ans.StartsWith("go"))
                 {
                     if ((moveValidator(ans, "up")))
@@ -864,7 +879,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         else
                         {
                             position = move(position, ans, map);
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                     }
@@ -876,13 +891,13 @@ In this game, you have the following commands at your perusal. These commands wi
                     else if ((moveValidator(ans, "up")) && isItem("Map", items) && isItem("Crowbar", items))
                     {
                         position = move(position, ans, map);
-                        prompt(position, map, flags, player, items);
+                        prompt(position, map, player);
                         break;
                     }
                     else if (moveValidator(ans, "left") || moveValidator(ans, "right"))
                     {
                         position = move(position, ans, map);
-                        prompt(position, map, flags, player, items);
+                        prompt(position, map, player);
                         break;
                     }
                     else
@@ -898,7 +913,7 @@ In this game, you have the following commands at your perusal. These commands wi
             }
         }
 
-        static void righttree(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void righttree(string[,] map, int[] position, string player)
         {
             if (!isItem("Crowbar", items) && !isItem("Map", items))
             {
@@ -936,7 +951,7 @@ In this game, you have the following commands at your perusal. These commands wi
 
             while (true)
             {
-                string ans = commands(map, position, flags, items, player);
+                string ans = commands(map, position, player);
                 if (ans.StartsWith("move") || ans.StartsWith("go"))
                 {
                     if (moveValidator(ans, "up"))
@@ -950,7 +965,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     else if (moveValidator(ans, "left"))
                     {
                         position = move(position, ans, map);
-                        prompt(position, map, flags, player, items);
+                        prompt(position, map, player);
                         break;
                     }
                     else
@@ -966,7 +981,7 @@ In this game, you have the following commands at your perusal. These commands wi
             }
         }
 
-        static void lefttree(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void lefttree(string[,] map, int[] position, string player)
         {
             if (!isItem("Map", items) && !isItem("Crowbar", items))
             {
@@ -987,7 +1002,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         Console.WriteLine("\n\"A map, huh?\" Anastacia said.");
                         Console.ReadKey(true);
                         Console.Clear();
-                        prompt(position, map, flags, player, items);
+                        prompt(position, map, player);
                         break;
                     }
                     else if (displayMap == "no" || displayMap == "n")
@@ -1018,7 +1033,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         Console.WriteLine("\n\"A map, huh?\" Anastacia said.");
                         Console.ReadKey(true);
                         Console.Clear();
-                        prompt(position, map, flags, player, items);
+                        prompt(position, map, player);
                         break;
                     }
                     else if (displayMap == "no")
@@ -1036,7 +1051,7 @@ In this game, you have the following commands at your perusal. These commands wi
 
             while (true)
             {
-                string ans = commands(map, position, flags, items, player);
+                string ans = commands(map, position, player);
                 if (ans.StartsWith("move") || ans.StartsWith("go"))
                 {
                     if (moveValidator(ans, "up") || moveValidator(ans, "left"))
@@ -1050,7 +1065,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     else if (moveValidator(ans, "right"))
                     {
                         position = move(position, ans, map);
-                        prompt(position, map, flags, player, items);
+                        prompt(position, map, player);
                         break;
                     }
                     else
@@ -1069,31 +1084,197 @@ In this game, you have the following commands at your perusal. These commands wi
 
         }
 
-        static void basement1(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void basement1(string[,] map, int[] position, string player)
         {
             Console.WriteLine("Upon reaching the Ground basement, she discovered a storage room for medical equipment. \n" +
                 "The shelves were stocked with ominous tools—an unsettling array of used syringes with blood, \n" +
-                "oxygen tanks, and other macabre remnants.");
+                "oxygen tanks, and other macabre remnants.\n");
+            Console.ReadKey(true);
+            Console.WriteLine("You choose to descend into the Ground basement. Upon entering, you discover that it is a room for medical equipment.\n");
+            Console.ReadKey(true);
+
+            while (true)
+            {
+                Console.WriteLine("How will you proceed?\n" +
+                "[1] Search the storage room\n" +
+                "[2] Move to the Upper Basement\r\n");
+                string decide = action();
+                if (decide == "1")
+                {
+                    Console.Clear();
+                    header(flags, position, map);
+                    Console.WriteLine("Shelves are stocked with ominous tools—used syringes with blood, oxygen tanks, and other macabre remnants.\n" +
+                        "There seems to be nothing here, you should probably move down.\n");
+                }
+                else if (decide == "2")
+                {
+                    position[0] += 1;
+                    prompt(position, map, player);
+                    break;
+                }
+                else Console.WriteLine("Invalid action, try again.");
+            }
         }
 
-        static void basement2(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void basement2(string[,] map, int[] position, string player)
         {
-            Console.Write("You are in basement 2.\n");
+            Console.WriteLine("Moving to the Upper basement, Anastacia found walls adorned with newspaper clippings, revealing a \n" +
+                "gruesome narrative. Among the chilling discoveries, a nurse's uniform lay scattered, embroidered with \n" +
+                "the initials A.D.C. The pieces of the puzzle fell into place—a shocking realization that she, Anastacia D. Cruz, \n" +
+                "was not merely a caregiver but the mastermind behind the series of mysterious murders in the asylum.\r\n");
+            Console.ReadKey(true);
+            Console.WriteLine("Undeterred, you choose to explore the Upper basement. The walls are adorned \n" +
+                "with newspaper clippings, revealing a gruesome narrative. \r\n");
+            Console.ReadKey(true);
+            while (true)
+            {
+                Console.WriteLine("What will you do next?\n" +
+                "[1] Check newspaper clippings" +
+                "\n[2] Continue exploring the Upper Basement" +
+                "\n[3] Move to the Lower Basement");
+                string ans = action();
+                if (ans == "1")
+                {
+                    Console.Clear();
+                    header(flags, position, map);
+                    Console.WriteLine("You saw detailing unsolved murders eerily.\n");
+                }
+                else if (ans == "2")
+                {
+                    Console.Clear();
+                    header(flags, position, map);
+                    Console.WriteLine("You decide to inspect the nurse's uniform. The initials match your name—Anastacia D. Cruz. \n" +
+                        "A cold shiver runs down your spine as the shocking realization sets in.\n");
+                }
+                else if (ans == "3")
+                {
+                    position[0] += 1;
+                    prompt(position, map, player);
+                    break;
+                }
+                else Console.WriteLine("Invalid action, try again.");
+            }
+
         }
 
-        static void basement3(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void basement3(string[,] map, int[] position, string player)
         {
-            Console.Write("You are in basement 3.\n");
+            Console.WriteLine("Descending further to the Lower basement, Anastacia entered a room with open lights, immaculately clean, and \n" +
+                "meticulously designed as a personal space. A bed sat against one wall, giving the room an uncanny homeliness.");
+            Console.ReadKey(true);
+            Console.WriteLine("\nYet, her shock reached a crescendo as she noticed a tarpaulin on the wall — an Employee of the Day \n" +
+                "display featuring her own photo and name.\r\n");
+            Console.ReadKey(true);
+            Console.WriteLine("You choose to explore the Lower basement. The room feels oddly personal—a clean, well-designed space with a \n" +
+                "bed. A tarpaulin on the wall reveals an 'Employee of the Day' display featuring your photo and name.\r\n");
+            while (true)
+            {
+                Console.WriteLine("How do you react?\n" +
+                    "[1] Piece together the puzzle\n" +
+                    "[2] Leave the Lower basement");
+                string ans = action();
+                if (ans == "1")
+                {
+                    Console.Clear();
+                    header(flags, position, map);
+                    Console.WriteLine("Overwhelmed by the shocking revelations, Anastacia stumbles out of the Laboratory Room in a panic. \n" +
+                        "The weight of the truth, that she is the perpetrator behind all the asylum killings, hangs heavy in the air.\n");
+                    Console.ReadKey(true);
+                    Console.WriteLine("The once-familiar corridors now feel like a labyrinth of guilt and horror. Her heart races, and \n" +
+                        "every creaking floorboard amplifies the echoes of her disbelief.\r\n");
+                    Console.ReadKey(true);
+                    Console.WriteLine("“How is this all possible? Why can’t I remember not even a single memory?”\r\n");
+                    Console.ReadKey(true);
+                    Console.WriteLine("Anastacia said as she stumbled through the dimly lit corridor, her mind reeling with the weight of the \n" +
+                        "unthinkable truth. Each step felt like an eternity, the shadows dancing menacingly around her.\r\n");
+                    break;
+                }
+                else if (ans == "2")
+                {
+                    Console.WriteLine("You cannot leave the lower basement, if you leave the lower basement, the story will end.");
+                    while (true)
+                    {
+                        Console.Write("\nWould you like to leave the basement? [Yes] or [No]: ");
+                        string leave = Console.ReadLine().ToLower();
+                        if (leave == "yes" || leave == "y")
+                        {
+                            Console.WriteLine("You were afraid of finding out the whole truth. You backed off without accepting what you just saw. The story ends here.\n");
+                            Console.ReadKey(true);
+                            Console.Write("Thank you for playing Pulse of Deceit! Would you like to play again? [Yes] or [No]: ");
+                            string answer = Console.ReadLine().ToLower();
+                            if (answer == "yes" || answer == "y")
+                            {
+                                Restart();
+                            }
+                            else if (answer == "no" || answer == "n")
+                            {
+                                Console.WriteLine("Thank you for playing Pulse of Deceit!");
+                                Console.ReadKey(true);
+                                Environment.Exit(0);
+                                break;
+                            }
+                        }
+                        else if (leave == "no" || leave == "n")
+                        {
+                            Console.Clear();
+                            header(flags, position, map);
+                            break;
+                        }
+                        else Console.WriteLine("Invalid action, try again.");
+                    }
+                }
+                else Console.WriteLine("Invalid action, try again.");
+            }
+
+            Console.Clear();
+            header(flags, position, map);
+            Console.WriteLine("As the pieces fell into a disconcerting pattern, Anastacia found herself at the center of the asylum's dark secrets.\n" +
+                "All the evidence pointed to her; the eerie occurrences, the mysterious murders, and even the room she stood in — \n" +
+                "all connected to her.\n");
+            Console.ReadKey(true);
+            Console.WriteLine("Shocked and bewildered, she grappled with the realization that she was the one living in this room, unable to comprehend" +
+                "\nthe sinister role she played in the unfolding horror within the asylum. Caught in a web of her own making, \n" +
+                "Anastacia faced a chilling dilemma with no clear path forward.\r\n");
+            Console.ReadKey(true);
+            Console.WriteLine("As you piece together the puzzle, a shocking realization sets in.\n");
+            Console.ReadKey(true);
+            Console.WriteLine("You are the mastermind behind the mysterious murders, and everything in the asylum connects to you.");
+            Console.ReadKey(true);
+            Console.WriteLine("\nThe room you stand in feels like your own," +
+                "\nleaving you in a state of shock."); ;
+            Console.ReadKey(true);
+            Console.WriteLine("\nCHAPTERS CLOSED.");
+            Console.ReadKey(true);
+            Console.WriteLine("\nWE HOPE THIS FINALLY HELPS ALL OF US MOVE FORWARD. WE WILL NOT BE ENTERTAINING QUESTIONS REGARDING THIS ANYMORE.\n");
+            Console.ReadKey(true);
+            Console.WriteLine("THANK YOU FOR UNDERSTANDING.\n");
+
+            while (true)
+            {
+                Console.Write("That's the end of Pulse of Deceit! Would you like to play again? [Yes] or [No]: ");
+                string answer = Console.ReadLine().ToLower();
+                if (answer == "yes" || answer == "y")
+                {
+                    Restart();
+                }
+                else if (answer == "no" || answer == "n")
+                {
+                    Console.WriteLine("\nThank you for playing Pulse of Deceit!");
+                    Console.ReadKey(true);
+                    Environment.Exit(0);
+                    break;
+                }
+            }
         }
 
-        static void hallway1(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void hallway1(string[,] map, int[] position, string player)
         {
             if (!isItem("hide", flags))
             {
                 Console.WriteLine("You walked through the long hallway. It seems like you need to continue moving forward.");
                 while (true)
                 {
-                    string ans = commands(map, position, flags, items, player);
+                    string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
                     {
                         if (moveValidator(ans, "right") || moveValidator(ans, "left"))
@@ -1103,7 +1284,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         else if (moveValidator(ans, "up") || moveValidator(ans, "down"))
                         {
                             position = move(position, ans, map);
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else
@@ -1128,7 +1309,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 Console.WriteLine("You are now in the hallway. You can either move forward or move backward.");
                 while (true)
                 {
-                    string ans = commands(map, position, flags, items, player);
+                    string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
                     {
                         if (moveValidator(ans, "right") || moveValidator(ans, "left"))
@@ -1138,7 +1319,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         else if (moveValidator(ans, "up") || moveValidator(ans, "down"))
                         {
                             position = move(position, ans, map);
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else
@@ -1159,7 +1340,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 }
             }
         }
-        static void hallway2(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void hallway2(string[,] map, int[] position, string player)
         {
             if (!isItem("hide", flags))
             {
@@ -1167,7 +1348,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 Console.WriteLine("\nWhere would you like to go?");
                 while (true)
                 {
-                    string ans = commands(map, position, flags, items, player);
+                    string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
                     {
                         if (moveValidator(ans, "left"))
@@ -1181,7 +1362,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         else if (moveValidator(ans, "up") || moveValidator(ans, "right"))
                         {
                             position = move(position, ans, map);
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else
@@ -1209,7 +1390,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 Console.WriteLine("You are at the end of the hallway. There is a lobby in front of you, and a staircase on your right");
                 while (true)
                 {
-                    string ans = commands(map, position, flags, items, player);
+                    string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
                     {
                         if (moveValidator(ans, "left"))
@@ -1223,7 +1404,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         else if (moveValidator(ans, "up") || moveValidator(ans, "right"))
                         {
                             position = move(position, ans, map);
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else
@@ -1255,7 +1436,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 Console.WriteLine("You are at the end of the hallway. There is a lobby in front of you, and a staircase on your right");
                 while (true)
                 {
-                    string ans = commands(map, position, flags, items, player);
+                    string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
                     {
                         if (moveValidator(ans, "left"))
@@ -1265,7 +1446,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         else if (moveValidator(ans, "up") || moveValidator(ans, "right") || moveValidator(ans, "down"))
                         {
                             position = move(position, ans, map);
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else
@@ -1296,7 +1477,7 @@ In this game, you have the following commands at your perusal. These commands wi
 
         }
 
-        static void staircase(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void staircase(string[,] map, int[] position, string player)
         {
             if (!isItem("hide", flags))
             {
@@ -1307,7 +1488,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 Console.WriteLine("\nIt's probably best not to go up for now.");
                 while (true)
                 {
-                    string ans = commands(map, position, flags, items, player);
+                    string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
                     {
                         if (moveValidator(ans, "up"))
@@ -1317,7 +1498,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         else if (moveValidator(ans, "down"))
                         {
                             position[1] -= 1;
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else
@@ -1345,19 +1526,19 @@ In this game, you have the following commands at your perusal. These commands wi
                 Console.WriteLine("This is the staircase to the 2nd floor. Proceed to go up or stay at the hallway? [move up / move down]");
                 while (true)
                 {
-                    string ans = commands(map, position, flags, items, player);
+                    string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
                     {
                         if (moveValidator(ans, "up"))
                         {
                             position[1] += 1;
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else if (moveValidator(ans, "down"))
                         {
                             position[1] -= 1;
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else
@@ -1382,7 +1563,7 @@ In this game, you have the following commands at your perusal. These commands wi
             }
         }
 
-        static void secondfloor(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void secondfloor(string[,] map, int[] position, string player)
         {
             Console.WriteLine("As Anastacia ascended the staircase, she could feel the weight of the asylum's history \n" +
             "pressing on her shoulders. The creaking steps echoed in the silence, and the flickering lights \n" +
@@ -1391,25 +1572,25 @@ In this game, you have the following commands at your perusal. These commands wi
 
             while (true)
             {
-                string ans = commands(map, position, flags, items, player);
+                string ans = commands(map, position, player);
                 if (ans.StartsWith("move") || ans.StartsWith("go"))
                 {
                     if (moveValidator(ans, "up"))
                     {
                         position[0] -= 1;
-                        prompt(position, map, flags, player, items);
+                        prompt(position, map, player);
                         break;
                     }
                     else if (moveValidator(ans, "down"))
                     {
                         position[0] += 1;
-                        prompt(position, map, flags, player, items);
+                        prompt(position, map, player);
                         break;
                     }
                     else if (moveValidator(ans, "right") && isItem("Office Key", items))
                     {
                         position[1] += 1;
-                        prompt(position, map, flags, player, items);
+                        prompt(position, map, player);
                         break;
                     }
                     else if (moveValidator(ans, "right") && !isItem("Office Key", items))
@@ -1419,7 +1600,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     else if (moveValidator(ans, "left"))
                     {
                         position[1] -= 1;
-                        prompt(position, map, flags, player, items);
+                        prompt(position, map, player);
                         break;
                     }
                     else
@@ -1445,7 +1626,7 @@ In this game, you have the following commands at your perusal. These commands wi
 
         }
 
-        static void patientward(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void patientward(string[,] map, int[] position, string player)
         {
             if (!isItem("Office Key", items))
             {
@@ -1455,7 +1636,7 @@ In this game, you have the following commands at your perusal. These commands wi
 
                 while (true)
                 {
-                    string ans = commands(map, position, flags, items, player);
+                    string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
                     {
                         if (moveValidator(ans, "left") || moveValidator(ans, "up") || moveValidator(ans, "right"))
@@ -1465,7 +1646,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         else if (moveValidator(ans, "down"))
                         {
                             position = move(position, ans, map);
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else
@@ -1507,7 +1688,7 @@ In this game, you have the following commands at your perusal. These commands wi
             }
         }
 
-        static void director(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void director(string[,] map, int[] position, string player)
         {
             if (!isItem("Security Key", items))
             {
@@ -1520,7 +1701,7 @@ In this game, you have the following commands at your perusal. These commands wi
 
                 while (true)
                 {
-                    string ans = commands(map, position, flags, items, player);
+                    string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
                     {
                         if (moveValidator(ans, "down") || moveValidator(ans, "up") || moveValidator(ans, "right"))
@@ -1530,7 +1711,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         else if (moveValidator(ans, "left"))
                         {
                             position = move(position, ans, map);
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else
@@ -1542,6 +1723,117 @@ In this game, you have the following commands at your perusal. These commands wi
                     {
                         if (!isItem("Security Key", items)) Console.WriteLine("As she explored, she noticed a [Security Key] on the table.");
                         else Console.WriteLine("Nothing to inspect here.");
+                    }
+                    else if (ans.StartsWith("check"))
+                    {
+                        if (ans == "check framed photo" || ans == "check photo")
+                        {
+                            Console.WriteLine("You went and observed photo. You noticed that there is something behind where it was placed.");
+                            Console.ReadKey(true);
+                            Console.Write("\nLook behind the framed photo?\n" +
+                                "[1] Yes\n" +
+                                "[2] No\n" +
+                                "> ");
+                            while (true)
+                            {
+                                string look = Console.ReadLine().ToLower();
+                                switch (look)
+                                {
+                                    case "1":
+                                        {
+                                            Console.Clear();
+                                            header(flags, position, map);
+                                            Console.WriteLine("Behind the framed photo, Anastacia found a hidden compartment. Inside, there was a \n" +
+                                                "[Diary] that seemed to belong to a nurse who worked in the asylum during the Cold War era. ");
+                                            Console.ReadKey(true);
+                                            Console.WriteLine("\nAnastacia thought, \"This could contain valuable information about the experiments and the mysterious \n" +
+                                                "deaths. I need to read it carefully.\"");
+                                            Console.ReadKey(true);
+                                            Console.WriteLine("\nAs Anastacia delved into the diary, she uncovered a tale of unethical experiments, mysterious deaths, \n" +
+                                                "and the mental toll it took on the nurses who once worked there. The pages spoke of a nurse who resisted the project's \n" +
+                                                "dark path, leaving behind a trail of clues for those who dared to uncover the truth.\n");
+                                            Console.ReadKey(true);
+                                            while (true)
+                                            {
+                                                Console.Write("Would you like to continue reading the Diary's entries? [Yes] or [No]: ");
+                                                string diary = Console.ReadLine().ToLower();
+                                                if (diary == "yes" || diary == "y")
+                                                {
+                                                    Console.WriteLine("\nAs Anastacia read the entries, a chilling realization dawned upon her – the shadows \n" +
+                                                        "she sought in the asylum were not only connected to the experiments but also to \n" +
+                                                        "her past. The diary hinted at a nurse named Maria Dela Cruz, who, driven by \n" +
+                                                        "compassion, sought to expose the horrors within the asylum.\n");
+                                                    Console.ReadKey(true);
+                                                    Console.WriteLine("Anastacia whispered to herself, \"Maria Dela Cruz – was she the one who left " +
+                                                        "\nthese clues for me? I need to follow her path and bring these dark secrets to light.\"");
+                                                    break;
+                                                }
+                                                else if (diary == "no" || diary == "n")
+                                                {
+                                                    break;
+                                                }
+                                                else Console.WriteLine("Invalid action, try again.");
+                                            }
+                                            Console.WriteLine("\nAnastacia's journey into the asylum became more perilous, but her determination \n" +
+                                                "to uncover the truth burned brighter. Little did she know that the pulse of deceit within those \n" +
+                                                "walls was intertwined with her destiny, and the answers she sought would reveal \n" +
+                                                "a chilling reality she never anticipated.");
+                                        }
+                                        break;
+                                    case "2":
+                                        break;
+                                    default: Console.WriteLine("Invalid action, try again."); break;
+                                }
+                                break;
+                            }
+
+
+                        }
+                        else Console.WriteLine("That can't be checked.");
+                    }
+                    else if (ans.StartsWith("take"))
+                    {
+                        if (ans == "take key" || ans == "take security key")
+                        {
+                            Console.WriteLine("You got a [Security Key]. This will be useful for the room near the lobby.");
+                            items = item(items, index(items), "Security Key");
+                        }
+                        else Console.WriteLine("That can't be taken.");
+                    }
+                    else if (ans.StartsWith("use"))
+                    {
+                        Console.WriteLine("Nothing to use here.");
+                    }
+                    else Console.WriteLine("Invalid action, try again.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Anastacia entered the Director's Office, the air heavy with anticipation. \n" +
+                    "The room was adorned with old furniture, dusty books, and a [Framed Photo] on the wall");
+                while (true)
+                {
+                    string ans = commands(map, position, player);
+                    if (ans.StartsWith("move") || ans.StartsWith("go"))
+                    {
+                        if (moveValidator(ans, "down") || moveValidator(ans, "up") || moveValidator(ans, "right"))
+                        {
+                            Console.WriteLine("You can't go here. These are walls of the asylum.");
+                        }
+                        else if (moveValidator(ans, "left"))
+                        {
+                            position = move(position, ans, map);
+                            prompt(position, map, player);
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid move, try again.");
+                        }
+                    }
+                    else if (ans.StartsWith("inspect"))
+                    {
+                            Console.WriteLine("Nothing to inspect here.");
                     }
                     else if (ans.StartsWith("check"))
                     {
@@ -1612,12 +1904,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     }
                     else if (ans.StartsWith("take"))
                     {
-                        if (ans == "take key" || ans == "take security key")
-                        {
-                            Console.WriteLine("You got a [Security Key]. This will be useful for the room near the lobby.");
-                            items = item(items, index(items), "Security Key");
-                        }
-                        else Console.WriteLine("That can't be taken.");
+                       Console.WriteLine("That can't be taken.");
                     }
                     else if (ans.StartsWith("use"))
                     {
@@ -1626,10 +1913,11 @@ In this game, you have the following commands at your perusal. These commands wi
                     else Console.WriteLine("Invalid action, try again.");
                 }
             }
-            else Console.Write("You are in Director's Office.\n");
+            
+
         }
 
-        static void privateward(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void privateward(string[,] map, int[] position, string player)
         {
             if (!isItem("Note", items))
             {
@@ -1638,7 +1926,7 @@ In this game, you have the following commands at your perusal. These commands wi
 
                 while (true)
                 {
-                    string ans = commands(map, position, flags, items, player);
+                    string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
                     {
                         if (moveValidator(ans, "left") || moveValidator(ans, "down") || moveValidator(ans, "right"))
@@ -1648,7 +1936,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         else if (moveValidator(ans, "up"))
                         {
                             position = move(position, ans, map);
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else
@@ -1692,7 +1980,7 @@ In this game, you have the following commands at your perusal. These commands wi
             }
         }
 
-        static void lobby(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void lobby(string[,] map, int[] position, string player)
         {
             if (!isItem("hide", flags))
             {
@@ -1758,7 +2046,7 @@ In this game, you have the following commands at your perusal. These commands wi
                                     if (moveValidator(hide, "up"))
                                     {
                                         position[0] -= 1;
-                                        prompt(position, map, flags, player, items);
+                                        prompt(position, map, player);
                                         break;
                                     }
                                     else
@@ -1798,7 +2086,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 }
                 while (true)
                 {
-                    string ans = commands(map, position, flags, items, player);
+                    string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
                     {
                         if (moveValidator(ans, "left"))
@@ -1808,7 +2096,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         else if (moveValidator(ans, "up") || moveValidator(ans, "right") || moveValidator(ans, "down"))
                         {
                             position = move(position, ans, map);
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else
@@ -1840,7 +2128,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 Console.WriteLine("It seems the lobby is clear.");
                 while (true)
                 {
-                    string ans = commands(map, position, flags, items, player);
+                    string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
                     {
                         if (moveValidator(ans, "left") && !isItem("Security Key", items))
@@ -1850,14 +2138,14 @@ In this game, you have the following commands at your perusal. These commands wi
                         else if (moveValidator(ans, "left") && isItem("Security Key", items))
                         {
                             position = move(position, ans, map);
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else if (moveValidator(ans, "right")) Console.WriteLine("You can't go here, these are the walls of the asylum.");
                         else if (moveValidator(ans, "up") || moveValidator(ans, "down"))
                         {
                             position = move(position, ans, map);
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else
@@ -1886,7 +2174,7 @@ In this game, you have the following commands at your perusal. These commands wi
             }
         }
 
-        static void security(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void security(string[,] map, int[] position, string player)
         {
             if (!isItem("Keycard", items))
             {
@@ -1940,7 +2228,7 @@ In this game, you have the following commands at your perusal. These commands wi
 
                 while (true)
                 {
-                    string ans = commands(map, position, flags, items, player);
+                    string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
                     {
                         if (moveValidator(ans, "down") || moveValidator(ans, "left") || moveValidator(ans, "up"))
@@ -1950,7 +2238,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         else if (moveValidator(ans, "right"))
                         {
                             position = move(position, ans, map);
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else
@@ -1983,7 +2271,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 Console.Write("You went inside the security room.\n");
                 while (true)
                 {
-                    string ans = commands(map, position, flags, items, player);
+                    string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
                     {
                         if (moveValidator(ans, "down") || moveValidator(ans, "left") || moveValidator(ans, "up"))
@@ -1993,7 +2281,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         else if (moveValidator(ans, "right"))
                         {
                             position = move(position, ans, map);
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else
@@ -2023,7 +2311,7 @@ In this game, you have the following commands at your perusal. These commands wi
 
         }
 
-        static void morgue(string[,] map, int[] position, string[] flags, string[] items, string player)
+        static void morgue(string[,] map, int[] position, string player)
         {
             if (!isItem("inspectMorgue", flags))
             {
@@ -2046,7 +2334,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     string ans = Console.ReadLine();
                     if (ans.ToLower() == "yes" || ans.ToLower() == "y")
                     {
-                        Console.WriteLine("You might want to inspect the Morgue Room.");
+                        Console.WriteLine("You might want to [inspect] the Morgue Room.");
                         break;
                     }
                     else if (ans.ToLower() == "no" || ans.ToLower() == "no")
@@ -2069,7 +2357,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         Console.WriteLine("\nLooks like now is the best time to explore.");
                         flags = item(flags, index(flags), "inspectMorgue");
                     }
-                    string ans = commands(map, position, flags, items, player);
+                    string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
                     {
                         if (moveValidator(ans, "left") || moveValidator(ans, "up") || moveValidator(ans, "right"))
@@ -2083,7 +2371,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         else if (moveValidator(ans, "down") && isItem("morgue", flags))
                         {
                             position = move(position, ans, map);
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else
@@ -2142,11 +2430,11 @@ In this game, you have the following commands at your perusal. These commands wi
                 Console.WriteLine("The morgue room reeked of decay, its flickering lights casting ominous shadows \n" +
                     "on blood-stained walls. Lifeless bodies lay in chilling positions—some sprawled on cold metal \n" +
                     "tables, others hanging ominously, and a few confined to the isolation room. The air was thick with \n" +
-                    "the silent screams of those whose final moments were frozen in agony, making the morgue a nightmarish tableau of horror.\r\n");
+                    "the silent screams of those whose final moments were frozen in agony, making the morgue a nightmarish tableau of horror.");
 
                 while (true)
                 {
-                    string ans = commands(map, position, flags, items, player);
+                    string ans = commands(map, position, player);
                     if (ans.StartsWith("move") || ans.StartsWith("go"))
                     {
                         if (moveValidator(ans, "left") || moveValidator(ans, "up") || moveValidator(ans, "right"))
@@ -2156,7 +2444,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         else if (moveValidator(ans, "down") && isItem("morgue", flags))
                         {
                             position = move(position, ans, map);
-                            prompt(position, map, flags, player, items);
+                            prompt(position, map, player);
                             break;
                         }
                         else
