@@ -417,7 +417,7 @@ namespace PulseOfDeceit
 \_|  |_|  \___/|_|\___/ \__, |\__,_|\___|
                          __/ |           
                         |___/         ");
-            Console.WriteLine("Amidst the Cold War paranoia, the U.S. government initiated Project Cerebicus in 1953 to counteract the spread \n" +
+            Console.WriteLine("\nAmidst the Cold War paranoia, the U.S. government initiated Project Cerebicus in 1953 to counteract the spread \n" +
                 "of communism. This covert project delved into mental health, hypnosis, and brain function. Test subjects, often drawn \n" +
                 "from marginalized groups, were subjected to disturbing experiments involving drugs and invasive procedures. \n" +
                 "The ethical boundaries blurred, as the project aimed to understand and manipulate the human mind. \r\n");
@@ -2024,11 +2024,11 @@ In this game, you have the following commands at your perusal. These commands wi
                         Console.ReadKey(true);
                         Console.WriteLine("Nyoco's voice pierced the tense air, her words laden with an intensity that reverberated through the silence.\r\n");
                         Console.ReadKey(true);
-                        Console.WriteLine("THEY ARE GOING DOWNSTAIRS, YOU MIGHT GET CAUGHT!\n" +
-                            "[1] HIDE IN THE MORGUE\n" +
-                            "[2] LEAVE THE BUILDING, NOW!");
                         while (true)
                         {
+                            Console.WriteLine("THEY ARE GOING DOWNSTAIRS, YOU MIGHT GET CAUGHT!\n" +
+                            "[1] HIDE IN THE MORGUE\n" +
+                            "[2] LEAVE THE BUILDING, NOW!");
                             string decide = action();
                             if (decide == "1")
                             {
