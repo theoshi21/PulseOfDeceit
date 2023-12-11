@@ -635,7 +635,7 @@ In this game, you have the following commands at your perusal. These commands wi
 
             if (!isItem("Flashlight", items))
             {
-                Console.WriteLine("LKOSO LIEK SI TI YVER DRAK IN HREE. UYO MTIHG WNTA TO FNDI A FLSHALGHIT TISRF.");
+                Console.WriteLine("LKOSO LIEK TI SI YVER DRAK IN HREE. UYO MTIHG WNTA TO FNDI A FLSHALGHIT TISRF.");
 
                 while (true)
                 {
