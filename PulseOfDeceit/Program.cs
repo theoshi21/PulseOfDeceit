@@ -12,6 +12,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
 using System.Security.Policy;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -100,7 +101,7 @@ namespace PulseOfDeceit
         {
             items[index] = replace;
         }
-        
+
         static void flag(int index, string replace)
         {
             flags[index] = replace;
@@ -204,7 +205,9 @@ namespace PulseOfDeceit
                     string loc = map[i, j];
                     if (position[0] == i && position[1] == j)
                     {
-                        Console.Write($"(XX)\t");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write($"\\o/\t");
+                        Console.ResetColor();
                     }
                     else if (loc != "0")
                     {
@@ -516,7 +519,7 @@ In this game, you have the following commands at your perusal. These commands wi
 
         static void header(string[] array, int[] position, string[,] map)
         {
-            if (isItem("map", array))
+            if (isItem("displayMap", array))
             {
                 mapping(map, position);
             }
@@ -650,9 +653,12 @@ In this game, you have the following commands at your perusal. These commands wi
             {
                 Console.WriteLine("You used your crowbar to break the chains and is now inside the asylum.\n");
                 flag(index(flags), "asylum");
-                Console.WriteLine($"READ CAREFULLY, {player}.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"READ CAREFULLY, {player.ToUpper()}.");
+                Console.ResetColor();
                 Console.ReadKey(true);
                 Console.WriteLine("\n\"This place is truly disordered, I can't even see a thing.\"");
+                Console.ReadKey(true);
                 Console.WriteLine("\nAnastacia said, breaking the terrifying silence as her voice trailed\n" +
                     "reflecting the unease that lingered over the room.\n");
             }
@@ -786,7 +792,7 @@ In this game, you have the following commands at your perusal. These commands wi
                 }
                 else if (ans.StartsWith("inspect"))
                 {
-                    Console.WriteLine("As Anastacia surveyed the room, she found [Laboratory Equipment] aroudn the room.\n" +
+                    Console.WriteLine("As Anastacia surveyed the room, she found [Laboratory Equipment] around the room.\n" +
                         "However, her attention was drawn to a [Secret Door] cleverly concealed within the walls. ");
                 }
                 else if (ans.StartsWith("check"))
@@ -1037,7 +1043,7 @@ In this game, you have the following commands at your perusal. These commands wi
                "\nthe leaves dancing in the breeze, as you find a piece of paper tucked in between the trunk and a branch. \n");
                 Console.ReadKey(true);
                 Console.WriteLine("Great start, you found a [Map].");
-               item(index(items), "Map");
+                item(index(items), "Map");
 
                 Console.ReadKey(true);
                 while (true)
@@ -1046,7 +1052,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     string displayMap = Console.ReadLine().ToLower();
                     if (displayMap == "yes" || displayMap == "y")
                     {
-                        flag(index(flags), "map");
+                        flag(index(flags), "displayMap");
                         Console.WriteLine("\n\"A map, huh?\" Anastacia said.");
                         Console.ReadKey(true);
                         Console.Clear();
@@ -1306,15 +1312,19 @@ In this game, you have the following commands at your perusal. These commands wi
             Console.WriteLine("\nThe room you stand in feels like your own," +
                 "\nleaving you in a state of shock."); ;
             Console.ReadKey(true);
-            Console.WriteLine("\nCHAPTERS CLOSED.");
+            Console.ForegroundColor = ConsoleColor.Red;
+            TypeWithAnimation("\nCHAPTERS CLOSED.");
             Console.ReadKey(true);
-            Console.WriteLine("\nWE HOPE THIS FINALLY HELPS ALL OF US MOVE FORWARD. WE WILL NOT BE ENTERTAINING QUESTIONS REGARDING THIS ANYMORE.\n");
+            TypeWithAnimation("\nWE HOPE THIS FINALLY HELPS ALL OF US MOVE FORWARD. WE WILL NOT BE ENTERTAINING QUESTIONS REGARDING THIS ANYMORE.\n");
             Console.ReadKey(true);
-            Console.WriteLine("THANK YOU FOR UNDERSTANDING.\n");
+            TypeWithAnimation("THANK YOU FOR UNDERSTANDING.\n");
+            Console.ResetColor();
 
             while (true)
             {
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("That's the end of Pulse of Deceit! Would you like to play again? [Yes] or [No]: ");
+                Console.ResetColor();
                 string answer = Console.ReadLine().ToLower();
                 if (answer == "yes" || answer == "y")
                 {
@@ -1532,11 +1542,11 @@ In this game, you have the following commands at your perusal. These commands wi
                         Console.WriteLine("That can't be taken.");
                     }
                     else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
+                }
+
             }
 
         }
-
-       }
 
         static void staircase(string[,] map, int[] position, string player)
         {
@@ -1730,7 +1740,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         {
                             Console.WriteLine("You took the [Office Key]");
                             Console.WriteLine("Anastacia thought, \"This might be the key to the Director's Room. I should continue searching for clues.\"");
-                           item(index(items), "Office Key");
+                            item(index(items), "Office Key");
                         }
                         else Console.WriteLine("That can't be taken.");
                     }
@@ -1840,8 +1850,8 @@ In this game, you have the following commands at your perusal. These commands wi
                                     break;
                                 }
                                 else Console.WriteLine("Invalid action, try again.");
-                                }
-                                            
+                            }
+
                         }
                         else Console.WriteLine("That can't be checked.");
                     }
@@ -1883,7 +1893,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     }
                     else if (ans.StartsWith("inspect"))
                     {
-                            Console.WriteLine("Nothing to inspect here.");
+                        Console.WriteLine("Nothing to inspect here.");
                     }
                     else if (ans.StartsWith("check"))
                     {
@@ -1954,12 +1964,12 @@ In this game, you have the following commands at your perusal. These commands wi
                     }
                     else if (ans.StartsWith("take"))
                     {
-                       Console.WriteLine("That can't be taken.");
+                        Console.WriteLine("That can't be taken.");
                     }
                     else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
                 }
             }
-            
+
 
         }
 
@@ -1976,54 +1986,54 @@ In this game, you have the following commands at your perusal. These commands wi
                     "beds and faded curtains.");
             }
             while (true)
+            {
+                string ans = commands(map, position, player);
+                if (ans.StartsWith("move") || ans.StartsWith("go"))
                 {
-                    string ans = commands(map, position, player);
-                    if (ans.StartsWith("move") || ans.StartsWith("go"))
+                    if (moveValidator(ans, "left") || moveValidator(ans, "down") || moveValidator(ans, "right"))
                     {
-                        if (moveValidator(ans, "left") || moveValidator(ans, "down") || moveValidator(ans, "right"))
-                        {
-                            Console.WriteLine("You can't go here. These are walls of the asylum.");
-                        }
-                        else if (moveValidator(ans, "up"))
-                        {
-                            position = move(position, ans, map);
-                            prompt(position, map, player);
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid move, try again.");
-                        }
+                        Console.WriteLine("You can't go here. These are walls of the asylum.");
                     }
-                    else if (ans.StartsWith("inspect"))
+                    else if (moveValidator(ans, "up"))
                     {
-                        if (!isItem("Note", items)) Console.WriteLine("There's a [Note] you can check and read.");
-                        else Console.WriteLine("Nothing to inspect here.");
+                        position = move(position, ans, map);
+                        prompt(position, map, player);
+                        break;
                     }
-                    else if (ans.StartsWith("check"))
+                    else
                     {
-                        if (ans == "check note")
-                        {
-                            Console.Clear();
-                            header(flags, position, map);
-                            Console.WriteLine("The note reads, \"In the Director's room, the truth lies. Look behind the framed photo for the next clue.\"");
-                            Console.ReadKey(true);
-                            Console.WriteLine("\nAnastacia pondered the mysterious message, realizing that the Director's Room held more \n" +
-                                "secrets than she initially thought.");
-                        }
-                        else Console.WriteLine("That can't be checked.");
+                        Console.WriteLine("Invalid move, try again.");
                     }
-                    else if (ans.StartsWith("take"))
+                }
+                else if (ans.StartsWith("inspect"))
+                {
+                    if (!isItem("Note", items)) Console.WriteLine("There's a [Note] you can check and read.");
+                    else Console.WriteLine("Nothing to inspect here.");
+                }
+                else if (ans.StartsWith("check"))
+                {
+                    if (ans == "check note")
                     {
-                        if(ans == "take note")
-                         {
+                        Console.Clear();
+                        header(flags, position, map);
+                        Console.WriteLine("The note reads, \"In the Director's room, the truth lies. Look behind the framed photo for the next clue.\"");
+                        Console.ReadKey(true);
+                        Console.WriteLine("\nAnastacia pondered the mysterious message, realizing that the Director's Room held more \n" +
+                            "secrets than she initially thought.");
+                    }
+                    else Console.WriteLine("That can't be checked.");
+                }
+                else if (ans.StartsWith("take"))
+                {
+                    if (ans == "take note")
+                    {
                         Console.WriteLine("You took the [Note].");
                         item(index(items), "Note");
-                        }
-                        else Console.WriteLine("That can't be taken.");
                     }
-                    else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
+                    else Console.WriteLine("That can't be taken.");
                 }
+                else Console.WriteLine("Invalid action. Try typing \"help\" for the list of commands.");
+            }
         }
 
         static void lobby(string[,] map, int[] position, string player)
@@ -2086,7 +2096,9 @@ In this game, you have the following commands at your perusal. These commands wi
                                         Console.WriteLine("\n");
                                     }
 
+                                    Console.ForegroundColor = ConsoleColor.Red;
                                     Console.WriteLine($"{player.ToUpper()}, YOU NEED TO HIDE NOW! MOVE UP TO THE MORGUE!");
+                                    Console.ResetColor();
                                     Console.Write("> ");
                                     string hide = Console.ReadLine();
                                     if (moveValidator(hide, "up"))
@@ -2107,9 +2119,10 @@ In this game, you have the following commands at your perusal. These commands wi
                             {
                                 while (true)
                                 {
-                                    while (true) { 
-                                    Console.Write("Are you sure? This will end the game. [Yes] or [No]: ");
-                                    string confirm = Console.ReadLine().ToLower();
+                                    while (true)
+                                    {
+                                        Console.Write("Are you sure? This will end the game. [Yes] or [No]: ");
+                                        string confirm = Console.ReadLine().ToLower();
                                         if (confirm == "y" || confirm == "yes")
                                         {
                                             Console.WriteLine("You escaped through the windows of the lobby. You chickened out and was unsuccessful in finding out the truth.");
@@ -2132,7 +2145,8 @@ In this game, you have the following commands at your perusal. These commands wi
                                             break;
                                         }
                                         else Console.WriteLine("Invalid action, try again.");
-                                    }break;
+                                    }
+                                    break;
                                 }
                             }
                             else Console.WriteLine("Invalid answer, AGAIN.");
@@ -2266,7 +2280,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     }
                     else Console.WriteLine("Invalid action, try again.");
                 }
-                Console.ReadLine();
+                Console.ReadKey(true);
                 Console.WriteLine("You got a [Keycard]. A pass to the unknown, perhaps?");
                 item(index(items), "Keycard");
 
@@ -2370,10 +2384,10 @@ In this game, you have the following commands at your perusal. These commands wi
                 Console.WriteLine("She questioned, the words leaving her lips with a tremor of disbelief.\n");
                 Console.ReadKey(true);
                 Console.WriteLine("You might want to [inspect] the Morgue Room.");
-           
+
                 while (true)
                 {
-                    if (isItem("Photo", items) && isItem("Ward Key", items) && !isItem("inspectMorgue", flags))
+                    if (isItem("Ward Key", items) && !isItem("inspectMorgue", flags))
                     {
                         Console.Clear();
                         header(flags, position, map);
@@ -2381,7 +2395,7 @@ In this game, you have the following commands at your perusal. These commands wi
                         Console.ReadKey(true);
                         Console.WriteLine("Nyoco said in a hurry.");
                         Console.ReadKey(true);
-                        Console.WriteLine("\nLooks like now is the best time to explore.");
+                        Console.WriteLine("\nLooks like now is the best time to explore with the key on your hands.");
                         flag(index(flags), "inspectMorgue");
                     }
                     string ans = commands(map, position, player);
@@ -2408,7 +2422,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     }
                     else if (ans.StartsWith("inspect"))
                     {
-                        Console.WriteLine("While inspecting the morgue, you found some items. A [Ward Key], and a [Photo].");
+                        Console.WriteLine("While inspecting the morgue, you saw some items. A [Photo], and a [Ward Key].");
                     }
                     else if (ans.StartsWith("check"))
                     {
@@ -2434,7 +2448,7 @@ In this game, you have the following commands at your perusal. These commands wi
                     {
                         if (ans == "take key" || ans == "take ward key")
                         {
-                            Console.WriteLine("You got an [Ward Key].");
+                            Console.WriteLine("You got a [Ward Key].");
                             item(index(items), "Ward Key");
                             flag(index(flags), "morgue");
                         }
@@ -2533,6 +2547,17 @@ In this game, you have the following commands at your perusal. These commands wi
             newDomain.ExecuteAssembly(exePath);
 
             AppDomain.Unload(newDomain);
+        }
+
+        static void TypeWithAnimation(string text)
+        {
+            foreach (char c in text)
+            {
+                Console.Write(c);
+                Thread.Sleep(50);
+            }
+            Console.WriteLine();
+            Thread.Sleep(500);
         }
     }
 }
